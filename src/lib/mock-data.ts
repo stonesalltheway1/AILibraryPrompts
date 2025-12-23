@@ -802,7 +802,3 @@ export function searchPrompts(query: string): Prompt[] {
             p.tags.some((t) => t.name.toLowerCase().includes(lowerQuery))
     );
 }
-
-// Re-export extended prompts for combined use
-export { extendedPrompts } from "./prompt-library";
-

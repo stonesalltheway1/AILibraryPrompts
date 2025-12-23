@@ -79,31 +79,48 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    return (
-        <ClerkProvider
-            appearance={{
-                variables: {
-                    colorPrimary: "#7c3aed",
-                    colorBackground: "#0f172a",
-                    colorInputBackground: "#1e293b",
-                    colorInputText: "#f8fafc",
-                },
-                elements: {
-                    card: "bg-slate-900 border border-slate-700",
-                    headerTitle: "text-white",
-                    headerSubtitle: "text-slate-400",
-                    formButtonPrimary: "bg-purple-600 hover:bg-purple-700",
-                    footerActionLink: "text-purple-400 hover:text-purple-300",
-                }
-            }}
-        >
-            <html lang="en" suppressHydrationWarning>
-                <body className="min-h-screen bg-dark-950 text-dark-50 antialiased">
-                    <div className="relative flex min-h-screen flex-col">
-                        {children}
-                    </div>
-                </body>
-            </html>
-        </ClerkProvider>
+    // Only wrap with ClerkProvider if the publishable key is available
+    // This allows the site to build even if Clerk isn't configured
+    const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+    const clerkAppearance = {
+        variables: {
+            colorPrimary: "#7c3aed",
+            colorBackground: "#0f172a",
+            colorInputBackground: "#1e293b",
+            colorInputText: "#f8fafc",
+        },
+        elements: {
+            card: "bg-slate-900 border border-slate-700",
+            headerTitle: "text-white",
+            headerSubtitle: "text-slate-400",
+            formButtonPrimary: "bg-purple-600 hover:bg-purple-700",
+            footerActionLink: "text-purple-400 hover:text-purple-300",
+        }
+    };
+
+    const content = (
+        <html lang="en" suppressHydrationWarning>
+            <body className="min-h-screen bg-dark-950 text-dark-50 antialiased">
+                <div className="relative flex min-h-screen flex-col">
+                    {children}
+                </div>
+            </body>
+        </html>
     );
+
+    // Wrap with ClerkProvider only if key is available
+    if (clerkPublishableKey) {
+        return (
+            <ClerkProvider
+                publishableKey={clerkPublishableKey}
+                appearance={clerkAppearance}
+            >
+                {content}
+            </ClerkProvider>
+        );
+    }
+
+    // Return without Clerk if key is not configured
+    return content;
 }

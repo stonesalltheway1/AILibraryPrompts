@@ -6,21 +6,28 @@
 import { mockUsers, mockCategories, mockModels, mockTags } from "./mock-data";
 import type { Prompt } from "./types";
 
-// Helper function to get user by index
+// Lazy initialization cache
+let _cachedPrompts: Prompt[] | null = null;
+
+// Helper functions - only called when getExtendedPrompts() is invoked
 const u = (i: number) => mockUsers[i % mockUsers.length];
 const c = (i: number) => mockCategories[i];
 const m = (i: number) => mockModels[i % mockModels.length];
 const t = (...indices: number[]) => indices.map(i => mockTags[i % mockTags.length]);
 
-export const extendedPrompts: Prompt[] = [
-    // ========================================================================
-    // CODING PROMPTS (13-25)
-    // ========================================================================
-    {
-        id: "p-13",
-        title: "Full-Stack Authentication System Generator",
-        slug: "fullstack-auth-system-generator",
-        content: `You are a senior security engineer. Design a complete authentication system.
+// Lazy getter function to avoid circular dependency initialization issues
+export function getExtendedPrompts(): Prompt[] {
+    if (_cachedPrompts) return _cachedPrompts;
+
+    _cachedPrompts = [
+        // ========================================================================
+        // CODING PROMPTS (13-25)
+        // ========================================================================
+        {
+            id: "p-13",
+            title: "Full-Stack Authentication System Generator",
+            slug: "fullstack-auth-system-generator",
+            content: `You are a senior security engineer. Design a complete authentication system.
 
 **Tech Stack:** {framework} with {database}
 **Auth Type:** {JWT/Session/OAuth}
@@ -34,16 +41,16 @@ export const extendedPrompts: Prompt[] = [
 6. CSRF/XSS protection measures
 7. Role-based access control (RBAC)
 8. Complete code with security comments`,
-        description: "Generate production-ready authentication with registration, login, password reset, and RBAC.",
-        user: u(6), category: c(0), model: m(6), tags: t(1, 4),
-        votes: 72, views: 324, commentCount: 8, verified: true, featured: true,
-        createdAt: new Date("2025-12-18"), updatedAt: new Date("2025-12-20"),
-    },
-    {
-        id: "p-14",
-        title: "Advanced Git Workflow Troubleshooter",
-        slug: "git-workflow-troubleshooter",
-        content: `You are a Git expert. Solve this Git issue:
+            description: "Generate production-ready authentication with registration, login, password reset, and RBAC.",
+            user: u(6), category: c(0), model: m(6), tags: t(1, 4),
+            votes: 72, views: 324, commentCount: 8, verified: true, featured: true,
+            createdAt: new Date("2025-12-18"), updatedAt: new Date("2025-12-20"),
+        },
+        {
+            id: "p-14",
+            title: "Advanced Git Workflow Troubleshooter",
+            slug: "git-workflow-troubleshooter",
+            content: `You are a Git expert. Solve this Git issue:
 
 **Problem:** {describe issue or paste error}
 **Current branch:** {branch name}
@@ -57,16 +64,16 @@ export const extendedPrompts: Prompt[] = [
 5. Rollback procedure if needed
 6. Prevention strategy and Git hooks
 7. Alternative approaches if fix fails`,
-        description: "Diagnose and fix Git issues: merge conflicts, detached HEAD, rebasing, lost commits.",
-        user: u(7), category: c(0), model: m(6), tags: t(2),
-        votes: 58, views: 287, commentCount: 12, verified: true, featured: false,
-        createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
-    },
-    {
-        id: "p-15",
-        title: "Docker Compose Multi-Service Architecture",
-        slug: "docker-compose-architecture",
-        content: `You are a DevOps architect. Create Docker setup for:
+            description: "Diagnose and fix Git issues: merge conflicts, detached HEAD, rebasing, lost commits.",
+            user: u(7), category: c(0), model: m(6), tags: t(2),
+            votes: 58, views: 287, commentCount: 12, verified: true, featured: false,
+            createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
+        },
+        {
+            id: "p-15",
+            title: "Docker Compose Multi-Service Architecture",
+            slug: "docker-compose-architecture",
+            content: `You are a DevOps architect. Create Docker setup for:
 
 **Services:** {web, api, database, cache, etc.}
 **Environment:** {dev/staging/prod}
@@ -79,16 +86,16 @@ export const extendedPrompts: Prompt[] = [
 5. Production resource limits and restart policies
 6. SSL/TLS configuration
 7. Log aggregation setup`,
-        description: "Create production-ready Docker Compose for multi-service architectures.",
-        user: u(7), category: c(0), model: m(2), tags: t(4),
-        votes: 45, views: 198, commentCount: 6, verified: true, featured: false,
-        createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
-    },
-    {
-        id: "p-16",
-        title: "Microservices Event-Driven Architecture",
-        slug: "microservices-event-architecture",
-        content: `You are a solutions architect. Design event-driven microservices:
+            description: "Create production-ready Docker Compose for multi-service architectures.",
+            user: u(7), category: c(0), model: m(2), tags: t(4),
+            votes: 45, views: 198, commentCount: 6, verified: true, featured: false,
+            createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
+        },
+        {
+            id: "p-16",
+            title: "Microservices Event-Driven Architecture",
+            slug: "microservices-event-architecture",
+            content: `You are a solutions architect. Design event-driven microservices:
 
 **Domain:** {e-commerce/fintech/etc.}
 **Services:** {list capabilities}
@@ -102,16 +109,16 @@ export const extendedPrompts: Prompt[] = [
 5. Circuit breaker and retry patterns
 6. Distributed tracing and observability
 7. Deployment and feature flag strategy`,
-        description: "Design scalable microservices with event sourcing, sagas, and observability.",
-        user: u(6), category: c(0), model: m(5), tags: t(4),
-        votes: 54, views: 245, commentCount: 9, verified: true, featured: false,
-        createdAt: new Date("2025-12-08"), updatedAt: new Date("2025-12-10"),
-    },
-    {
-        id: "p-17",
-        title: "Automated Testing Strategy Generator",
-        slug: "automated-testing-strategy",
-        content: `You are a QA architect. Create testing strategy for:
+            description: "Design scalable microservices with event sourcing, sagas, and observability.",
+            user: u(6), category: c(0), model: m(5), tags: t(4),
+            votes: 54, views: 245, commentCount: 9, verified: true, featured: false,
+            createdAt: new Date("2025-12-08"), updatedAt: new Date("2025-12-10"),
+        },
+        {
+            id: "p-17",
+            title: "Automated Testing Strategy Generator",
+            slug: "automated-testing-strategy",
+            content: `You are a QA architect. Create testing strategy for:
 
 **App Type:** {web/mobile/API}
 **Stack:** {technologies}
@@ -127,16 +134,16 @@ export const extendedPrompts: Prompt[] = [
 7. Performance and load testing approach
 8. Security testing integration (SAST/DAST)
 9. Test data management strategy`,
-        description: "Generate comprehensive testing strategies with unit, integration, and E2E tests.",
-        user: u(13), category: c(0), model: m(6), tags: t(2, 12),
-        votes: 41, views: 189, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
-    },
-    {
-        id: "p-18",
-        title: "GraphQL API Schema Designer",
-        slug: "graphql-schema-designer",
-        content: `You are a GraphQL expert. Design schema for:
+            description: "Generate comprehensive testing strategies with unit, integration, and E2E tests.",
+            user: u(13), category: c(0), model: m(6), tags: t(2, 12),
+            votes: 41, views: 189, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
+        },
+        {
+            id: "p-18",
+            title: "GraphQL API Schema Designer",
+            slug: "graphql-schema-designer",
+            content: `You are a GraphQL expert. Design schema for:
 
 **Domain:** {describe your data domain}
 **Operations needed:** {queries/mutations}
@@ -152,16 +159,16 @@ export const extendedPrompts: Prompt[] = [
 7. Pagination strategy (cursor-based)
 8. Error handling patterns
 9. Subscription setup for real-time`,
-        description: "Design complete GraphQL schemas with resolvers, auth, pagination, and subscriptions.",
-        user: u(13), category: c(0), model: m(6), tags: t(4),
-        votes: 39, views: 178, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-04"), updatedAt: new Date("2025-12-06"),
-    },
-    {
-        id: "p-19",
-        title: "Performance Optimization Analyzer",
-        slug: "performance-optimization-analyzer",
-        content: `You are a performance engineer. Optimize this code:
+            description: "Design complete GraphQL schemas with resolvers, auth, pagination, and subscriptions.",
+            user: u(13), category: c(0), model: m(6), tags: t(4),
+            votes: 39, views: 178, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-04"), updatedAt: new Date("2025-12-06"),
+        },
+        {
+            id: "p-19",
+            title: "Performance Optimization Analyzer",
+            slug: "performance-optimization-analyzer",
+            content: `You are a performance engineer. Optimize this code:
 
 \`\`\`{language}
 {paste code here}
@@ -178,16 +185,16 @@ export const extendedPrompts: Prompt[] = [
 6. Parallelization possibilities
 7. Memory optimization techniques
 8. Before/after performance comparison`,
-        description: "Analyze and optimize code performance with complexity analysis and caching strategies.",
-        user: u(2), category: c(0), model: m(3), tags: t(0, 3),
-        votes: 63, views: 298, commentCount: 11, verified: true, featured: true,
-        createdAt: new Date("2025-12-16"), updatedAt: new Date("2025-12-18"),
-    },
-    {
-        id: "p-20",
-        title: "CI/CD Pipeline Generator",
-        slug: "cicd-pipeline-generator",
-        content: `You are a DevOps engineer. Create CI/CD pipeline for:
+            description: "Analyze and optimize code performance with complexity analysis and caching strategies.",
+            user: u(2), category: c(0), model: m(3), tags: t(0, 3),
+            votes: 63, views: 298, commentCount: 11, verified: true, featured: true,
+            createdAt: new Date("2025-12-16"), updatedAt: new Date("2025-12-18"),
+        },
+        {
+            id: "p-20",
+            title: "CI/CD Pipeline Generator",
+            slug: "cicd-pipeline-generator",
+            content: `You are a DevOps engineer. Create CI/CD pipeline for:
 
 **Platform:** {GitHub Actions/GitLab/Jenkins}
 **Stack:** {languages/frameworks}
@@ -203,19 +210,19 @@ export const extendedPrompts: Prompt[] = [
 7. Rollback procedures
 8. Notifications (Slack/email)
 9. Manual approval gates for production`,
-        description: "Create complete CI/CD pipelines with testing, security scanning, and multi-environment deploys.",
-        user: u(7), category: c(0), model: m(2), tags: t(4),
-        votes: 52, views: 234, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
-    },
-    // ========================================================================
-    // WRITING PROMPTS (21-35)
-    // ========================================================================
-    {
-        id: "p-21",
-        title: "Long-Form Article Architect",
-        slug: "longform-article-architect",
-        content: `You are a senior content strategist. Create an in-depth article:
+            description: "Create complete CI/CD pipelines with testing, security scanning, and multi-environment deploys.",
+            user: u(7), category: c(0), model: m(2), tags: t(4),
+            votes: 52, views: 234, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
+        },
+        // ========================================================================
+        // WRITING PROMPTS (21-35)
+        // ========================================================================
+        {
+            id: "p-21",
+            title: "Long-Form Article Architect",
+            slug: "longform-article-architect",
+            content: `You are a senior content strategist. Create an in-depth article:
 
 **Topic:** {your topic}
 **Word Count:** {2000-5000}
@@ -233,16 +240,16 @@ export const extendedPrompts: Prompt[] = [
 8. Strong conclusion with CTA
 9. Meta description (155 chars)
 10. Suggested internal/external links`,
-        description: "Create comprehensive long-form articles with research, structure, and SEO optimization.",
-        user: u(8), category: c(1), model: m(0), tags: t(5, 7),
-        votes: 67, views: 312, commentCount: 14, verified: true, featured: true,
-        createdAt: new Date("2025-12-17"), updatedAt: new Date("2025-12-19"),
-    },
-    {
-        id: "p-22",
-        title: "Technical Documentation Writer",
-        slug: "technical-documentation-writer",
-        content: `You are a technical writer. Create documentation for:
+            description: "Create comprehensive long-form articles with research, structure, and SEO optimization.",
+            user: u(8), category: c(1), model: m(0), tags: t(5, 7),
+            votes: 67, views: 312, commentCount: 14, verified: true, featured: true,
+            createdAt: new Date("2025-12-17"), updatedAt: new Date("2025-12-19"),
+        },
+        {
+            id: "p-22",
+            title: "Technical Documentation Writer",
+            slug: "technical-documentation-writer",
+            content: `You are a technical writer. Create documentation for:
 
 **Product/Feature:** {describe}
 **Audience:** {developers/end-users/admins}
@@ -258,16 +265,16 @@ export const extendedPrompts: Prompt[] = [
 7. FAQ based on common issues
 8. Glossary of terms
 9. Version and changelog info`,
-        description: "Generate professional technical documentation, API docs, and user guides.",
-        user: u(5), category: c(1), model: m(6), tags: t(4),
-        votes: 43, views: 213, commentCount: 6, verified: true, featured: false,
-        createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
-    },
-    {
-        id: "p-23",
-        title: "Persuasive Sales Copy Generator",
-        slug: "persuasive-sales-copy",
-        content: `You are a direct response copywriter. Create sales copy for:
+            description: "Generate professional technical documentation, API docs, and user guides.",
+            user: u(5), category: c(1), model: m(6), tags: t(4),
+            votes: 43, views: 213, commentCount: 6, verified: true, featured: false,
+            createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
+        },
+        {
+            id: "p-23",
+            title: "Persuasive Sales Copy Generator",
+            slug: "persuasive-sales-copy",
+            content: `You are a direct response copywriter. Create sales copy for:
 
 **Product/Service:** {what you're selling}
 **Price Point:** {cost}
@@ -285,16 +292,16 @@ export const extendedPrompts: Prompt[] = [
 8. Urgency elements (ethical scarcity)
 9. Call-to-action variations
 10. Objection handling section`,
-        description: "Create high-converting sales copy with psychological triggers and persuasion techniques.",
-        user: u(7), category: c(1), model: m(0), tags: t(6),
-        votes: 55, views: 267, commentCount: 9, verified: true, featured: false,
-        createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
-    },
-    {
-        id: "p-24",
-        title: "Newsletter Content Creator",
-        slug: "newsletter-content-creator",
-        content: `You are a newsletter strategist. Create newsletter content:
+            description: "Create high-converting sales copy with psychological triggers and persuasion techniques.",
+            user: u(7), category: c(1), model: m(0), tags: t(6),
+            votes: 55, views: 267, commentCount: 9, verified: true, featured: false,
+            createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
+        },
+        {
+            id: "p-24",
+            title: "Newsletter Content Creator",
+            slug: "newsletter-content-creator",
+            content: `You are a newsletter strategist. Create newsletter content:
 
 **Newsletter Name:** {name}
 **Niche:** {industry/topic}
@@ -312,16 +319,16 @@ export const extendedPrompts: Prompt[] = [
 8. CTAs (soft and hard)
 9. P.S. section with bonus
 10. Formatting for readability`,
-        description: "Create engaging newsletter content with proven structures for high open rates.",
-        user: u(12), category: c(1), model: m(0), tags: t(6, 8),
-        votes: 38, views: 187, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
-    },
-    {
-        id: "p-25",
-        title: "Script Writer for Video Content",
-        slug: "video-script-writer",
-        content: `You are a video scriptwriter. Create script for:
+            description: "Create engaging newsletter content with proven structures for high open rates.",
+            user: u(12), category: c(1), model: m(0), tags: t(6, 8),
+            votes: 38, views: 187, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
+        },
+        {
+            id: "p-25",
+            title: "Script Writer for Video Content",
+            slug: "video-script-writer",
+            content: `You are a video scriptwriter. Create script for:
 
 **Video Type:** {YouTube/TikTok/course/ad}
 **Topic:** {subject}
@@ -339,19 +346,19 @@ export const extendedPrompts: Prompt[] = [
 8. Outro with next steps
 9. Timestamps for chapters
 10. Thumbnail title ideas`,
-        description: "Create engaging video scripts for YouTube, TikTok, courses, and ads.",
-        user: u(12), category: c(1), model: m(0), tags: t(11),
-        votes: 48, views: 223, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-05"), updatedAt: new Date("2025-12-07"),
-    },
-    // ========================================================================
-    // BUSINESS PROMPTS (26-40)
-    // ========================================================================
-    {
-        id: "p-26",
-        title: "Comprehensive Business Plan Generator",
-        slug: "business-plan-generator",
-        content: `You are a business consultant. Create a business plan for:
+            description: "Create engaging video scripts for YouTube, TikTok, courses, and ads.",
+            user: u(12), category: c(1), model: m(0), tags: t(11),
+            votes: 48, views: 223, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-05"), updatedAt: new Date("2025-12-07"),
+        },
+        // ========================================================================
+        // BUSINESS PROMPTS (26-40)
+        // ========================================================================
+        {
+            id: "p-26",
+            title: "Comprehensive Business Plan Generator",
+            slug: "business-plan-generator",
+            content: `You are a business consultant. Create a business plan for:
 
 **Business Idea:** {describe}
 **Target Market:** {who}
@@ -368,16 +375,16 @@ export const extendedPrompts: Prompt[] = [
 8. Team and Org Structure
 9. Risk Analysis with Mitigation
 10. Funding Ask and Use of Funds`,
-        description: "Generate investor-ready business plans with market analysis and financial projections.",
-        user: u(9), category: c(2), model: m(0), tags: [],
-        votes: 71, views: 334, commentCount: 16, verified: true, featured: true,
-        createdAt: new Date("2025-12-19"), updatedAt: new Date("2025-12-21"),
-    },
-    {
-        id: "p-27",
-        title: "Pitch Deck Content Optimizer",
-        slug: "pitch-deck-optimizer",
-        content: `You are a VC partner. Analyze and improve this pitch deck:
+            description: "Generate investor-ready business plans with market analysis and financial projections.",
+            user: u(9), category: c(2), model: m(0), tags: [],
+            votes: 71, views: 334, commentCount: 16, verified: true, featured: true,
+            createdAt: new Date("2025-12-19"), updatedAt: new Date("2025-12-21"),
+        },
+        {
+            id: "p-27",
+            title: "Pitch Deck Content Optimizer",
+            slug: "pitch-deck-optimizer",
+            content: `You are a VC partner. Analyze and improve this pitch deck:
 
 **Current Deck Content:** {paste outline or slides}
 **Funding Round:** {pre-seed/seed/Series A}
@@ -394,16 +401,16 @@ export const extendedPrompts: Prompt[] = [
 8. Investor objection anticipation
 9. Q&A preparation points
 10. Top 3 highest-impact changes`,
-        description: "Analyze and optimize pitch decks with investor psychology insights.",
-        user: u(9), category: c(2), model: m(6), tags: [],
-        votes: 44, views: 198, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-13"), updatedAt: new Date("2025-12-15"),
-    },
-    {
-        id: "p-28",
-        title: "Competitive Intelligence Brief",
-        slug: "competitive-intelligence-brief",
-        content: `You are a competitive analyst. Create intelligence report on:
+            description: "Analyze and optimize pitch decks with investor psychology insights.",
+            user: u(9), category: c(2), model: m(6), tags: [],
+            votes: 44, views: 198, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-13"), updatedAt: new Date("2025-12-15"),
+        },
+        {
+            id: "p-28",
+            title: "Competitive Intelligence Brief",
+            slug: "competitive-intelligence-brief",
+            content: `You are a competitive analyst. Create intelligence report on:
 
 **Competitor:** {company name}
 **Industry:** {sector}
@@ -419,16 +426,16 @@ export const extendedPrompts: Prompt[] = [
 7. Strategic Recommendations (attack/avoid/partner)
 8. 6-Month Outlook
 Note: Cite sources, mark speculation clearly`,
-        description: "Create detailed competitive intelligence reports with strategic recommendations.",
-        user: u(9), category: c(2), model: m(11), tags: [],
-        votes: 36, views: 167, commentCount: 4, verified: true, featured: false,
-        createdAt: new Date("2025-12-08"), updatedAt: new Date("2025-12-10"),
-    },
-    {
-        id: "p-29",
-        title: "OKR Framework Generator",
-        slug: "okr-framework-generator",
-        content: `You are a strategy consultant. Create OKRs for:
+            description: "Create detailed competitive intelligence reports with strategic recommendations.",
+            user: u(9), category: c(2), model: m(11), tags: [],
+            votes: 36, views: 167, commentCount: 4, verified: true, featured: false,
+            createdAt: new Date("2025-12-08"), updatedAt: new Date("2025-12-10"),
+        },
+        {
+            id: "p-29",
+            title: "OKR Framework Generator",
+            slug: "okr-framework-generator",
+            content: `You are a strategy consultant. Create OKRs for:
 
 **Company/Team:** {name}
 **Time Period:** {quarter/year}
@@ -444,16 +451,16 @@ Note: Cite sources, mark speculation clearly`,
 6. Scoring methodology (0.0-1.0)
 7. Alignment to company mission
 8. Quarterly review template`,
-        description: "Create effective OKRs with measurable key results and tracking templates.",
-        user: u(14), category: c(2), model: m(0), tags: [],
-        votes: 33, views: 156, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
-    },
-    {
-        id: "p-30",
-        title: "Meeting Facilitator and Note-Taker",
-        slug: "meeting-facilitator-notes",
-        content: `You are an executive assistant. Help with this meeting:
+            description: "Create effective OKRs with measurable key results and tracking templates.",
+            user: u(14), category: c(2), model: m(0), tags: [],
+            votes: 33, views: 156, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
+        },
+        {
+            id: "p-30",
+            title: "Meeting Facilitator and Note-Taker",
+            slug: "meeting-facilitator-notes",
+            content: `You are an executive assistant. Help with this meeting:
 
 **Part A - Pre-Meeting Agenda:**
 **Purpose:** {meeting goal}
@@ -473,19 +480,19 @@ Transform into:
 4. Open Questions/Blockers
 5. Parking Lot (tabled items)
 6. Next Meeting Preview`,
-        description: "Create professional meeting agendas and transform notes into actionable summaries.",
-        user: u(14), category: c(2), model: m(4), tags: [],
-        votes: 29, views: 143, commentCount: 3, verified: true, featured: false,
-        createdAt: new Date("2025-12-04"), updatedAt: new Date("2025-12-06"),
-    },
-    // ========================================================================
-    // RESEARCH PROMPTS (31-40)
-    // ========================================================================
-    {
-        id: "p-31",
-        title: "Literature Review Synthesizer",
-        slug: "literature-review-synthesizer",
-        content: `You are an academic researcher. Create literature review:
+            description: "Create professional meeting agendas and transform notes into actionable summaries.",
+            user: u(14), category: c(2), model: m(4), tags: [],
+            votes: 29, views: 143, commentCount: 3, verified: true, featured: false,
+            createdAt: new Date("2025-12-04"), updatedAt: new Date("2025-12-06"),
+        },
+        // ========================================================================
+        // RESEARCH PROMPTS (31-40)
+        // ========================================================================
+        {
+            id: "p-31",
+            title: "Literature Review Synthesizer",
+            slug: "literature-review-synthesizer",
+            content: `You are an academic researcher. Create literature review:
 
 **Topic:** {research topic}
 **Discipline:** {field}
@@ -501,16 +508,16 @@ Transform into:
 7. Key Citations (claim + source)
 8. Research Implications
 9. Future Research Questions (3-5)`,
-        description: "Synthesize multiple sources into comprehensive literature reviews with gap analysis.",
-        user: u(8), category: c(3), model: m(5), tags: t(9, 10),
-        votes: 47, views: 218, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
-    },
-    {
-        id: "p-32",
-        title: "Data Analysis Interpreter",
-        slug: "data-analysis-interpreter",
-        content: `You are a data scientist. Analyze this dataset:
+            description: "Synthesize multiple sources into comprehensive literature reviews with gap analysis.",
+            user: u(8), category: c(3), model: m(5), tags: t(9, 10),
+            votes: 47, views: 218, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
+        },
+        {
+            id: "p-32",
+            title: "Data Analysis Interpreter",
+            slug: "data-analysis-interpreter",
+            content: `You are a data scientist. Analyze this dataset:
 
 **Data Description:** {describe or paste sample}
 **Research Question:** {what to learn}
@@ -527,16 +534,16 @@ Transform into:
 8. Key Insights (plain language, top 3)
 9. Limitations and Caveats
 10. Actionable Recommendations`,
-        description: "Analyze datasets with statistics, visualizations, and actionable insights.",
-        user: u(11), category: c(3), model: m(3), tags: t(9),
-        votes: 51, views: 245, commentCount: 10, verified: true, featured: true,
-        createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
-    },
-    {
-        id: "p-33",
-        title: "Research Paper Outline Generator",
-        slug: "research-paper-outline",
-        content: `You are an academic advisor. Create research paper outline:
+            description: "Analyze datasets with statistics, visualizations, and actionable insights.",
+            user: u(11), category: c(3), model: m(3), tags: t(9),
+            votes: 51, views: 245, commentCount: 10, verified: true, featured: true,
+            createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
+        },
+        {
+            id: "p-33",
+            title: "Research Paper Outline Generator",
+            slug: "research-paper-outline",
+            content: `You are an academic advisor. Create research paper outline:
 
 **Topic:** {research question}
 **Paper Type:** {empirical/theoretical/review}
@@ -553,19 +560,19 @@ Transform into:
 7. Discussion points
 8. Conclusion and implications
 9. Reference formatting guide`,
-        description: "Create comprehensive research paper outlines following academic standards.",
-        user: u(8), category: c(3), model: m(5), tags: t(10),
-        votes: 34, views: 167, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
-    },
-    // ========================================================================
-    // CREATIVE PROMPTS (34-48)
-    // ========================================================================
-    {
-        id: "p-34",
-        title: "Character Psychology Deep Dive",
-        slug: "character-psychology-deep-dive",
-        content: `You are a character psychologist. Develop this character:
+            description: "Create comprehensive research paper outlines following academic standards.",
+            user: u(8), category: c(3), model: m(5), tags: t(10),
+            votes: 34, views: 167, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
+        },
+        // ========================================================================
+        // CREATIVE PROMPTS (34-48)
+        // ========================================================================
+        {
+            id: "p-34",
+            title: "Character Psychology Deep Dive",
+            slug: "character-psychology-deep-dive",
+            content: `You are a character psychologist. Develop this character:
 
 **Role:** {protagonist/antagonist/supporting}
 **Genre:** {fantasy/sci-fi/thriller/etc.}
@@ -581,16 +588,16 @@ Transform into:
 7. Character Arc Potential (start → change → end)
 8. Interview Questions Answered (5)
 9. Quick Reference Summary (3-4 sentences)`,
-        description: "Create psychologically complex characters with authentic motivations and arcs.",
-        user: u(3), category: c(4), model: m(5), tags: t(11),
-        votes: 56, views: 278, commentCount: 12, verified: true, featured: true,
-        createdAt: new Date("2025-12-16"), updatedAt: new Date("2025-12-18"),
-    },
-    {
-        id: "p-35",
-        title: "World-Building Framework",
-        slug: "world-building-framework",
-        content: `You are a world-building specialist. Create world bible for:
+            description: "Create psychologically complex characters with authentic motivations and arcs.",
+            user: u(3), category: c(4), model: m(5), tags: t(11),
+            votes: 56, views: 278, commentCount: 12, verified: true, featured: true,
+            createdAt: new Date("2025-12-16"), updatedAt: new Date("2025-12-18"),
+        },
+        {
+            id: "p-35",
+            title: "World-Building Framework",
+            slug: "world-building-framework",
+            content: `You are a world-building specialist. Create world bible for:
 
 **Genre:** {fantasy/sci-fi/alt history}
 **Core Concept:** {unique premise}
@@ -608,16 +615,16 @@ Transform into:
 9. Conflict Seeds (built-in tensions)
 10. The Rules (what's impossible)
 11. Sensory Atmosphere`,
-        description: "Construct immersive fictional worlds with consistent systems and conflict seeds.",
-        user: u(3), category: c(4), model: m(5), tags: t(11),
-        votes: 49, views: 234, commentCount: 9, verified: true, featured: false,
-        createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
-    },
-    {
-        id: "p-36",
-        title: "Story Structure Plotter",
-        slug: "story-structure-plotter",
-        content: `You are a story architect. Plot this story:
+            description: "Construct immersive fictional worlds with consistent systems and conflict seeds.",
+            user: u(3), category: c(4), model: m(5), tags: t(11),
+            votes: 49, views: 234, commentCount: 9, verified: true, featured: false,
+            createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
+        },
+        {
+            id: "p-36",
+            title: "Story Structure Plotter",
+            slug: "story-structure-plotter",
+            content: `You are a story architect. Plot this story:
 
 **Premise:** {your story idea}
 **Genre:** {genre}
@@ -632,16 +639,16 @@ Transform into:
 6. Theme exploration moments
 7. Pacing graph (tension over time)
 8. Opening/Closing image mirror`,
-        description: "Plot complete story structures using proven frameworks like Save the Cat.",
-        user: u(3), category: c(4), model: m(5), tags: t(11),
-        votes: 42, views: 198, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
-    },
-    {
-        id: "p-37",
-        title: "Dialogue Enhancement Specialist",
-        slug: "dialogue-enhancement",
-        content: `You are a dialogue expert. Improve this dialogue:
+            description: "Plot complete story structures using proven frameworks like Save the Cat.",
+            user: u(3), category: c(4), model: m(5), tags: t(11),
+            votes: 42, views: 198, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
+        },
+        {
+            id: "p-37",
+            title: "Dialogue Enhancement Specialist",
+            slug: "dialogue-enhancement",
+            content: `You are a dialogue expert. Improve this dialogue:
 
 \`\`\`
 {paste your dialogue here}
@@ -658,19 +665,19 @@ Transform into:
 5. Conflict/tension opportunities
 6. Rewritten version with explanations
 7. Read-aloud test notes`,
-        description: "Transform flat dialogue into dynamic exchanges with subtext and voice.",
-        user: u(12), category: c(4), model: m(5), tags: t(11),
-        votes: 35, views: 167, commentCount: 4, verified: true, featured: false,
-        createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
-    },
-    // ========================================================================
-    // PRODUCTIVITY PROMPTS (38-48)
-    // ========================================================================
-    {
-        id: "p-38",
-        title: "Personal Productivity System Designer",
-        slug: "productivity-system-designer",
-        content: `You are a productivity coach. Design system for:
+            description: "Transform flat dialogue into dynamic exchanges with subtext and voice.",
+            user: u(12), category: c(4), model: m(5), tags: t(11),
+            votes: 35, views: 167, commentCount: 4, verified: true, featured: false,
+            createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
+        },
+        // ========================================================================
+        // PRODUCTIVITY PROMPTS (38-48)
+        // ========================================================================
+        {
+            id: "p-38",
+            title: "Personal Productivity System Designer",
+            slug: "productivity-system-designer",
+            content: `You are a productivity coach. Design system for:
 
 **Current Challenges:** {main issues}
 **Work Style:** {morning/night, focused/multitasker}
@@ -687,16 +694,16 @@ Transform into:
 7. Habit Tracking System
 8. Focus Session Protocol
 9. Recovery and Rest Strategy`,
-        description: "Design personalized productivity systems with routines, frameworks, and tracking.",
-        user: u(4), category: c(5), model: m(0), tags: [],
-        votes: 44, views: 212, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
-    },
-    {
-        id: "p-39",
-        title: "Email Inbox Zero System",
-        slug: "email-inbox-zero-system",
-        content: `You are an email productivity expert. Create system for:
+            description: "Design personalized productivity systems with routines, frameworks, and tracking.",
+            user: u(4), category: c(5), model: m(0), tags: [],
+            votes: 44, views: 212, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
+        },
+        {
+            id: "p-39",
+            title: "Email Inbox Zero System",
+            slug: "email-inbox-zero-system",
+            content: `You are an email productivity expert. Create system for:
 
 **Current Inbox:** {unread count}
 **Daily Volume:** {emails per day}
@@ -711,16 +718,16 @@ Transform into:
 6. Auto-filter Rules
 7. Unsubscribe Strategy
 8. VIP Contact Handling`,
-        description: "Create email management systems for inbox zero with templates and automation.",
-        user: u(4), category: c(5), model: m(4), tags: [],
-        votes: 37, views: 178, commentCount: 6, verified: true, featured: false,
-        createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
-    },
-    {
-        id: "p-40",
-        title: "Project Management Plan Creator",
-        slug: "project-management-plan",
-        content: `You are a PMP-certified project manager. Create plan for:
+            description: "Create email management systems for inbox zero with templates and automation.",
+            user: u(4), category: c(5), model: m(4), tags: [],
+            votes: 37, views: 178, commentCount: 6, verified: true, featured: false,
+            createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
+        },
+        {
+            id: "p-40",
+            title: "Project Management Plan Creator",
+            slug: "project-management-plan",
+            content: `You are a PMP-certified project manager. Create plan for:
 
 **Project:** {name and goal}
 **Deadline:** {due date}
@@ -738,19 +745,19 @@ Transform into:
 8. Quality Assurance
 9. Change Management Process
 10. Success Metrics`,
-        description: "Create comprehensive project plans with timelines, risks, and communication strategy.",
-        user: u(14), category: c(5), model: m(0), tags: [],
-        votes: 40, views: 192, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
-    },
-    // ========================================================================
-    // EDUCATION PROMPTS (41-52)
-    // ========================================================================
-    {
-        id: "p-41",
-        title: "Personalized Lesson Plan Creator",
-        slug: "personalized-lesson-plan",
-        content: `You are an experienced educator. Create lesson plan:
+            description: "Create comprehensive project plans with timelines, risks, and communication strategy.",
+            user: u(14), category: c(5), model: m(0), tags: [],
+            votes: 40, views: 192, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
+        },
+        // ========================================================================
+        // EDUCATION PROMPTS (41-52)
+        // ========================================================================
+        {
+            id: "p-41",
+            title: "Personalized Lesson Plan Creator",
+            slug: "personalized-lesson-plan",
+            content: `You are an experienced educator. Create lesson plan:
 
 **Subject:** {topic}
 **Grade Level:** {age/skill}
@@ -767,16 +774,16 @@ Transform into:
 7. Materials Needed
 8. Extension Activities
 9. Reflection Questions`,
-        description: "Generate detailed lesson plans with differentiation and assessment strategies.",
-        user: u(0), category: c(6), model: m(0), tags: [],
-        votes: 52, views: 256, commentCount: 11, verified: true, featured: true,
-        createdAt: new Date("2025-12-17"), updatedAt: new Date("2025-12-19"),
-    },
-    {
-        id: "p-42",
-        title: "Study Guide Generator",
-        slug: "study-guide-generator",
-        content: `You are a learning scientist. Create study guide for:
+            description: "Generate detailed lesson plans with differentiation and assessment strategies.",
+            user: u(0), category: c(6), model: m(0), tags: [],
+            votes: 52, views: 256, commentCount: 11, verified: true, featured: true,
+            createdAt: new Date("2025-12-17"), updatedAt: new Date("2025-12-19"),
+        },
+        {
+            id: "p-42",
+            title: "Study Guide Generator",
+            slug: "study-guide-generator",
+            content: `You are a learning scientist. Create study guide for:
 
 **Content:** {paste material or topic}
 **Exam Date:** {when}
@@ -793,16 +800,16 @@ Transform into:
 8. Study Schedule (countdown)
 9. Self-Testing Protocol
 10. "1-Hour Panic Guide" (priorities)`,
-        description: "Create comprehensive study guides with flashcards, practice questions, and schedules.",
-        user: u(8), category: c(6), model: m(6), tags: [],
-        votes: 45, views: 223, commentCount: 9, verified: true, featured: false,
-        createdAt: new Date("2025-12-13"), updatedAt: new Date("2025-12-15"),
-    },
-    {
-        id: "p-43",
-        title: "Concept Explainer (Feynman Technique)",
-        slug: "concept-explainer-feynman",
-        content: `You are a master teacher. Explain this concept:
+            description: "Create comprehensive study guides with flashcards, practice questions, and schedules.",
+            user: u(8), category: c(6), model: m(6), tags: [],
+            votes: 45, views: 223, commentCount: 9, verified: true, featured: false,
+            createdAt: new Date("2025-12-13"), updatedAt: new Date("2025-12-15"),
+        },
+        {
+            id: "p-43",
+            title: "Concept Explainer (Feynman Technique)",
+            slug: "concept-explainer-feynman",
+            content: `You are a master teacher. Explain this concept:
 
 **Concept:** {topic to explain}
 **Current Understanding:** {what you already know}
@@ -817,19 +824,19 @@ Transform into:
 6. Test Your Understanding (3 questions)
 7. Connection to Related Concepts
 8. Further Learning Resources`,
-        description: "Explain complex concepts simply using the Feynman Technique and analogies.",
-        user: u(0), category: c(6), model: m(6), tags: [],
-        votes: 58, views: 289, commentCount: 13, verified: true, featured: true,
-        createdAt: new Date("2025-12-18"), updatedAt: new Date("2025-12-20"),
-    },
-    // ========================================================================
-    // MARKETING PROMPTS (44-55)
-    // ========================================================================
-    {
-        id: "p-44",
-        title: "90-Day Content Strategy Planner",
-        slug: "content-strategy-planner",
-        content: `You are a content strategist. Create 90-day plan for:
+            description: "Explain complex concepts simply using the Feynman Technique and analogies.",
+            user: u(0), category: c(6), model: m(6), tags: [],
+            votes: 58, views: 289, commentCount: 13, verified: true, featured: true,
+            createdAt: new Date("2025-12-18"), updatedAt: new Date("2025-12-20"),
+        },
+        // ========================================================================
+        // MARKETING PROMPTS (44-55)
+        // ========================================================================
+        {
+            id: "p-44",
+            title: "90-Day Content Strategy Planner",
+            slug: "content-strategy-planner",
+            content: `You are a content strategist. Create 90-day plan for:
 
 **Brand:** {name and industry}
 **Target Audience:** {demographics}
@@ -847,16 +854,16 @@ Transform into:
 8. Repurposing Strategy
 9. Success Metrics Dashboard
 10. Contingency Plan`,
-        description: "Create comprehensive content strategies with calendars, pillars, and repurposing.",
-        user: u(7), category: c(7), model: m(0), tags: t(7, 8),
-        votes: 49, views: 234, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
-    },
-    {
-        id: "p-45",
-        title: "Ad Copy Variations Generator",
-        slug: "ad-copy-variations",
-        content: `You are a paid advertising expert. Create ads for:
+            description: "Create comprehensive content strategies with calendars, pillars, and repurposing.",
+            user: u(7), category: c(7), model: m(0), tags: t(7, 8),
+            votes: 49, views: 234, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
+        },
+        {
+            id: "p-45",
+            title: "Ad Copy Variations Generator",
+            slug: "ad-copy-variations",
+            content: `You are a paid advertising expert. Create ads for:
 
 **Product:** {what you're advertising}
 **Platform:** {Facebook/Google/LinkedIn}
@@ -873,16 +880,16 @@ Transform into:
 7. A/B Testing Strategy
 8. Performance Benchmarks
 9. Scaling Plan`,
-        description: "Create high-converting ad copy variations for multiple platforms and audiences.",
-        user: u(7), category: c(7), model: m(0), tags: t(8),
-        votes: 41, views: 198, commentCount: 6, verified: true, featured: false,
-        createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
-    },
-    {
-        id: "p-46",
-        title: "Social Media Hook Generator",
-        slug: "social-media-hook-generator",
-        content: `You are a viral content creator. Generate hooks for:
+            description: "Create high-converting ad copy variations for multiple platforms and audiences.",
+            user: u(7), category: c(7), model: m(0), tags: t(8),
+            votes: 41, views: 198, commentCount: 6, verified: true, featured: false,
+            createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
+        },
+        {
+            id: "p-46",
+            title: "Social Media Hook Generator",
+            slug: "social-media-hook-generator",
+            content: `You are a viral content creator. Generate hooks for:
 
 **Platform:** {Twitter/LinkedIn/TikTok/Instagram}
 **Topic:** {your subject}
@@ -899,16 +906,16 @@ Transform into:
 8. Full Post Examples (3)
 9. Optimal Posting Times
 10. Hashtag Strategy`,
-        description: "Generate scroll-stopping social media hooks and content formats.",
-        user: u(12), category: c(7), model: m(0), tags: t(8),
-        votes: 53, views: 267, commentCount: 10, verified: true, featured: true,
-        createdAt: new Date("2025-12-16"), updatedAt: new Date("2025-12-18"),
-    },
-    {
-        id: "p-47",
-        title: "SEO Keyword Research Analyzer",
-        slug: "seo-keyword-research",
-        content: `You are an SEO specialist. Analyze keywords for:
+            description: "Generate scroll-stopping social media hooks and content formats.",
+            user: u(12), category: c(7), model: m(0), tags: t(8),
+            votes: 53, views: 267, commentCount: 10, verified: true, featured: true,
+            createdAt: new Date("2025-12-16"), updatedAt: new Date("2025-12-18"),
+        },
+        {
+            id: "p-47",
+            title: "SEO Keyword Research Analyzer",
+            slug: "seo-keyword-research",
+            content: `You are an SEO specialist. Analyze keywords for:
 
 **Niche:** {your industry}
 **Main Topic:** {primary keyword}
@@ -925,19 +932,19 @@ Transform into:
 7. Clustering for Content
 8. Priority Matrix (quick wins vs. long-term)
 9. Content Brief Template`,
-        description: "Analyze keywords with intent, difficulty, and content clustering strategies.",
-        user: u(1), category: c(7), model: m(0), tags: t(7),
-        votes: 46, views: 218, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
-    },
-    // ========================================================================
-    // ADDITIONAL PROMPTS TO REACH 100+
-    // ========================================================================
-    {
-        id: "p-48",
-        title: "Bug Report to Solution Converter",
-        slug: "bug-report-solution-converter",
-        content: `You are a senior debugging specialist. Solve this bug:
+            description: "Analyze keywords with intent, difficulty, and content clustering strategies.",
+            user: u(1), category: c(7), model: m(0), tags: t(7),
+            votes: 46, views: 218, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
+        },
+        // ========================================================================
+        // ADDITIONAL PROMPTS TO REACH 100+
+        // ========================================================================
+        {
+            id: "p-48",
+            title: "Bug Report to Solution Converter",
+            slug: "bug-report-solution-converter",
+            content: `You are a senior debugging specialist. Solve this bug:
 
 **Bug Report:**
 {paste error, stack trace, or description}
@@ -955,16 +962,16 @@ Transform into:
 5. Test Cases to Verify
 6. Regression Prevention
 7. Documentation Update`,
-        description: "Convert bug reports into systematic solutions with root cause analysis.",
-        user: u(2), category: c(0), model: m(6), tags: t(2),
-        votes: 61, views: 298, commentCount: 14, verified: true, featured: true,
-        createdAt: new Date("2025-12-19"), updatedAt: new Date("2025-12-21"),
-    },
-    {
-        id: "p-49",
-        title: "Code to Architecture Diagram Generator",
-        slug: "code-architecture-diagram",
-        content: `You are a systems architect. Create diagrams for:
+            description: "Convert bug reports into systematic solutions with root cause analysis.",
+            user: u(2), category: c(0), model: m(6), tags: t(2),
+            votes: 61, views: 298, commentCount: 14, verified: true, featured: true,
+            createdAt: new Date("2025-12-19"), updatedAt: new Date("2025-12-21"),
+        },
+        {
+            id: "p-49",
+            title: "Code to Architecture Diagram Generator",
+            slug: "code-architecture-diagram",
+            content: `You are a systems architect. Create diagrams for:
 
 \`\`\`
 {paste code or describe system}
@@ -978,16 +985,16 @@ Transform into:
 5. Deployment diagram
 6. Technology stack visualization
 7. Mermaid.js code for diagrams`,
-        description: "Generate architecture diagrams from code with component and data flows.",
-        user: u(6), category: c(0), model: m(5), tags: t(4),
-        votes: 38, views: 176, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
-    },
-    {
-        id: "p-50",
-        title: "Resume ATS Optimizer",
-        slug: "resume-ats-optimizer",
-        content: `You are a career coach. Optimize resume for:
+            description: "Generate architecture diagrams from code with component and data flows.",
+            user: u(6), category: c(0), model: m(5), tags: t(4),
+            votes: 38, views: 176, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
+        },
+        {
+            id: "p-50",
+            title: "Resume ATS Optimizer",
+            slug: "resume-ats-optimizer",
+            content: `You are a career coach. Optimize resume for:
 
 **Job Description:** {paste job posting}
 **Current Resume:** {paste resume}
@@ -1002,19 +1009,19 @@ Transform into:
 6. Format Recommendations
 7. Red Flags to Fix
 8. Tailored Version`,
-        description: "Optimize resumes for ATS systems with keyword matching and formatting.",
-        user: u(10), category: c(2), model: m(6), tags: [],
-        votes: 55, views: 267, commentCount: 12, verified: true, featured: true,
-        createdAt: new Date("2025-12-17"), updatedAt: new Date("2025-12-19"),
-    },
-    // ========================================================================
-    // 50 MORE PROMPTS (51-100)
-    // ========================================================================
-    {
-        id: "p-51",
-        title: "REST API Error Handling Guide",
-        slug: "rest-api-error-handling",
-        content: `You are an API architect. Design error handling for:
+            description: "Optimize resumes for ATS systems with keyword matching and formatting.",
+            user: u(10), category: c(2), model: m(6), tags: [],
+            votes: 55, views: 267, commentCount: 12, verified: true, featured: true,
+            createdAt: new Date("2025-12-17"), updatedAt: new Date("2025-12-19"),
+        },
+        // ========================================================================
+        // 50 MORE PROMPTS (51-100)
+        // ========================================================================
+        {
+            id: "p-51",
+            title: "REST API Error Handling Guide",
+            slug: "rest-api-error-handling",
+            content: `You are an API architect. Design error handling for:
 
 **API Type:** {REST/GraphQL}
 **Framework:** {Express/FastAPI/etc.}
@@ -1029,16 +1036,16 @@ Transform into:
 6. Logging strategy
 7. Client-friendly error messages
 8. Retry-able vs fatal errors`,
-        description: "Design comprehensive API error handling with proper status codes and client-friendly messages.",
-        user: u(13), category: c(0), model: m(6), tags: t(4),
-        votes: 36, views: 178, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-05"), updatedAt: new Date("2025-12-07"),
-    },
-    {
-        id: "p-52",
-        title: "Database Migration Strategy",
-        slug: "database-migration-strategy",
-        content: `You are a database architect. Plan migration from:
+            description: "Design comprehensive API error handling with proper status codes and client-friendly messages.",
+            user: u(13), category: c(0), model: m(6), tags: t(4),
+            votes: 36, views: 178, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-05"), updatedAt: new Date("2025-12-07"),
+        },
+        {
+            id: "p-52",
+            title: "Database Migration Strategy",
+            slug: "database-migration-strategy",
+            content: `You are a database architect. Plan migration from:
 
 **Source:** {current database}
 **Target:** {new database}
@@ -1054,16 +1061,16 @@ Transform into:
 6. Cutover procedure
 7. Monitoring during migration
 8. Post-migration validation`,
-        description: "Plan database migrations with zero-downtime strategies and rollback procedures.",
-        user: u(11), category: c(0), model: m(6), tags: t(13),
-        votes: 42, views: 196, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-08"), updatedAt: new Date("2025-12-10"),
-    },
-    {
-        id: "p-53",
-        title: "Web Accessibility Audit Checklist",
-        slug: "web-accessibility-audit",
-        content: `You are an accessibility expert. Audit this:
+            description: "Plan database migrations with zero-downtime strategies and rollback procedures.",
+            user: u(11), category: c(0), model: m(6), tags: t(13),
+            votes: 42, views: 196, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-08"), updatedAt: new Date("2025-12-10"),
+        },
+        {
+            id: "p-53",
+            title: "Web Accessibility Audit Checklist",
+            slug: "web-accessibility-audit",
+            content: `You are an accessibility expert. Audit this:
 
 **URL/Code:** {paste or describe}
 **Standard:** {WCAG 2.1 AA/AAA}
@@ -1078,16 +1085,16 @@ Transform into:
 6. Form accessibility
 7. Media alternatives
 8. Prioritized fix list`,
-        description: "Audit web applications for WCAG compliance with prioritized remediation steps.",
-        user: u(10), category: c(0), model: m(6), tags: t(14),
-        votes: 39, views: 184, commentCount: 6, verified: true, featured: false,
-        createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
-    },
-    {
-        id: "p-54",
-        title: "Email Outreach Sequence Builder",
-        slug: "email-outreach-sequence",
-        content: `You are an outreach specialist. Create sequence for:
+            description: "Audit web applications for WCAG compliance with prioritized remediation steps.",
+            user: u(10), category: c(0), model: m(6), tags: t(14),
+            votes: 39, views: 184, commentCount: 6, verified: true, featured: false,
+            createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
+        },
+        {
+            id: "p-54",
+            title: "Email Outreach Sequence Builder",
+            slug: "email-outreach-sequence",
+            content: `You are an outreach specialist. Create sequence for:
 
 **Goal:** {sales/partnerships/hiring}
 **Target:** {persona description}
@@ -1102,16 +1109,16 @@ Transform into:
 6. Personalization variables
 7. Open/reply rate benchmarks
 8. A/B test suggestions`,
-        description: "Create multi-touch email outreach sequences with personalization and follow-ups.",
-        user: u(7), category: c(1), model: m(0), tags: t(6),
-        votes: 47, views: 223, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
-    },
-    {
-        id: "p-55",
-        title: "Case Study Framework",
-        slug: "case-study-framework",
-        content: `You are a marketing writer. Create case study:
+            description: "Create multi-touch email outreach sequences with personalization and follow-ups.",
+            user: u(7), category: c(1), model: m(0), tags: t(6),
+            votes: 47, views: 223, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
+        },
+        {
+            id: "p-55",
+            title: "Case Study Framework",
+            slug: "case-study-framework",
+            content: `You are a marketing writer. Create case study:
 
 **Client:** {company name/industry}
 **Challenge:** {problem they faced}
@@ -1127,16 +1134,16 @@ Transform into:
 6. Results with Metrics (graphs suggested)
 7. Client Quote
 8. CTA for similar prospects`,
-        description: "Create compelling case studies with measurable results and social proof.",
-        user: u(7), category: c(1), model: m(0), tags: [],
-        votes: 44, views: 208, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
-    },
-    {
-        id: "p-56",
-        title: "Brand Voice Guidelines Creator",
-        slug: "brand-voice-guidelines",
-        content: `You are a brand strategist. Create voice guidelines:
+            description: "Create compelling case studies with measurable results and social proof.",
+            user: u(7), category: c(1), model: m(0), tags: [],
+            votes: 44, views: 208, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
+        },
+        {
+            id: "p-56",
+            title: "Brand Voice Guidelines Creator",
+            slug: "brand-voice-guidelines",
+            content: `You are a brand strategist. Create voice guidelines:
 
 **Brand:** {name}
 **Industry:** {sector}
@@ -1152,16 +1159,16 @@ Transform into:
 6. Example Transformations (before/after)
 7. Channel-Specific Adaptations
 8. Quick Reference Card`,
-        description: "Create comprehensive brand voice guidelines with examples and adaptations.",
-        user: u(12), category: c(1), model: m(0), tags: [],
-        votes: 38, views: 187, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
-    },
-    {
-        id: "p-57",
-        title: "Pricing Strategy Analyzer",
-        slug: "pricing-strategy-analyzer",
-        content: `You are a pricing consultant. Analyze pricing for:
+            description: "Create comprehensive brand voice guidelines with examples and adaptations.",
+            user: u(12), category: c(1), model: m(0), tags: [],
+            votes: 38, views: 187, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
+        },
+        {
+            id: "p-57",
+            title: "Pricing Strategy Analyzer",
+            slug: "pricing-strategy-analyzer",
+            content: `You are a pricing consultant. Analyze pricing for:
 
 **Product:** {description}
 **Current Price:** {price}
@@ -1177,16 +1184,16 @@ Transform into:
 6. Psychological Pricing Tactics
 7. Discount Strategy
 8. Revenue Impact Models`,
-        description: "Analyze and optimize pricing strategies with competitive and value-based approaches.",
-        user: u(9), category: c(2), model: m(0), tags: [],
-        votes: 51, views: 245, commentCount: 9, verified: true, featured: false,
-        createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
-    },
-    {
-        id: "p-58",
-        title: "Customer Journey Mapper",
-        slug: "customer-journey-mapper",
-        content: `You are a CX strategist. Map customer journey for:
+            description: "Analyze and optimize pricing strategies with competitive and value-based approaches.",
+            user: u(9), category: c(2), model: m(0), tags: [],
+            votes: 51, views: 245, commentCount: 9, verified: true, featured: false,
+            createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
+        },
+        {
+            id: "p-58",
+            title: "Customer Journey Mapper",
+            slug: "customer-journey-mapper",
+            content: `You are a CX strategist. Map customer journey for:
 
 **Product:** {what you offer}
 **Customer:** {persona}
@@ -1201,16 +1208,16 @@ Transform into:
 6. Advocacy Triggers
 7. Pain Points per Stage
 8. Improvement Opportunities`,
-        description: "Map complete customer journeys with touchpoints, emotions, and optimization opportunities.",
-        user: u(10), category: c(2), model: m(0), tags: [],
-        votes: 43, views: 204, commentCount: 6, verified: true, featured: false,
-        createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
-    },
-    {
-        id: "p-59",
-        title: "Contract Clause Explainer",
-        slug: "contract-clause-explainer",
-        content: `You are a legal consultant. Explain this contract:
+            description: "Map complete customer journeys with touchpoints, emotions, and optimization opportunities.",
+            user: u(10), category: c(2), model: m(0), tags: [],
+            votes: 43, views: 204, commentCount: 6, verified: true, featured: false,
+            createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
+        },
+        {
+            id: "p-59",
+            title: "Contract Clause Explainer",
+            slug: "contract-clause-explainer",
+            content: `You are a legal consultant. Explain this contract:
 
 **Clause:** {paste contract text}
 **Context:** {type of agreement}
@@ -1225,16 +1232,16 @@ Transform into:
 6. Red Flags
 7. Suggested Amendments
 8. Questions for Lawyer`,
-        description: "Translate legal contract clauses into plain English with risk analysis.",
-        user: u(9), category: c(2), model: m(6), tags: [],
-        votes: 58, views: 278, commentCount: 11, verified: true, featured: true,
-        createdAt: new Date("2025-12-18"), updatedAt: new Date("2025-12-20"),
-    },
-    {
-        id: "p-60",
-        title: "Survey Question Designer",
-        slug: "survey-question-designer",
-        content: `You are a research methodologist. Design survey:
+            description: "Translate legal contract clauses into plain English with risk analysis.",
+            user: u(9), category: c(2), model: m(6), tags: [],
+            votes: 58, views: 278, commentCount: 11, verified: true, featured: true,
+            createdAt: new Date("2025-12-18"), updatedAt: new Date("2025-12-20"),
+        },
+        {
+            id: "p-60",
+            title: "Survey Question Designer",
+            slug: "survey-question-designer",
+            content: `You are a research methodologist. Design survey:
 
 **Objective:** {what to learn}
 **Audience:** {who}
@@ -1250,16 +1257,16 @@ Transform into:
 6. Bias Avoidance Tips
 7. Mobile Optimization Notes
 8. Analysis Framework`,
-        description: "Design unbiased surveys with proper question types and logical flow.",
-        user: u(8), category: c(3), model: m(0), tags: t(9),
-        votes: 35, views: 167, commentCount: 4, verified: true, featured: false,
-        createdAt: new Date("2025-12-08"), updatedAt: new Date("2025-12-10"),
-    },
-    {
-        id: "p-61",
-        title: "Topic Trend Analyzer",
-        slug: "topic-trend-analyzer",
-        content: `You are a trend analyst. Analyze trends for:
+            description: "Design unbiased surveys with proper question types and logical flow.",
+            user: u(8), category: c(3), model: m(0), tags: t(9),
+            votes: 35, views: 167, commentCount: 4, verified: true, featured: false,
+            createdAt: new Date("2025-12-08"), updatedAt: new Date("2025-12-10"),
+        },
+        {
+            id: "p-61",
+            title: "Topic Trend Analyzer",
+            slug: "topic-trend-analyzer",
+            content: `You are a trend analyst. Analyze trends for:
 
 **Topic:** {subject area}
 **Industry:** {sector}
@@ -1274,16 +1281,16 @@ Transform into:
 6. Opportunity Windows
 7. Risk Factors
 8. 12-Month Prediction`,
-        description: "Analyze topic trends with drivers, opportunities, and predictions.",
-        user: u(11), category: c(3), model: m(11), tags: t(9),
-        votes: 41, views: 196, commentCount: 6, verified: true, featured: false,
-        createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
-    },
-    {
-        id: "p-62",
-        title: "SWOT Analysis Generator",
-        slug: "swot-analysis-generator",
-        content: `You are a strategic analyst. Create SWOT for:
+            description: "Analyze topic trends with drivers, opportunities, and predictions.",
+            user: u(11), category: c(3), model: m(11), tags: t(9),
+            votes: 41, views: 196, commentCount: 6, verified: true, featured: false,
+            createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
+        },
+        {
+            id: "p-62",
+            title: "SWOT Analysis Generator",
+            slug: "swot-analysis-generator",
+            content: `You are a strategic analyst. Create SWOT for:
 
 **Organization:** {name/description}
 **Context:** {current situation}
@@ -1298,16 +1305,16 @@ Transform into:
 6. SO Strategies (leverage)
 7. WO Strategies (improve)
 8. WT Strategies (defend)`,
-        description: "Create comprehensive SWOT analyses with strategic recommendations.",
-        user: u(9), category: c(3), model: m(0), tags: t(9),
-        votes: 46, views: 218, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-13"), updatedAt: new Date("2025-12-15"),
-    },
-    {
-        id: "p-63",
-        title: "Midjourney Prompt Architect",
-        slug: "midjourney-prompt-architect",
-        content: `You are an AI art director. Create Midjourney prompts:
+            description: "Create comprehensive SWOT analyses with strategic recommendations.",
+            user: u(9), category: c(3), model: m(0), tags: t(9),
+            votes: 46, views: 218, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-13"), updatedAt: new Date("2025-12-15"),
+        },
+        {
+            id: "p-63",
+            title: "Midjourney Prompt Architect",
+            slug: "midjourney-prompt-architect",
+            content: `You are an AI art director. Create Midjourney prompts:
 
 **Concept:** {what to create}
 **Style:** {art style preference}
@@ -1323,16 +1330,16 @@ Transform into:
 6. Style Variations (5 options)
 7. Iteration Suggestions
 8. Upscale Recommendations`,
-        description: "Create detailed Midjourney prompts with styles, parameters, and iterations.",
-        user: u(3), category: c(4), model: m(0), tags: t(11),
-        votes: 62, views: 298, commentCount: 14, verified: true, featured: true,
-        createdAt: new Date("2025-12-19"), updatedAt: new Date("2025-12-21"),
-    },
-    {
-        id: "p-64",
-        title: "Poetry Craft Workshop",
-        slug: "poetry-craft-workshop",
-        content: `You are a poetry mentor. Help with:
+            description: "Create detailed Midjourney prompts with styles, parameters, and iterations.",
+            user: u(3), category: c(4), model: m(0), tags: t(11),
+            votes: 62, views: 298, commentCount: 14, verified: true, featured: true,
+            createdAt: new Date("2025-12-19"), updatedAt: new Date("2025-12-21"),
+        },
+        {
+            id: "p-64",
+            title: "Poetry Craft Workshop",
+            slug: "poetry-craft-workshop",
+            content: `You are a poetry mentor. Help with:
 
 **Type:** {free verse/sonnet/haiku/etc.}
 **Theme:** {subject/emotion}
@@ -1347,16 +1354,16 @@ Transform into:
 6. Revision Notes (if draft provided)
 7. Comparison to Masters
 8. Final Polished Version`,
-        description: "Craft poetry with form guidance, imagery, and sound device suggestions.",
-        user: u(3), category: c(4), model: m(5), tags: t(11),
-        votes: 34, views: 167, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
-    },
-    {
-        id: "p-65",
-        title: "Game Design Document Creator",
-        slug: "game-design-document",
-        content: `You are a game designer. Create GDD for:
+            description: "Craft poetry with form guidance, imagery, and sound device suggestions.",
+            user: u(3), category: c(4), model: m(5), tags: t(11),
+            votes: 34, views: 167, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
+        },
+        {
+            id: "p-65",
+            title: "Game Design Document Creator",
+            slug: "game-design-document",
+            content: `You are a game designer. Create GDD for:
 
 **Game Concept:** {core idea}
 **Platform:** {PC/mobile/console}
@@ -1372,16 +1379,16 @@ Transform into:
 6. Art Style Direction
 7. Technical Requirements
 8. Development Milestones`,
-        description: "Create game design documents with mechanics, progression, and development plans.",
-        user: u(10), category: c(4), model: m(5), tags: t(11),
-        votes: 48, views: 234, commentCount: 9, verified: true, featured: false,
-        createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
-    },
-    {
-        id: "p-66",
-        title: "Second Brain Setup Guide",
-        slug: "second-brain-setup",
-        content: `You are a PKM (Personal Knowledge Management) expert. Design second brain:
+            description: "Create game design documents with mechanics, progression, and development plans.",
+            user: u(10), category: c(4), model: m(5), tags: t(11),
+            votes: 48, views: 234, commentCount: 9, verified: true, featured: false,
+            createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
+        },
+        {
+            id: "p-66",
+            title: "Second Brain Setup Guide",
+            slug: "second-brain-setup",
+            content: `You are a PKM (Personal Knowledge Management) expert. Design second brain:
 
 **Tool:** {Notion/Obsidian/Roam/etc.}
 **Use Case:** {work/research/creative}
@@ -1396,16 +1403,16 @@ Transform into:
 6. Connection Strategy (linking)
 7. Review Cadence
 8. Search Optimization`,
-        description: "Design personal knowledge management systems with folders, tags, and workflows.",
-        user: u(4), category: c(5), model: m(0), tags: [],
-        votes: 57, views: 278, commentCount: 12, verified: true, featured: true,
-        createdAt: new Date("2025-12-17"), updatedAt: new Date("2025-12-19"),
-    },
-    {
-        id: "p-67",
-        title: "Goal Setting Framework",
-        slug: "goal-setting-framework",
-        content: `You are a goal achievement coach. Set goals for:
+            description: "Design personal knowledge management systems with folders, tags, and workflows.",
+            user: u(4), category: c(5), model: m(0), tags: [],
+            votes: 57, views: 278, commentCount: 12, verified: true, featured: true,
+            createdAt: new Date("2025-12-17"), updatedAt: new Date("2025-12-19"),
+        },
+        {
+            id: "p-67",
+            title: "Goal Setting Framework",
+            slug: "goal-setting-framework",
+            content: `You are a goal achievement coach. Set goals for:
 
 **Area:** {career/health/finance/relationships}
 **Timeframe:** {30 days/quarter/year}
@@ -1421,16 +1428,16 @@ Transform into:
 6. Obstacle Anticipation
 7. Celebration Triggers
 8. Course Correction Protocol`,
-        description: "Create SMART goals with milestones, indicators, and accountability systems.",
-        user: u(4), category: c(5), model: m(0), tags: [],
-        votes: 43, views: 208, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
-    },
-    {
-        id: "p-68",
-        title: "Decision Matrix Builder",
-        slug: "decision-matrix-builder",
-        content: `You are a decision analyst. Help decide between:
+            description: "Create SMART goals with milestones, indicators, and accountability systems.",
+            user: u(4), category: c(5), model: m(0), tags: [],
+            votes: 43, views: 208, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
+        },
+        {
+            id: "p-68",
+            title: "Decision Matrix Builder",
+            slug: "decision-matrix-builder",
+            content: `You are a decision analyst. Help decide between:
 
 **Decision:** {what you're choosing}
 **Options:** {list alternatives}
@@ -1446,16 +1453,16 @@ Transform into:
 6. Regret Minimization Frame
 7. Decision Recommendation
 8. Implementation First Steps`,
-        description: "Build weighted decision matrices with scoring, risk analysis, and recommendations.",
-        user: u(14), category: c(5), model: m(0), tags: [],
-        votes: 39, views: 187, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-08"), updatedAt: new Date("2025-12-10"),
-    },
-    {
-        id: "p-69",
-        title: "Course Curriculum Designer",
-        slug: "course-curriculum-designer",
-        content: `You are an instructional designer. Create course:
+            description: "Build weighted decision matrices with scoring, risk analysis, and recommendations.",
+            user: u(14), category: c(5), model: m(0), tags: [],
+            votes: 39, views: 187, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-08"), updatedAt: new Date("2025-12-10"),
+        },
+        {
+            id: "p-69",
+            title: "Course Curriculum Designer",
+            slug: "course-curriculum-designer",
+            content: `You are an instructional designer. Create course:
 
 **Topic:** {subject}
 **Format:** {online/in-person/hybrid}
@@ -1471,16 +1478,16 @@ Transform into:
 6. Assignment Ideas
 7. Engagement Activities
 8. Completion Criteria`,
-        description: "Design comprehensive course curricula with modules, assessments, and activities.",
-        user: u(0), category: c(6), model: m(0), tags: [],
-        votes: 49, views: 234, commentCount: 10, verified: true, featured: false,
-        createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
-    },
-    {
-        id: "p-70",
-        title: "Student Feedback Generator",
-        slug: "student-feedback-generator",
-        content: `You are an educational assessor. Write feedback for:
+            description: "Design comprehensive course curricula with modules, assessments, and activities.",
+            user: u(0), category: c(6), model: m(0), tags: [],
+            votes: 49, views: 234, commentCount: 10, verified: true, featured: false,
+            createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
+        },
+        {
+            id: "p-70",
+            title: "Student Feedback Generator",
+            slug: "student-feedback-generator",
+            content: `You are an educational assessor. Write feedback for:
 
 **Student Work:** {paste or describe}
 **Assignment Type:** {essay/project/presentation}
@@ -1496,16 +1503,16 @@ Transform into:
 6. Growth Mindset Framing
 7. Follow-up Question
 8. Resource Recommendations`,
-        description: "Generate constructive student feedback that promotes growth and learning.",
-        user: u(0), category: c(6), model: m(6), tags: [],
-        votes: 41, views: 198, commentCount: 6, verified: true, featured: false,
-        createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
-    },
-    {
-        id: "p-71",
-        title: "Tutoring Session Simulator",
-        slug: "tutoring-session-simulator",
-        content: `You are a patient tutor. Help student with:
+            description: "Generate constructive student feedback that promotes growth and learning.",
+            user: u(0), category: c(6), model: m(6), tags: [],
+            votes: 41, views: 198, commentCount: 6, verified: true, featured: false,
+            createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
+        },
+        {
+            id: "p-71",
+            title: "Tutoring Session Simulator",
+            slug: "tutoring-session-simulator",
+            content: `You are a patient tutor. Help student with:
 
 **Subject:** {topic}
 **Concept:** {specific topic}
@@ -1521,16 +1528,16 @@ Transform into:
 6. Practice Problems (graduated)
 7. Verify Understanding
 8. Suggest Practice Resources`,
-        description: "Simulate tutoring sessions with Socratic questioning and scaffolded learning.",
-        user: u(8), category: c(6), model: m(6), tags: [],
-        votes: 54, views: 256, commentCount: 11, verified: true, featured: true,
-        createdAt: new Date("2025-12-16"), updatedAt: new Date("2025-12-18"),
-    },
-    {
-        id: "p-72",
-        title: "Landing Page Copy Generator",
-        slug: "landing-page-copy",
-        content: `You are a conversion copywriter. Write landing page:
+            description: "Simulate tutoring sessions with Socratic questioning and scaffolded learning.",
+            user: u(8), category: c(6), model: m(6), tags: [],
+            votes: 54, views: 256, commentCount: 11, verified: true, featured: true,
+            createdAt: new Date("2025-12-16"), updatedAt: new Date("2025-12-18"),
+        },
+        {
+            id: "p-72",
+            title: "Landing Page Copy Generator",
+            slug: "landing-page-copy",
+            content: `You are a conversion copywriter. Write landing page:
 
 **Product:** {what you're selling}
 **Goal:** {conversions/signups/sales}
@@ -1546,16 +1553,16 @@ Transform into:
 6. Objection Handling
 7. FAQ Section (5 questions)
 8. Final CTA Section`,
-        description: "Create high-converting landing page copy with headlines, benefits, and CTAs.",
-        user: u(7), category: c(7), model: m(0), tags: t(7, 8),
-        votes: 61, views: 289, commentCount: 13, verified: true, featured: true,
-        createdAt: new Date("2025-12-18"), updatedAt: new Date("2025-12-20"),
-    },
-    {
-        id: "p-73",
-        title: "Competitor Ad Analysis",
-        slug: "competitor-ad-analysis",
-        content: `You are an advertising analyst. Analyze competitor ads:
+            description: "Create high-converting landing page copy with headlines, benefits, and CTAs.",
+            user: u(7), category: c(7), model: m(0), tags: t(7, 8),
+            votes: 61, views: 289, commentCount: 13, verified: true, featured: true,
+            createdAt: new Date("2025-12-18"), updatedAt: new Date("2025-12-20"),
+        },
+        {
+            id: "p-73",
+            title: "Competitor Ad Analysis",
+            slug: "competitor-ad-analysis",
+            content: `You are an advertising analyst. Analyze competitor ads:
 
 **Competitor:** {company}
 **Ad Platform:** {Google/Facebook/etc.}
@@ -1570,16 +1577,16 @@ Transform into:
 6. Emotional Triggers
 7. Strengths to Copy
 8. Weaknesses to Exploit`,
-        description: "Analyze competitor advertising strategies with actionable insights.",
-        user: u(7), category: c(7), model: m(0), tags: t(8),
-        votes: 37, views: 178, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
-    },
-    {
-        id: "p-74",
-        title: "Influencer Outreach Template",
-        slug: "influencer-outreach-template",
-        content: `You are an influencer marketing manager. Create outreach:
+            description: "Analyze competitor advertising strategies with actionable insights.",
+            user: u(7), category: c(7), model: m(0), tags: t(8),
+            votes: 37, views: 178, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
+        },
+        {
+            id: "p-74",
+            title: "Influencer Outreach Template",
+            slug: "influencer-outreach-template",
+            content: `You are an influencer marketing manager. Create outreach:
 
 **Brand:** {your company}
 **Product:** {what to promote}
@@ -1595,16 +1602,16 @@ Transform into:
 6. Contract Considerations
 7. Content Brief Template
 8. Relationship Building Tips`,
-        description: "Create influencer outreach campaigns with templates and collaboration structures.",
-        user: u(12), category: c(7), model: m(0), tags: t(8),
-        votes: 44, views: 212, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
-    },
-    {
-        id: "p-75",
-        title: "Kubernetes Deployment Configurator",
-        slug: "kubernetes-deployment-config",
-        content: `You are a Kubernetes expert. Create deployment for:
+            description: "Create influencer outreach campaigns with templates and collaboration structures.",
+            user: u(12), category: c(7), model: m(0), tags: t(8),
+            votes: 44, views: 212, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
+        },
+        {
+            id: "p-75",
+            title: "Kubernetes Deployment Configurator",
+            slug: "kubernetes-deployment-config",
+            content: `You are a Kubernetes expert. Create deployment for:
 
 **Application:** {app description}
 **Scale Requirements:** {replicas, resources}
@@ -1619,16 +1626,16 @@ Transform into:
 6. Health Checks (liveness/readiness)
 7. Resource Limits
 8. HPA Configuration`,
-        description: "Create complete Kubernetes deployment configurations with services and ingress.",
-        user: u(6), category: c(0), model: m(6), tags: t(4),
-        votes: 48, views: 223, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-13"), updatedAt: new Date("2025-12-15"),
-    },
-    {
-        id: "p-76",
-        title: "Regex Pattern Builder",
-        slug: "regex-pattern-builder",
-        content: `You are a regex expert. Create pattern for:
+            description: "Create complete Kubernetes deployment configurations with services and ingress.",
+            user: u(6), category: c(0), model: m(6), tags: t(4),
+            votes: 48, views: 223, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-13"), updatedAt: new Date("2025-12-15"),
+        },
+        {
+            id: "p-76",
+            title: "Regex Pattern Builder",
+            slug: "regex-pattern-builder",
+            content: `You are a regex expert. Create pattern for:
 
 **What to Match:** {describe pattern}
 **Language:** {JavaScript/Python/etc.}
@@ -1644,16 +1651,16 @@ Transform into:
 6. Simpler Alternatives
 7. Interactive Testing Link
 8. Language-Specific Notes`,
-        description: "Build and explain regex patterns with test cases and optimization tips.",
-        user: u(2), category: c(0), model: m(6), tags: t(0, 1),
-        votes: 53, views: 256, commentCount: 10, verified: true, featured: false,
-        createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
-    },
-    {
-        id: "p-77",
-        title: "Whitepaper Outline Generator",
-        slug: "whitepaper-outline",
-        content: `You are a technical writer. Create whitepaper outline:
+            description: "Build and explain regex patterns with test cases and optimization tips.",
+            user: u(2), category: c(0), model: m(6), tags: t(0, 1),
+            votes: 53, views: 256, commentCount: 10, verified: true, featured: false,
+            createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
+        },
+        {
+            id: "p-77",
+            title: "Whitepaper Outline Generator",
+            slug: "whitepaper-outline",
+            content: `You are a technical writer. Create whitepaper outline:
 
 **Topic:** {subject}
 **Purpose:** {educate/generate leads/establish authority}
@@ -1669,16 +1676,16 @@ Transform into:
 6. Case Study Integration
 7. Implementation Roadmap
 8. Call to Action`,
-        description: "Create whitepaper outlines with sections for technical and executive audiences.",
-        user: u(5), category: c(1), model: m(0), tags: t(5),
-        votes: 38, views: 184, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
-    },
-    {
-        id: "p-78",
-        title: "Book Proposal Writer",
-        slug: "book-proposal-writer",
-        content: `You are a literary agent. Help create book proposal:
+            description: "Create whitepaper outlines with sections for technical and executive audiences.",
+            user: u(5), category: c(1), model: m(0), tags: t(5),
+            votes: 38, views: 184, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
+        },
+        {
+            id: "p-78",
+            title: "Book Proposal Writer",
+            slug: "book-proposal-writer",
+            content: `You are a literary agent. Help create book proposal:
 
 **Book Title:** {working title}
 **Genre:** {fiction/non-fiction/memoir}
@@ -1694,16 +1701,16 @@ Transform into:
 6. Marketing Platform
 7. First Chapter Critique Points
 8. Agent Targeting Strategy`,
-        description: "Create compelling book proposals with query letters and synopses.",
-        user: u(3), category: c(1), model: m(5), tags: t(11),
-        votes: 42, views: 198, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
-    },
-    {
-        id: "p-79",
-        title: "Product Launch Checklist",
-        slug: "product-launch-checklist",
-        content: `You are a product launch manager. Create checklist for:
+            description: "Create compelling book proposals with query letters and synopses.",
+            user: u(3), category: c(1), model: m(5), tags: t(11),
+            votes: 42, views: 198, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
+        },
+        {
+            id: "p-79",
+            title: "Product Launch Checklist",
+            slug: "product-launch-checklist",
+            content: `You are a product launch manager. Create checklist for:
 
 **Product:** {what you're launching}
 **Launch Date:** {target date}
@@ -1719,16 +1726,16 @@ Transform into:
 6. Launch Day Runbook
 7. Post-Launch (T+7 days)
 8. Metrics to Track`,
-        description: "Create comprehensive product launch checklists from pre-launch to post-launch.",
-        user: u(14), category: c(2), model: m(0), tags: [],
-        votes: 47, views: 223, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
-    },
-    {
-        id: "p-80",
-        title: "Stakeholder Communication Plan",
-        slug: "stakeholder-communication-plan",
-        content: `You are a project communications manager. Create plan:
+            description: "Create comprehensive product launch checklists from pre-launch to post-launch.",
+            user: u(14), category: c(2), model: m(0), tags: [],
+            votes: 47, views: 223, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
+        },
+        {
+            id: "p-80",
+            title: "Stakeholder Communication Plan",
+            slug: "stakeholder-communication-plan",
+            content: `You are a project communications manager. Create plan:
 
 **Project:** {name/type}
 **Stakeholders:** {list key stakeholders}
@@ -1743,16 +1750,16 @@ Transform into:
 6. Decision Log Template
 7. Change Request Process
 8. Risk Communication Protocol`,
-        description: "Create stakeholder communication plans with templates and cadences.",
-        user: u(14), category: c(2), model: m(0), tags: [],
-        votes: 35, views: 167, commentCount: 4, verified: true, featured: false,
-        createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
-    },
-    {
-        id: "p-81",
-        title: "Interview Preparation Coach",
-        slug: "interview-prep-coach",
-        content: `You are a career coach. Prepare for interview:
+            description: "Create stakeholder communication plans with templates and cadences.",
+            user: u(14), category: c(2), model: m(0), tags: [],
+            votes: 35, views: 167, commentCount: 4, verified: true, featured: false,
+            createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
+        },
+        {
+            id: "p-81",
+            title: "Interview Preparation Coach",
+            slug: "interview-prep-coach",
+            content: `You are a career coach. Prepare for interview:
 
 **Role:** {position}
 **Company:** {company name}
@@ -1768,16 +1775,16 @@ Transform into:
 6. Red Flags to Watch
 7. Follow-up Email Template
 8. Confidence Boosters`,
-        description: "Prepare for job interviews with questions, STAR answers, and negotiation tips.",
-        user: u(10), category: c(2), model: m(6), tags: [],
-        votes: 59, views: 287, commentCount: 12, verified: true, featured: true,
-        createdAt: new Date("2025-12-17"), updatedAt: new Date("2025-12-19"),
-    },
-    {
-        id: "p-82",
-        title: "Scientific Method Framework",
-        slug: "scientific-method-framework",
-        content: `You are a research scientist. Apply scientific method:
+            description: "Prepare for job interviews with questions, STAR answers, and negotiation tips.",
+            user: u(10), category: c(2), model: m(6), tags: [],
+            votes: 59, views: 287, commentCount: 12, verified: true, featured: true,
+            createdAt: new Date("2025-12-17"), updatedAt: new Date("2025-12-19"),
+        },
+        {
+            id: "p-82",
+            title: "Scientific Method Framework",
+            slug: "scientific-method-framework",
+            content: `You are a research scientist. Apply scientific method:
 
 **Question:** {research question}
 **Field:** {discipline}
@@ -1792,16 +1799,16 @@ Transform into:
 6. Analysis Plan
 7. Potential Confounds
 8. Interpretation Framework`,
-        description: "Apply the scientific method with hypothesis, variables, and experimental design.",
-        user: u(8), category: c(3), model: m(5), tags: t(9),
-        votes: 36, views: 173, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
-    },
-    {
-        id: "p-83",
-        title: "Citation and Bibliography Assistant",
-        slug: "citation-bibliography",
-        content: `You are a research librarian. Help with citations:
+            description: "Apply the scientific method with hypothesis, variables, and experimental design.",
+            user: u(8), category: c(3), model: m(5), tags: t(9),
+            votes: 36, views: 173, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
+        },
+        {
+            id: "p-83",
+            title: "Citation and Bibliography Assistant",
+            slug: "citation-bibliography",
+            content: `You are a research librarian. Help with citations:
 
 **Citation Style:** {APA/MLA/Chicago/etc.}
 **Source Type:** {book/journal/website/etc.}
@@ -1816,16 +1823,16 @@ Transform into:
 6. Similar Source Examples
 7. Bibliography Organization
 8. Citation Manager Tips`,
-        description: "Create properly formatted citations and bibliographies in any style.",
-        user: u(8), category: c(3), model: m(4), tags: t(10),
-        votes: 32, views: 156, commentCount: 3, verified: true, featured: false,
-        createdAt: new Date("2025-12-05"), updatedAt: new Date("2025-12-07"),
-    },
-    {
-        id: "p-84",
-        title: "Debate Argument Builder",
-        slug: "debate-argument-builder",
-        content: `You are a debate coach. Build arguments for:
+            description: "Create properly formatted citations and bibliographies in any style.",
+            user: u(8), category: c(3), model: m(4), tags: t(10),
+            votes: 32, views: 156, commentCount: 3, verified: true, featured: false,
+            createdAt: new Date("2025-12-05"), updatedAt: new Date("2025-12-07"),
+        },
+        {
+            id: "p-84",
+            title: "Debate Argument Builder",
+            slug: "debate-argument-builder",
+            content: `You are a debate coach. Build arguments for:
 
 **Topic:** {debate topic}
 **Position:** {pro/con/both}
@@ -1840,16 +1847,16 @@ Transform into:
 6. Opening Statement
 7. Closing Statement
 8. Rhetorical Techniques`,
-        description: "Build comprehensive debate arguments with evidence and rebuttals.",
-        user: u(8), category: c(3), model: m(5), tags: [],
-        votes: 38, views: 184, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
-    },
-    {
-        id: "p-85",
-        title: "Music Composition Helper",
-        slug: "music-composition-helper",
-        content: `You are a music theory expert. Help compose:
+            description: "Build comprehensive debate arguments with evidence and rebuttals.",
+            user: u(8), category: c(3), model: m(5), tags: [],
+            votes: 38, views: 184, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
+        },
+        {
+            id: "p-85",
+            title: "Music Composition Helper",
+            slug: "music-composition-helper",
+            content: `You are a music theory expert. Help compose:
 
 **Genre:** {classical/pop/jazz/electronic}
 **Mood:** {emotion to convey}
@@ -1865,16 +1872,16 @@ Transform into:
 6. Dynamic Mapping
 7. Production Suggestions
 8. Similar Songs for Reference`,
-        description: "Compose music with chord progressions, melodies, and structure guidance.",
-        user: u(3), category: c(4), model: m(5), tags: t(11),
-        votes: 41, views: 196, commentCount: 6, verified: true, featured: false,
-        createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
-    },
-    {
-        id: "p-86",
-        title: "Interior Design Consultant",
-        slug: "interior-design-consultant",
-        content: `You are an interior designer. Design space:
+            description: "Compose music with chord progressions, melodies, and structure guidance.",
+            user: u(3), category: c(4), model: m(5), tags: t(11),
+            votes: 41, views: 196, commentCount: 6, verified: true, featured: false,
+            createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
+        },
+        {
+            id: "p-86",
+            title: "Interior Design Consultant",
+            slug: "interior-design-consultant",
+            content: `You are an interior designer. Design space:
 
 **Room Type:** {living room/kitchen/office}
 **Size:** {dimensions}
@@ -1890,16 +1897,16 @@ Transform into:
 6. Decor Accessories
 7. Plant Suggestions
 8. Shopping List with Prices`,
-        description: "Design interior spaces with layouts, palettes, and furniture recommendations.",
-        user: u(10), category: c(4), model: m(0), tags: t(11),
-        votes: 45, views: 218, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-13"), updatedAt: new Date("2025-12-15"),
-    },
-    {
-        id: "p-87",
-        title: "Weekly Review Template",
-        slug: "weekly-review-template",
-        content: `You are a productivity coach. Create weekly review:
+            description: "Design interior spaces with layouts, palettes, and furniture recommendations.",
+            user: u(10), category: c(4), model: m(0), tags: t(11),
+            votes: 45, views: 218, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-13"), updatedAt: new Date("2025-12-15"),
+        },
+        {
+            id: "p-87",
+            title: "Weekly Review Template",
+            slug: "weekly-review-template",
+            content: `You are a productivity coach. Create weekly review:
 
 **Last Week's Goals:** {what you planned}
 **Current Projects:** {ongoing work}
@@ -1914,16 +1921,16 @@ Transform into:
 6. Energy Level Assessment
 7. Gratitude Section
 8. One Word Intention`,
-        description: "Create weekly review frameworks for reflection and planning.",
-        user: u(4), category: c(5), model: m(0), tags: [],
-        votes: 42, views: 198, commentCount: 6, verified: true, featured: false,
-        createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
-    },
-    {
-        id: "p-88",
-        title: "Delegation Framework",
-        slug: "delegation-framework",
-        content: `You are a management consultant. Create delegation plan:
+            description: "Create weekly review frameworks for reflection and planning.",
+            user: u(4), category: c(5), model: m(0), tags: [],
+            votes: 42, views: 198, commentCount: 6, verified: true, featured: false,
+            createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
+        },
+        {
+            id: "p-88",
+            title: "Delegation Framework",
+            slug: "delegation-framework",
+            content: `You are a management consultant. Create delegation plan:
 
 **Task:** {what to delegate}
 **Team Member:** {who to delegate to}
@@ -1939,16 +1946,16 @@ Transform into:
 6. Escalation Triggers
 7. Feedback Framework
 8. Growth Opportunity Framing`,
-        description: "Create effective delegation plans with handoffs and support structures.",
-        user: u(14), category: c(5), model: m(0), tags: [],
-        votes: 33, views: 159, commentCount: 4, verified: true, featured: false,
-        createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
-    },
-    {
-        id: "p-89",
-        title: "Quiz and Assessment Creator",
-        slug: "quiz-assessment-creator",
-        content: `You are an assessment designer. Create quiz:
+            description: "Create effective delegation plans with handoffs and support structures.",
+            user: u(14), category: c(5), model: m(0), tags: [],
+            votes: 33, views: 159, commentCount: 4, verified: true, featured: false,
+            createdAt: new Date("2025-12-06"), updatedAt: new Date("2025-12-08"),
+        },
+        {
+            id: "p-89",
+            title: "Quiz and Assessment Creator",
+            slug: "quiz-assessment-creator",
+            content: `You are an assessment designer. Create quiz:
 
 **Subject:** {topic}
 **Purpose:** {formative/summative}
@@ -1964,16 +1971,16 @@ Transform into:
 6. Grading Rubric
 7. Bloom's Taxonomy Mapping
 8. Differentiated Versions`,
-        description: "Create assessments with varied question types and grading rubrics.",
-        user: u(0), category: c(6), model: m(0), tags: [],
-        votes: 46, views: 218, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
-    },
-    {
-        id: "p-90",
-        title: "Parent Communication Helper",
-        slug: "parent-communication-helper",
-        content: `You are an educational communicator. Write communication:
+            description: "Create assessments with varied question types and grading rubrics.",
+            user: u(0), category: c(6), model: m(0), tags: [],
+            votes: 46, views: 218, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
+        },
+        {
+            id: "p-90",
+            title: "Parent Communication Helper",
+            slug: "parent-communication-helper",
+            content: `You are an educational communicator. Write communication:
 
 **Type:** {newsletter/progress report/incident}
 **Audience:** {all parents/individual}
@@ -1989,16 +1996,16 @@ Transform into:
 6. Contact Information
 7. Positive Closing
 8. Translation Considerations`,
-        description: "Create professional parent communications for various school situations.",
-        user: u(0), category: c(6), model: m(0), tags: [],
-        votes: 35, views: 167, commentCount: 4, verified: true, featured: false,
-        createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
-    },
-    {
-        id: "p-91",
-        title: "Product Description Optimizer",
-        slug: "product-description-optimizer",
-        content: `You are an e-commerce copywriter. Optimize:
+            description: "Create professional parent communications for various school situations.",
+            user: u(0), category: c(6), model: m(0), tags: [],
+            votes: 35, views: 167, commentCount: 4, verified: true, featured: false,
+            createdAt: new Date("2025-12-07"), updatedAt: new Date("2025-12-09"),
+        },
+        {
+            id: "p-91",
+            title: "Product Description Optimizer",
+            slug: "product-description-optimizer",
+            content: `You are an e-commerce copywriter. Optimize:
 
 **Product:** {item description}
 **Category:** {type}
@@ -2014,16 +2021,16 @@ Transform into:
 6. Cross-sell Suggestions
 7. FAQ Section
 8. Review Response Templates`,
-        description: "Optimize product descriptions for e-commerce with SEO and conversion focus.",
-        user: u(1), category: c(7), model: m(0), tags: t(7),
-        votes: 49, views: 234, commentCount: 9, verified: true, featured: false,
-        createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
-    },
-    {
-        id: "p-92",
-        title: "Podcast Show Notes Generator",
-        slug: "podcast-show-notes",
-        content: `You are a podcast producer. Create show notes:
+            description: "Optimize product descriptions for e-commerce with SEO and conversion focus.",
+            user: u(1), category: c(7), model: m(0), tags: t(7),
+            votes: 49, views: 234, commentCount: 9, verified: true, featured: false,
+            createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
+        },
+        {
+            id: "p-92",
+            title: "Podcast Show Notes Generator",
+            slug: "podcast-show-notes",
+            content: `You are a podcast producer. Create show notes:
 
 **Episode Title:** {title}
 **Guest:** {if applicable}
@@ -2039,16 +2046,16 @@ Transform into:
 6. SEO-Optimized Summary
 7. Social Media Snippets
 8. Call to Action`,
-        description: "Create comprehensive podcast show notes with timestamps and social snippets.",
-        user: u(12), category: c(7), model: m(0), tags: t(8),
-        votes: 38, views: 184, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
-    },
-    {
-        id: "p-93",
-        title: "AWS Architecture Advisor",
-        slug: "aws-architecture-advisor",
-        content: `You are an AWS Solutions Architect. Design for:
+            description: "Create comprehensive podcast show notes with timestamps and social snippets.",
+            user: u(12), category: c(7), model: m(0), tags: t(8),
+            votes: 38, views: 184, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-09"), updatedAt: new Date("2025-12-11"),
+        },
+        {
+            id: "p-93",
+            title: "AWS Architecture Advisor",
+            slug: "aws-architecture-advisor",
+            content: `You are an AWS Solutions Architect. Design for:
 
 **Application:** {description}
 **Scale:** {users/requests}
@@ -2064,16 +2071,16 @@ Transform into:
 6. Scaling Strategy
 7. Disaster Recovery Plan
 8. Monitoring Setup`,
-        description: "Design AWS architectures with services, security, and cost optimization.",
-        user: u(6), category: c(0), model: m(6), tags: t(4),
-        votes: 55, views: 267, commentCount: 11, verified: true, featured: true,
-        createdAt: new Date("2025-12-16"), updatedAt: new Date("2025-12-18"),
-    },
-    {
-        id: "p-94",
-        title: "Mobile App UX Reviewer",
-        slug: "mobile-app-ux-reviewer",
-        content: `You are a UX researcher. Review mobile app:
+            description: "Design AWS architectures with services, security, and cost optimization.",
+            user: u(6), category: c(0), model: m(6), tags: t(4),
+            votes: 55, views: 267, commentCount: 11, verified: true, featured: true,
+            createdAt: new Date("2025-12-16"), updatedAt: new Date("2025-12-18"),
+        },
+        {
+            id: "p-94",
+            title: "Mobile App UX Reviewer",
+            slug: "mobile-app-ux-reviewer",
+            content: `You are a UX researcher. Review mobile app:
 
 **App Type:** {description}
 **Platform:** {iOS/Android/both}
@@ -2089,16 +2096,16 @@ Transform into:
 6. Accessibility Check
 7. Improvement Recommendations
 8. Competitive Comparison`,
-        description: "Review mobile app UX with navigation, accessibility, and improvement suggestions.",
-        user: u(10), category: c(0), model: m(6), tags: t(14),
-        votes: 43, views: 204, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
-    },
-    {
-        id: "p-95",
-        title: "Financial Report Explainer",
-        slug: "financial-report-explainer",
-        content: `You are a financial analyst. Explain this report:
+            description: "Review mobile app UX with navigation, accessibility, and improvement suggestions.",
+            user: u(10), category: c(0), model: m(6), tags: t(14),
+            votes: 43, views: 204, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-11"), updatedAt: new Date("2025-12-13"),
+        },
+        {
+            id: "p-95",
+            title: "Financial Report Explainer",
+            slug: "financial-report-explainer",
+            content: `You are a financial analyst. Explain this report:
 
 **Report Type:** {10-K, 10-Q, earnings}
 **Company:** {name}
@@ -2113,16 +2120,16 @@ Transform into:
 6. Debt Analysis
 7. Red Flags/Concerns
 8. Investment Implications`,
-        description: "Translate financial reports into plain English with key insights.",
-        user: u(11), category: c(3), model: m(6), tags: t(9),
-        votes: 51, views: 245, commentCount: 9, verified: true, featured: false,
-        createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
-    },
-    {
-        id: "p-96",
-        title: "Recipe Development Assistant",
-        slug: "recipe-development",
-        content: `You are a culinary expert. Develop recipe:
+            description: "Translate financial reports into plain English with key insights.",
+            user: u(11), category: c(3), model: m(6), tags: t(9),
+            votes: 51, views: 245, commentCount: 9, verified: true, featured: false,
+            createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
+        },
+        {
+            id: "p-96",
+            title: "Recipe Development Assistant",
+            slug: "recipe-development",
+            content: `You are a culinary expert. Develop recipe:
 
 **Dish Type:** {cuisine, course}
 **Key Ingredients:** {must include}
@@ -2138,16 +2145,16 @@ Transform into:
 6. Scaling Guide
 7. Make-Ahead Tips
 8. Plating Suggestions`,
-        description: "Develop recipes with ingredients, instructions, and dietary accommodations.",
-        user: u(12), category: c(4), model: m(0), tags: t(11),
-        votes: 39, views: 187, commentCount: 5, verified: true, featured: false,
-        createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
-    },
-    {
-        id: "p-97",
-        title: "Event Planning Framework",
-        slug: "event-planning-framework",
-        content: `You are an event planner. Plan event:
+            description: "Develop recipes with ingredients, instructions, and dietary accommodations.",
+            user: u(12), category: c(4), model: m(0), tags: t(11),
+            votes: 39, views: 187, commentCount: 5, verified: true, featured: false,
+            createdAt: new Date("2025-12-10"), updatedAt: new Date("2025-12-12"),
+        },
+        {
+            id: "p-97",
+            title: "Event Planning Framework",
+            slug: "event-planning-framework",
+            content: `You are an event planner. Plan event:
 
 **Event Type:** {conference/wedding/party}
 **Date:** {when}
@@ -2163,16 +2170,16 @@ Transform into:
 6. Guest Communication Templates
 7. Decor Concepts
 8. Post-Event Tasks`,
-        description: "Create comprehensive event plans with timelines, vendors, and budgets.",
-        user: u(14), category: c(5), model: m(0), tags: [],
-        votes: 44, views: 208, commentCount: 7, verified: true, featured: false,
-        createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
-    },
-    {
-        id: "p-98",
-        title: "Knowledge Gap Analyzer",
-        slug: "knowledge-gap-analyzer",
-        content: `You are a learning strategist. Analyze gaps:
+            description: "Create comprehensive event plans with timelines, vendors, and budgets.",
+            user: u(14), category: c(5), model: m(0), tags: [],
+            votes: 44, views: 208, commentCount: 7, verified: true, featured: false,
+            createdAt: new Date("2025-12-12"), updatedAt: new Date("2025-12-14"),
+        },
+        {
+            id: "p-98",
+            title: "Knowledge Gap Analyzer",
+            slug: "knowledge-gap-analyzer",
+            content: `You are a learning strategist. Analyze gaps:
 
 **Goal:** {what you want to learn}
 **Current Level:** {self-assessment}
@@ -2188,16 +2195,16 @@ Transform into:
 6. Milestone Checkpoints
 7. Practice Projects
 8. Assessment Criteria`,
-        description: "Identify knowledge gaps with personalized learning paths and resources.",
-        user: u(8), category: c(6), model: m(6), tags: [],
-        votes: 47, views: 223, commentCount: 8, verified: true, featured: false,
-        createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
-    },
-    {
-        id: "p-99",
-        title: "Community Building Playbook",
-        slug: "community-building-playbook",
-        content: `You are a community manager. Build community:
+            description: "Identify knowledge gaps with personalized learning paths and resources.",
+            user: u(8), category: c(6), model: m(6), tags: [],
+            votes: 47, views: 223, commentCount: 8, verified: true, featured: false,
+            createdAt: new Date("2025-12-14"), updatedAt: new Date("2025-12-16"),
+        },
+        {
+            id: "p-99",
+            title: "Community Building Playbook",
+            slug: "community-building-playbook",
+            content: `You are a community manager. Build community:
 
 **Type:** {brand/creator/niche}
 **Platform:** {Discord/Slack/Circle}
@@ -2213,16 +2220,16 @@ Transform into:
 6. Moderation Guidelines
 7. Growth Tactics
 8. Metrics Dashboard`,
-        description: "Create community building strategies with onboarding and engagement frameworks.",
-        user: u(12), category: c(7), model: m(0), tags: t(8),
-        votes: 52, views: 248, commentCount: 10, verified: true, featured: false,
-        createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
-    },
-    {
-        id: "p-100",
-        title: "AI Prompt Meta-Optimizer",
-        slug: "ai-prompt-meta-optimizer",
-        content: `You are a prompt engineering expert. Optimize this prompt:
+            description: "Create community building strategies with onboarding and engagement frameworks.",
+            user: u(12), category: c(7), model: m(0), tags: t(8),
+            votes: 52, views: 248, commentCount: 10, verified: true, featured: false,
+            createdAt: new Date("2025-12-15"), updatedAt: new Date("2025-12-17"),
+        },
+        {
+            id: "p-100",
+            title: "AI Prompt Meta-Optimizer",
+            slug: "ai-prompt-meta-optimizer",
+            content: `You are a prompt engineering expert. Optimize this prompt:
 
 **Current Prompt:** {paste your prompt}
 **AI Model:** {GPT/Claude/Gemini}
@@ -2238,14 +2245,17 @@ Transform into:
 6. Output Format Guidance
 7. Optimized Version
 8. Variation for Different Models`,
-        description: "Optimize AI prompts for better outputs with structural and clarity improvements.",
-        user: u(0), category: c(0), model: m(6), tags: [],
-        votes: 78, views: 378, commentCount: 18, verified: true, featured: true,
-        createdAt: new Date("2025-12-20"), updatedAt: new Date("2025-12-22"),
-    },
-];
+            description: "Optimize AI prompts for better outputs with structural and clarity improvements.",
+            user: u(0), category: c(0), model: m(6), tags: [],
+            votes: 78, views: 378, commentCount: 18, verified: true, featured: true,
+            createdAt: new Date("2025-12-20"), updatedAt: new Date("2025-12-22"),
+        },
+    ];
 
-// Helper function to get all prompts including extended ones
-export function getAllExtendedPrompts(): Prompt[] {
-    return extendedPrompts;
+    return _cachedPrompts;
 }
+
+// Also export as a const for backwards compatibility (lazy evaluated)
+export const extendedPrompts = {
+    get prompts() { return getExtendedPrompts(); }
+};
