@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Send, Loader2 } from "lucide-react";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { Button, Textarea, Card, CardContent } from "@/components/ui";
 import { formatDate } from "@/lib/utils";
 import { addComment, getComments } from "@/lib/actions";
@@ -21,27 +22,34 @@ interface Comment {
 interface CommentsSectionProps {
     promptId: string;
     initialComments?: Comment[];
-    isAuthenticated?: boolean;
-    currentUser?: {
-        username: string;
-        image?: string;
-    };
 }
 
 /**
- * Comments section component with real-time optimistic updates
+ * Comments section component with real-time optimistic updates.
+ * Uses Clerk's useAuth() hook for client-side auth detection.
+ * 
+ * IMPORTANT: This component must be imported with next/dynamic({ ssr: false })
+ * to prevent Clerk hooks from being called during SSG/build time.
  */
 export function CommentsSection({
     promptId,
     initialComments = [],
-    isAuthenticated = false,
-    currentUser,
 }: CommentsSectionProps) {
+    // Clerk hooks - safe to call since this component is never SSR'd
+    const { isSignedIn, isLoaded } = useAuth();
+    const { user } = useUser();
+
     const [comments, setComments] = useState<Comment[]>(initialComments);
     const [newComment, setNewComment] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    // Derive current user from Clerk user
+    const currentUser = user ? {
+        username: user.username || user.firstName || "User",
+        image: user.imageUrl,
+    } : undefined;
 
     // Load comments on mount
     useEffect(() => {
@@ -56,21 +64,19 @@ export function CommentsSection({
                         image: undefined,
                     },
                 }));
-                setComments(commentsWithUsers);
+                setComments([...initialComments, ...commentsWithUsers]);
             }
         }
-
-        if (initialComments.length === 0) {
-            loadComments();
-        }
-    }, [promptId, initialComments.length]);
+        loadComments();
+    }, [promptId, initialComments]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         if (!newComment.trim() || isSubmitting) return;
 
-        setError(null);
         setIsSubmitting(true);
+        setError(null);
 
         // Optimistic update
         const optimisticComment: Comment = {
@@ -113,10 +119,25 @@ export function CommentsSection({
         }
     };
 
+    // Show skeleton while Clerk is loading
+    if (!isLoaded) {
+        return (
+            <div className="space-y-6">
+                <div className="animate-pulse">
+                    <div className="h-24 bg-dark-800/50 rounded-lg mb-4" />
+                    <div className="space-y-3">
+                        <div className="h-16 bg-dark-800/30 rounded-lg" />
+                        <div className="h-16 bg-dark-800/30 rounded-lg" />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-6">
             {/* Comment Form */}
-            {isAuthenticated ? (
+            {isSignedIn ? (
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="flex gap-3">
                         {currentUser?.image ? (
@@ -139,23 +160,20 @@ export function CommentsSection({
                                 onChange={(e) => setNewComment(e.target.value)}
                                 placeholder="Share your thoughts on this prompt..."
                                 className="min-h-[100px] resize-none"
-                                maxLength={2000}
+                                disabled={isSubmitting}
                             />
-                            {error && (
-                                <p className="mt-2 text-sm text-red-400">{error}</p>
-                            )}
                         </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                        <span className="text-xs text-dark-500">
-                            {newComment.length}/2000 characters
-                        </span>
+
+                    {error && (
+                        <p className="text-sm text-red-400">{error}</p>
+                    )}
+
+                    <div className="flex justify-end">
                         <Button
                             type="submit"
-                            variant="primary"
-                            size="sm"
                             disabled={!newComment.trim() || isSubmitting}
-                            isLoading={isSubmitting}
+                            className="gap-2"
                         >
                             {isSubmitting ? (
                                 <>
@@ -172,13 +190,16 @@ export function CommentsSection({
                     </div>
                 </form>
             ) : (
-                <Card variant="glass" hover={false}>
+                <Card variant="glass">
                     <CardContent className="text-center py-8">
-                        <p className="text-dark-400 mb-4">
+                        <p className="text-dark-300 mb-4">
                             Sign in to join the conversation
                         </p>
-                        <a href="/sign-in">
-                            <Button variant="secondary">Sign In</Button>
+                        <a
+                            href="/sign-in"
+                            className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-medium transition-colors"
+                        >
+                            Sign In
                         </a>
                     </CardContent>
                 </Card>
@@ -187,18 +208,14 @@ export function CommentsSection({
             {/* Comments List */}
             <div className="space-y-4">
                 {comments.length === 0 ? (
-                    <Card variant="glass" hover={false}>
-                        <CardContent className="text-center py-8">
-                            <p className="text-dark-400">
-                                No comments yet. Be the first to share your thoughts!
-                            </p>
-                        </CardContent>
-                    </Card>
+                    <p className="text-center text-dark-400 py-8">
+                        No comments yet. Be the first to share your thoughts!
+                    </p>
                 ) : (
                     comments.map((comment) => (
                         <div
                             key={comment.id}
-                            className="flex gap-3 p-4 rounded-lg bg-dark-800/40 border border-dark-700/30"
+                            className="flex gap-3 p-4 rounded-lg bg-dark-800/30 border border-dark-700/30"
                         >
                             {comment.user?.image ? (
                                 <Image
@@ -209,20 +226,20 @@ export function CommentsSection({
                                     className="rounded-full shrink-0"
                                 />
                             ) : (
-                                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-xs font-medium text-white shrink-0">
+                                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-dark-600 to-dark-700 flex items-center justify-center text-sm font-medium text-dark-300 shrink-0">
                                     {comment.user?.username?.[0]?.toUpperCase() || "?"}
                                 </div>
                             )}
                             <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 mb-1">
-                                    <span className="font-medium text-dark-100 text-sm">
-                                        @{comment.user?.username || "anonymous"}
+                                    <span className="font-medium text-dark-100">
+                                        {comment.user?.username || "Anonymous"}
                                     </span>
-                                    <span className="text-xs text-dark-500">
+                                    <span className="text-xs text-dark-400">
                                         {formatDate(comment.createdAt)}
                                     </span>
                                 </div>
-                                <p className="text-dark-300 text-sm whitespace-pre-wrap break-words">
+                                <p className="text-dark-200 whitespace-pre-wrap break-words">
                                     {comment.content}
                                 </p>
                             </div>
@@ -233,5 +250,3 @@ export function CommentsSection({
         </div>
     );
 }
-
-export default CommentsSection;

@@ -9,6 +9,7 @@
  */
 
 import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
 
 // Types for action responses
 export interface ActionResponse<T = void> {
@@ -136,6 +137,15 @@ export async function addComment(
     content: string
 ): Promise<ActionResponse<{ commentId: string }>> {
     try {
+        // Verify user is authenticated
+        const { userId } = await auth();
+        if (!userId) {
+            return {
+                success: false,
+                error: "You must be signed in to comment.",
+            };
+        }
+
         // Validate content
         if (!content || content.trim().length < 3) {
             return {
@@ -158,7 +168,7 @@ export async function addComment(
         const newComment = {
             id: commentId,
             content: content.trim(),
-            userId: "demo-user", // In production, would use actual user ID
+            userId: userId, // Use verified userId from Clerk
             createdAt: new Date(),
         };
 
@@ -189,6 +199,15 @@ export async function deleteComment(
     commentId: string
 ): Promise<ActionResponse> {
     try {
+        // Verify user is authenticated
+        const { userId } = await auth();
+        if (!userId) {
+            return {
+                success: false,
+                error: "You must be signed in to delete a comment.",
+            };
+        }
+
         // Simulate network delay
         await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -202,7 +221,14 @@ export async function deleteComment(
             };
         }
 
-        // In production, would verify the user owns this comment
+        // Verify the user owns this comment
+        if (existingComments[commentIndex].userId !== userId) {
+            return {
+                success: false,
+                error: "You can only delete your own comments.",
+            };
+        }
+
         existingComments.splice(commentIndex, 1);
         comments.set(promptId, existingComments);
 

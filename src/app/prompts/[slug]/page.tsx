@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { auth, currentUser } from "@clerk/nextjs/server";
 import {
     ArrowLeft,
     Eye,
@@ -11,11 +10,14 @@ import {
     MessageCircle,
     ChevronRight
 } from "lucide-react";
-import { Header, Footer, VoteButtons, PromptCardCompact, CommentsSection, ArticleSchema, BreadcrumbSchema } from "@/components";
+import { Header, Footer, VoteButtons, PromptCardCompact, ArticleSchema, BreadcrumbSchema } from "@/components";
 import { CopyButton, BookmarkButton, ShareButton, TryPromptButton } from "@/components/Actions";
 import { Badge, Card, CardContent } from "@/components/ui";
 import { getPromptBySlug, getPromptsByCategory, mockPrompts, mockUsers } from "@/lib/mock-data";
 import { formatNumber, formatDate } from "@/lib/utils";
+// CommentsWrapper is a Client Component that handles dynamic import with ssr:false internally
+// This allows the prompt page to remain SSG/ISR while comments load after hydration
+import { CommentsWrapper } from "@/components/CommentsWrapper";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -137,11 +139,6 @@ export default async function PromptPage({ params }: PageProps) {
     if (!prompt) {
         notFound();
     }
-
-    // Get authentication state
-    const { userId } = await auth();
-    const clerkUser = userId ? await currentUser() : null;
-    const isSignedIn = !!userId;
 
     // Get related prompts from same category
     const relatedPrompts = getPromptsByCategory(prompt.category.slug)
@@ -365,14 +362,9 @@ export default async function PromptPage({ params }: PageProps) {
                                     Comments ({prompt.commentCount})
                                 </h2>
 
-                                <CommentsSection
+                                <CommentsWrapper
                                     promptId={prompt.id}
                                     initialComments={getMockComments(prompt.id)}
-                                    isAuthenticated={isSignedIn}
-                                    currentUser={clerkUser ? {
-                                        username: clerkUser.username || clerkUser.firstName || "User",
-                                        image: clerkUser.imageUrl
-                                    } : undefined}
                                 />
                             </div>
                         </div>

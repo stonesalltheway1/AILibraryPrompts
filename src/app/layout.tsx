@@ -90,10 +90,6 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    // Only wrap with ClerkProvider if the publishable key is available
-    // This allows the site to build even if Clerk isn't configured
-    const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
     const clerkAppearance = {
         variables: {
             colorPrimary: "#7c3aed",
@@ -136,31 +132,22 @@ export default function RootLayout({
         }
     };
 
-    const content = (
-        <html lang="en" suppressHydrationWarning>
-            <body className="min-h-screen bg-dark-950 text-dark-50 antialiased">
-                {/* Global SEO Structured Data */}
-                <OrganizationSchema />
-                <WebSiteSchema />
-                <div className="relative flex min-h-screen flex-col">
-                    {children}
-                </div>
-            </body>
-        </html>
+    // ClerkProvider wraps the app to provide auth context for client-side hooks.
+    // Note: Do NOT add `dynamic` prop here - it forces all routes into dynamic rendering.
+    // Instead, CommentsSection uses next/dynamic with ssr:false to avoid SSG issues.
+    return (
+        <ClerkProvider appearance={clerkAppearance}>
+            <html lang="en" suppressHydrationWarning>
+                <body className="min-h-screen bg-dark-950 text-dark-50 antialiased">
+                    {/* Global SEO Structured Data */}
+                    <OrganizationSchema />
+                    <WebSiteSchema />
+                    <div className="relative flex min-h-screen flex-col">
+                        {children}
+                    </div>
+                </body>
+            </html>
+        </ClerkProvider>
     );
-
-    // Wrap with ClerkProvider only if key is available
-    if (clerkPublishableKey) {
-        return (
-            <ClerkProvider
-                publishableKey={clerkPublishableKey}
-                appearance={clerkAppearance}
-            >
-                {content}
-            </ClerkProvider>
-        );
-    }
-
-    // Return without Clerk if key is not configured
-    return content;
 }
+
