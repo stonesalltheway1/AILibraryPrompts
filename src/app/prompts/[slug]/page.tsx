@@ -10,7 +10,7 @@ import {
     MessageCircle,
     ChevronRight
 } from "lucide-react";
-import { Header, Footer, VoteButtons, PromptCardCompact, ArticleSchema, BreadcrumbSchema } from "@/components";
+import { Header, Footer, VoteButtons, PromptCardCompact, ArticleSchema, BreadcrumbSchema, BookPromoCard } from "@/components";
 import { CopyButton, BookmarkButton, ShareButton, TryPromptButton } from "@/components/Actions";
 import { Badge, Card, CardContent } from "@/components/ui";
 import { getPromptBySlug, getPromptsByCategory, mockPrompts, mockUsers } from "@/lib/mock-data";
@@ -439,6 +439,9 @@ export default async function PromptPage({ params }: PageProps) {
                                     )}
                                 </CardContent>
                             </Card>
+
+                            {/* Book Promo - From the Author */}
+                            <BookPromoCard />
 
                             {/* Related Prompts */}
                             {relatedPrompts.length > 0 && (

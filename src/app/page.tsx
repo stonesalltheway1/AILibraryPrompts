@@ -14,7 +14,7 @@ import {
     TrendingUp,
     Clock
 } from "lucide-react";
-import { Header, Footer, PromptCard, CategoryPill, FAQSchema } from "@/components";
+import { Header, Footer, PromptCard, CategoryPill, FAQSchema, BookPromoCard, BookSchema } from "@/components";
 import { Button, Input } from "@/components/ui";
 import {
     mockCategories,
@@ -373,6 +373,13 @@ export default function HomePage() {
                                 </Link>
                             </div>
                         </div>
+                    </div>
+                </section>
+
+                {/* Book Promo Section - From the Creator */}
+                <section className="py-16 border-b border-dark-700/50">
+                    <div className="container-main">
+                        <BookPromoCard variant="featured" />
                     </div>
                 </section>
 

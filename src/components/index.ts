@@ -8,6 +8,7 @@ export { VoteButtons } from "./VoteButtons";
 export { CopyButton, BookmarkButton, ShareButton, CategoryPill, TryPromptButton } from "./Actions";
 export { SearchAutocomplete } from "./SearchAutocomplete";
 export { CommentsSection } from "./CommentsSection";
+export { BookPromoCard } from "./BookPromoCard";
 
 // SEO Components
 export {
@@ -20,3 +21,5 @@ export {
     ArticleSchema,
     SoftwareApplicationSchema
 } from "./StructuredData";
+export { BookSchema } from "./seo/BookSchema";
+

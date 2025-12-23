@@ -138,11 +138,21 @@ export function Footer() {
                             </li>
                             <li>
                                 <Link
-                                    href="/search"
+                                    href="/about"
                                     className="text-sm text-dark-400 hover:text-primary-400 transition-colors"
                                 >
-                                    Search Prompts
+                                    About the Author
                                 </Link>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://www.amazon.com/dp/B0FPK6Y2ZB"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1"
+                                >
+                                    📚 Get the Book
+                                </a>
                             </li>
                             <li>
                                 <a
