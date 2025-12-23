@@ -1,0 +1,23 @@
+{
+    "name": "AI Library Prompts",
+    "short_name": "AI Prompts",
+    "description": "Discover AI prompts that actually work. The largest community-driven collection of prompts for ChatGPT, Claude, Gemini, and more.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0a0f",
+    "theme_color": "#7c3aed",
+    "orientation": "any",
+    "categories": [
+        "productivity",
+        "utilities",
+        "education"
+    ],
+    "icons": [
+        {
+            "src": "/logo.png",
+            "sizes": "1536x914",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ]
+}
