@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import {
     SignedIn,
     SignedOut,
     SignInButton,
     UserButton,
+    useAuth,
 } from "@clerk/nextjs";
 import {
     Search,
@@ -44,6 +45,12 @@ export function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [categoriesOpen, setCategoriesOpen] = useState(false);
+    const [isClerkAvailable, setIsClerkAvailable] = useState(false);
+
+    // Check if Clerk is available
+    useEffect(() => {
+        setIsClerkAvailable(!!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+    }, []);
 
     return (
         <header className="sticky top-0 z-50 w-full border-b border-dark-700/50 bg-dark-950/80 backdrop-blur-xl">
@@ -169,24 +176,28 @@ export function Header() {
                             </Button>
                         </Link>
 
-                        {/* Auth */}
-                        <SignedOut>
-                            <SignInButton mode="modal">
-                                <Button variant="ghost" size="sm">
-                                    Sign In
-                                </Button>
-                            </SignInButton>
-                        </SignedOut>
-                        <SignedIn>
-                            <UserButton
-                                afterSignOutUrl="/"
-                                appearance={{
-                                    elements: {
-                                        avatarBox: "w-8 h-8",
-                                    },
-                                }}
-                            />
-                        </SignedIn>
+                        {/* Auth - Only render if Clerk is available */}
+                        {isClerkAvailable && (
+                            <>
+                                <SignedOut>
+                                    <SignInButton mode="modal">
+                                        <Button variant="ghost" size="sm">
+                                            Sign In
+                                        </Button>
+                                    </SignInButton>
+                                </SignedOut>
+                                <SignedIn>
+                                    <UserButton
+                                        afterSignOutUrl="/"
+                                        appearance={{
+                                            elements: {
+                                                avatarBox: "w-8 h-8",
+                                            },
+                                        }}
+                                    />
+                                </SignedIn>
+                            </>
+                        )}
 
                         {/* Mobile menu button */}
                         <button
