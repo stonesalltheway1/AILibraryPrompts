@@ -9,6 +9,7 @@ export { CopyButton, BookmarkButton, ShareButton, CategoryPill, TryPromptButton 
 export { SearchAutocomplete } from "./SearchAutocomplete";
 export { CommentsSection } from "./CommentsSection";
 export { BookPromoCard } from "./BookPromoCard";
+export { PromptEditor } from "./PromptEditor";
 
 // SEO Components
 export {
