@@ -5,8 +5,34 @@ import { Badge, type Vendor } from "@/components/ui/Badge";
 import { mockModels } from "@/lib/mock-data";
 
 export const metadata: Metadata = {
-    title: "AI Models - AI Library Prompts",
-    description: "Explore AI prompts optimized for different AI models including ChatGPT, Claude, Gemini, Grok, Llama, and Mistral.",
+    title: "AI Models & Prompts - ChatGPT, Claude, Gemini & More | AI Library Prompts",
+    description: "Browse AI prompts optimized for ChatGPT (GPT-4, GPT-5), Claude (Sonnet, Opus), Google Gemini, Grok, Llama, and Mistral. Find model-specific prompt templates and best practices.",
+    keywords: [
+        "ChatGPT prompts",
+        "Claude prompts",
+        "Gemini prompts",
+        "GPT-4 prompts",
+        "GPT-5 prompts",
+        "Claude Sonnet prompts",
+        "AI model prompts",
+        "Grok prompts",
+        "Llama prompts",
+    ],
+    openGraph: {
+        title: "AI Models & Optimized Prompts",
+        description: "Explore prompts for ChatGPT, Claude, Gemini, and more AI models",
+        type: "website",
+        siteName: "AI Library Prompts",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "AI Models & Optimized Prompts",
+        description: "Explore prompts for ChatGPT, Claude, Gemini, and more",
+        site: "@ailibraryprompts",
+    },
+    alternates: {
+        canonical: "/models",
+    },
 };
 
 interface VendorInfo {

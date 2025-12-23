@@ -5,6 +5,12 @@ export interface User {
     reputation: number;
     createdAt: Date;
     image?: string;
+    bio?: string;
+    website?: string;
+    twitter?: string;
+    github?: string;
+    specialty?: string[];
+    promptCount?: number;
 }
 
 export interface Category {

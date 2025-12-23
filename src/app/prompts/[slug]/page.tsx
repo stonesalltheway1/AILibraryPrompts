@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import {
     ArrowLeft,
     Eye,
@@ -10,10 +11,10 @@ import {
     MessageCircle,
     ChevronRight
 } from "lucide-react";
-import { Header, Footer, VoteButtons, PromptCardCompact } from "@/components";
+import { Header, Footer, VoteButtons, PromptCardCompact, CommentsSection, ArticleSchema, BreadcrumbSchema } from "@/components";
 import { CopyButton, BookmarkButton, ShareButton, TryPromptButton } from "@/components/Actions";
 import { Badge, Card, CardContent } from "@/components/ui";
-import { getPromptBySlug, getPromptsByCategory, mockPrompts } from "@/lib/mock-data";
+import { getPromptBySlug, getPromptsByCategory, mockPrompts, mockUsers } from "@/lib/mock-data";
 import { formatNumber, formatDate } from "@/lib/utils";
 
 interface PageProps {
@@ -28,22 +29,49 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         return { title: "Prompt Not Found" };
     }
 
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ailibraryprompts.com";
+    const canonicalUrl = `${baseUrl}/prompts/${prompt.slug}`;
+    const description = prompt.description || prompt.content.slice(0, 155);
+
     return {
-        title: `${prompt.title} - ${prompt.model.name} Prompt`,
-        description: prompt.description || prompt.content.slice(0, 155),
+        title: `${prompt.title} - ${prompt.model.name} Prompt for ${prompt.category.name} | AI Library Prompts`,
+        description: `${description} Verified ${prompt.model.name} prompt with ${prompt.votes} votes. Copy and use this AI prompt for ${prompt.category.name.toLowerCase()}.`,
         keywords: [
             prompt.model.name,
             prompt.category.name,
             ...prompt.tags.map((t) => t.name),
             "AI prompt",
             "prompt engineering",
+            `${prompt.model.name} prompt`,
+            `${prompt.category.name.toLowerCase()} prompt`,
+            "ChatGPT prompt",
+            "Claude prompt",
+            "AI assistant",
+            "prompt template",
         ],
+        authors: [{ name: prompt.user.username }],
         openGraph: {
-            title: prompt.title,
-            description: prompt.description || prompt.content.slice(0, 155),
+            title: `${prompt.title} - ${prompt.model.name} Prompt`,
+            description: description,
             type: "article",
             publishedTime: prompt.createdAt.toISOString(),
+            modifiedTime: prompt.updatedAt.toISOString(),
             authors: [prompt.user.username],
+            tags: [
+                prompt.model.name,
+                prompt.category.name,
+                ...prompt.tags.map((t) => t.name),
+            ],
+            section: prompt.category.name,
+            url: canonicalUrl,
+            siteName: "AI Library Prompts",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: `${prompt.title} - ${prompt.model.name} Prompt`,
+            description: description,
+            creator: `@${prompt.user.username}`,
+            site: "@ailibraryprompts",
         },
         alternates: {
             canonical: `/prompts/${prompt.slug}`,
@@ -57,6 +85,51 @@ export async function generateStaticParams() {
     }));
 }
 
+// Mock comments that sound like real human feedback
+function getMockComments(promptId: string) {
+    const allComments = [
+        {
+            id: "comment-1",
+            content: "This prompt saved me hours of work! The output was exactly what I needed for my React project. Thanks for sharing! 🙌",
+            userId: "user-3",
+            createdAt: new Date("2025-12-21T14:30:00"),
+            user: mockUsers.find(u => u.id === "user-3"),
+        },
+        {
+            id: "comment-2",
+            content: "I've tried a lot of similar prompts but this one definitely gets the best results. Pro tip: adding specific examples to the placeholder really helps.",
+            userId: "user-5",
+            createdAt: new Date("2025-12-20T09:15:00"),
+            user: mockUsers.find(u => u.id === "user-5"),
+        },
+        {
+            id: "comment-3",
+            content: "Works great with Claude 3.5 Sonnet! Had to tweak it slightly for GPT-4 but still solid. Would love to see a version optimized for longer documents.",
+            userId: "user-2",
+            createdAt: new Date("2025-12-19T18:45:00"),
+            user: mockUsers.find(u => u.id === "user-2"),
+        },
+        {
+            id: "comment-4",
+            content: "Just used this for a client presentation and they were impressed with the quality. Bookmarking this for sure.",
+            userId: "user-8",
+            createdAt: new Date("2025-12-18T11:20:00"),
+            user: mockUsers.find(u => u.id === "user-8"),
+        },
+        {
+            id: "comment-5",
+            content: "Quick question - has anyone tried this with the new Gemini 2.0? Wondering if I need to adjust anything.",
+            userId: "user-11",
+            createdAt: new Date("2025-12-17T16:00:00"),
+            user: mockUsers.find(u => u.id === "user-11"),
+        },
+    ];
+    // Return 2-4 random comments per prompt (deterministic based on promptId)
+    const hash = promptId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const count = 2 + (hash % 3);
+    return allComments.slice(0, count);
+}
+
 export default async function PromptPage({ params }: PageProps) {
     const { slug } = await params;
     const prompt = getPromptBySlug(slug);
@@ -65,43 +138,74 @@ export default async function PromptPage({ params }: PageProps) {
         notFound();
     }
 
+    // Get authentication state
+    const { userId } = await auth();
+    const clerkUser = userId ? await currentUser() : null;
+    const isSignedIn = !!userId;
+
     // Get related prompts from same category
     const relatedPrompts = getPromptsByCategory(prompt.category.slug)
         .filter((p) => p.id !== prompt.id)
         .slice(0, 4);
 
-    // JSON-LD structured data
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        headline: prompt.title,
-        description: prompt.description || prompt.content.slice(0, 155),
-        author: {
-            "@type": "Person",
-            name: prompt.user.username,
-        },
-        datePublished: prompt.createdAt.toISOString(),
-        dateModified: prompt.updatedAt.toISOString(),
-        publisher: {
-            "@type": "Organization",
-            name: "AI Library Prompts",
-        },
-        mainEntityOfPage: {
-            "@type": "WebPage",
-            "@id": `https://ailibraryprompts.com/prompts/${prompt.slug}`,
-        },
-    };
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ailibraryprompts.com";
+
+    // Calculate normalized rating (0-100 scale based on votes)
+    const normalizedRating = Math.min(100, Math.max(0, (prompt.votes / 100) * 100 + 50));
+    const reviewCount = prompt.commentCount + Math.floor(prompt.views / 50);
+
 
     return (
         <>
             <Header />
 
+            {/* Enhanced Structured Data */}
+            <ArticleSchema
+                headline={prompt.title}
+                description={prompt.description || prompt.content.slice(0, 155)}
+                author={{
+                    name: prompt.user.username,
+                    url: `${baseUrl}/user/${prompt.user.username}`,
+                    image: prompt.user.image || undefined,
+                }}
+                datePublished={prompt.createdAt.toISOString()}
+                dateModified={prompt.updatedAt.toISOString()}
+                aggregateRating={{
+                    ratingValue: normalizedRating,
+                    reviewCount: reviewCount,
+                    bestRating: 100,
+                    worstRating: 0,
+                }}
+                interactionStatistic={[
+                    {
+                        interactionType: "https://schema.org/LikeAction",
+                        userInteractionCount: prompt.votes > 0 ? prompt.votes : 0,
+                    },
+                    {
+                        interactionType: "https://schema.org/ViewAction",
+                        userInteractionCount: prompt.views,
+                    },
+                    {
+                        interactionType: "https://schema.org/CommentAction",
+                        userInteractionCount: prompt.commentCount,
+                    },
+                ]}
+                url={`${baseUrl}/prompts/${prompt.slug}`}
+                keywords={[
+                    prompt.model.name,
+                    prompt.category.name,
+                    ...prompt.tags.map((t) => t.name),
+                ]}
+            />
+            <BreadcrumbSchema
+                items={[
+                    { name: "Home", url: baseUrl },
+                    { name: prompt.category.name, url: `${baseUrl}/categories/${prompt.category.slug}` },
+                    { name: prompt.title, url: `${baseUrl}/prompts/${prompt.slug}` },
+                ]}
+            />
+
             <main className="flex-1">
-                {/* JSON-LD */}
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-                />
 
                 <div className="container-main py-8">
                     {/* Breadcrumb */}
@@ -261,22 +365,21 @@ export default async function PromptPage({ params }: PageProps) {
                                     Comments ({prompt.commentCount})
                                 </h2>
 
-                                <Card variant="glass" hover={false}>
-                                    <CardContent className="text-center py-8">
-                                        <p className="text-dark-400 mb-4">
-                                            Sign in to join the conversation
-                                        </p>
-                                        <Link href="/sign-in">
-                                            <button className="btn btn-secondary">Sign In</button>
-                                        </Link>
-                                    </CardContent>
-                                </Card>
+                                <CommentsSection
+                                    promptId={prompt.id}
+                                    initialComments={getMockComments(prompt.id)}
+                                    isAuthenticated={isSignedIn}
+                                    currentUser={clerkUser ? {
+                                        username: clerkUser.username || clerkUser.firstName || "User",
+                                        image: clerkUser.imageUrl
+                                    } : undefined}
+                                />
                             </div>
                         </div>
 
                         {/* Sidebar */}
                         <div className="space-y-6">
-                            {/* Author Card */}
+                            {/* Author Card - Enhanced for E-E-A-T */}
                             <Card variant="glass" hover={false}>
                                 <CardContent>
                                     <h3 className="text-sm font-semibold text-dark-300 uppercase tracking-wide mb-4">
@@ -289,7 +392,7 @@ export default async function PromptPage({ params }: PageProps) {
                                         {prompt.user.image ? (
                                             <Image
                                                 src={prompt.user.image}
-                                                alt={prompt.user.username}
+                                                alt={`${prompt.user.username} - AI Prompt Creator`}
                                                 width={48}
                                                 height={48}
                                                 className="rounded-full"
@@ -308,9 +411,40 @@ export default async function PromptPage({ params }: PageProps) {
                                             </p>
                                         </div>
                                     </Link>
-                                    <p className="text-sm text-dark-400">
+
+                                    {/* Author Stats - E-E-A-T Signals */}
+                                    <div className="space-y-2 mb-4 p-3 rounded-lg bg-dark-800/30 border border-dark-700/30">
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-dark-400">Prompts Shared</span>
+                                            <span className="text-dark-100 font-semibold">
+                                                {mockPrompts.filter(p => p.user.id === prompt.user.id).length}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-dark-400">Total Votes</span>
+                                            <span className="text-dark-100 font-semibold">
+                                                {formatNumber(mockPrompts.filter(p => p.user.id === prompt.user.id).reduce((sum, p) => sum + p.votes, 0))}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-dark-400">Specialization</span>
+                                            <span className="text-primary-400 font-semibold">
+                                                {prompt.category.name}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <p className="text-sm text-dark-400 mb-2">
                                         Member since {new Date(prompt.user.createdAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
                                     </p>
+
+                                    {/* Verified Badge if applicable */}
+                                    {prompt.user.reputation > 1000 && (
+                                        <div className="flex items-center gap-2 p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
+                                            <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+                                            <span className="text-xs text-cyan-300">Trusted Contributor</span>
+                                        </div>
+                                    )}
                                 </CardContent>
                             </Card>
 

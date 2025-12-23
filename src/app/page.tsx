@@ -14,13 +14,14 @@ import {
     TrendingUp,
     Clock
 } from "lucide-react";
-import { Header, Footer, PromptCard, CategoryPill } from "@/components";
+import { Header, Footer, PromptCard, CategoryPill, FAQSchema } from "@/components";
 import { Button, Input } from "@/components/ui";
 import {
     mockCategories,
     getTrendingPrompts,
     getFeaturedPrompts,
-    getRecentPrompts
+    getRecentPrompts,
+    mockModels
 } from "@/lib/mock-data";
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -39,9 +40,40 @@ export default function HomePage() {
     const featuredPrompts = getFeaturedPrompts(3);
     const recentPrompts = getRecentPrompts(6);
 
+    // FAQ data for rich snippets
+    const faqs = [
+        {
+            question: "What are AI prompts and why are they important?",
+            answer: "AI prompts are instructions or questions you give to AI assistants like ChatGPT, Claude, or Gemini to get specific outputs. Well-crafted prompts help you get better, more accurate responses from AI models, saving time and improving results for tasks like coding, writing, research, and creative work."
+        },
+        {
+            question: "How do I use the prompts from AI Library Prompts?",
+            answer: "Simply browse our collection of 100+ prompts, find one that matches your need, click to view the full prompt, and copy it. Then paste it into your AI assistant (ChatGPT, Claude, Gemini, etc.) and replace any placeholders with your specific information. Vote on prompts that work well to help the community!"
+        },
+        {
+            question: "Are these AI prompts free to use?",
+            answer: "Yes! All prompts in the AI Library Prompts are completely free to use. Our community-driven library is designed to help everyone get better results from AI assistants. You can copy, use, and share any prompt without restrictions."
+        },
+        {
+            question: "What AI models work with these prompts?",
+            answer: "Our prompts are tested with popular AI models including ChatGPT (GPT-4, GPT-3.5), Claude (Sonnet, Opus), Google Gemini, and other large language models. Each prompt is tagged with compatible models, and most prompts work across multiple AI assistants with minor adjustments."
+        },
+        {
+            question: "Can I submit my own AI prompts to the library?",
+            answer: "Absolutely! We encourage users to share prompts that have worked well for them. Click the 'Submit Prompt' button, provide details about your prompt including the AI model it works with, category, and description. Community voting helps surface the best prompts."
+        },
+        {
+            question: "How are prompts rated and verified?",
+            answer: "Prompts are rated through community voting. Users can upvote prompts that deliver good results and downvote those that don't. Prompts with high votes and positive community feedback may receive a 'Verified' badge, indicating they've been tested and approved by multiple users."
+        }
+    ];
+
     return (
         <>
             <Header />
+
+            {/* FAQ Schema for SEO */}
+            <FAQSchema questions={faqs} />
 
             <main className="flex-1">
                 {/* Hero Section */}
@@ -216,8 +248,8 @@ export default function HomePage() {
                 <section className="py-12 border-b border-dark-700/50">
                     <div className="container-main">
                         <div className="text-center mb-8">
-                            <h2 className="text-2xl font-bold text-dark-100 mb-2">Browse by Category</h2>
-                            <p className="text-dark-400">Find the perfect prompt for your use case</p>
+                            <h2 className="text-2xl font-bold text-dark-100 mb-2">Browse AI Prompts by Category</h2>
+                            <p className="text-dark-400">Find the perfect prompt template for your specific use case</p>
                         </div>
 
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -238,30 +270,74 @@ export default function HomePage() {
                                         key={category.slug}
                                         href={`/categories/${category.slug}`}
                                         className="group p-5 rounded-xl bg-dark-800/40 border border-dark-700/50 hover:border-primary-500/30 hover:bg-dark-800/60 transition-all duration-300"
+                                        aria-label={`Browse ${category.promptCount} ${category.name.toLowerCase()} AI prompts`}
                                     >
                                         <div className="flex items-center gap-3 mb-3">
                                             <div className="p-2 rounded-lg bg-dark-700/50 group-hover:bg-primary-500/10 transition-colors">
-                                                <Icon className="w-5 h-5 text-dark-300 group-hover:text-primary-400 transition-colors" />
+                                                <Icon className="w-5 h-5 text-dark-300 group-hover:text-primary-400 transition-colors" aria-hidden="true" />
                                             </div>
                                             <h3 className="font-semibold text-dark-100 group-hover:text-primary-400 transition-colors">
-                                                {category.name}
+                                                {category.name} Prompts
                                             </h3>
                                         </div>
                                         <p className="text-sm text-dark-400 line-clamp-2 mb-3">
                                             {category.description}
                                         </p>
                                         <span className="text-xs text-dark-500">
-                                            {category.promptCount} prompts
+                                            {category.promptCount} templates
                                         </span>
                                     </Link>
                                 );
                             })}
                         </div>
+
+                        <div className="text-center mt-8">
+                            <Link href="/categories" className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 font-medium">
+                                View All Categories
+                                <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Popular AI Models */}
+                <section className="py-12 border-b border-dark-700/50">
+                    <div className="container-main">
+                        <div className="text-center mb-8">
+                            <h2 className="text-2xl font-bold text-dark-100 mb-2">Browse Prompts by AI Model</h2>
+                            <p className="text-dark-400">Find optimized prompts for your favorite AI assistant</p>
+                        </div>
+
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                            {mockModels.slice(0, 6).map((model) => (
+                                <Link
+                                    key={model.id}
+                                    href={`/models/${model.slug}`}
+                                    className="group p-4 rounded-xl bg-dark-800/40 border border-dark-700/50 hover:border-primary-500/30 hover:bg-dark-800/60 transition-all duration-300 text-center"
+                                    aria-label={`View ${model.name} prompts`}
+                                >
+                                    <div className="text-2xl mb-2">{model.icon}</div>
+                                    <h3 className="font-semibold text-sm text-dark-100 group-hover:text-primary-400 transition-colors mb-1">
+                                        {model.name}
+                                    </h3>
+                                    <p className="text-xs text-dark-500">
+                                        {model.promptCount} prompts
+                                    </p>
+                                </Link>
+                            ))}
+                        </div>
+
+                        <div className="text-center mt-8">
+                            <Link href="/models" className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 font-medium">
+                                View All AI Models
+                                <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </div>
                     </div>
                 </section>
 
                 {/* CTA Section */}
-                <section className="py-16">
+                <section className="py-16 border-b border-dark-700/50">
                     <div className="container-main">
                         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary-900/50 to-secondary-900/50 border border-primary-700/30 p-8 md:p-12">
                             {/* Background effects */}
@@ -282,6 +358,46 @@ export default function HomePage() {
                                         <ArrowRight className="w-4 h-4" />
                                     </Button>
                                 </Link>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* FAQ Section */}
+                <section className="py-16">
+                    <div className="container-main">
+                        <div className="max-w-3xl mx-auto">
+                            <div className="text-center mb-12">
+                                <h2 className="text-2xl md:text-3xl font-bold text-dark-50 mb-3">
+                                    Frequently Asked Questions
+                                </h2>
+                                <p className="text-dark-400">
+                                    Everything you need to know about using AI Library Prompts
+                                </p>
+                            </div>
+
+                            <div className="space-y-4">
+                                {faqs.map((faq, index) => (
+                                    <details
+                                        key={index}
+                                        className="group rounded-xl bg-dark-800/40 border border-dark-700/50 hover:border-primary-500/30 transition-all duration-300"
+                                    >
+                                        <summary className="flex items-center justify-between cursor-pointer p-5 font-semibold text-dark-100 list-none">
+                                            <span className="text-left">{faq.question}</span>
+                                            <svg
+                                                className="w-5 h-5 text-dark-400 transition-transform group-open:rotate-180 shrink-0 ml-4"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </summary>
+                                        <div className="px-5 pb-5 pt-0 text-dark-300 leading-relaxed">
+                                            {faq.answer}
+                                        </div>
+                                    </details>
+                                ))}
                             </div>
                         </div>
                     </div>

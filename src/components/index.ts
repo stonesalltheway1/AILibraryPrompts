@@ -16,5 +16,7 @@ export {
     ItemListSchema,
     HowToSchema,
     BreadcrumbSchema,
-    FAQSchema
+    FAQSchema,
+    ArticleSchema,
+    SoftwareApplicationSchema
 } from "./StructuredData";

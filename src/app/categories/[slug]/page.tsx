@@ -15,7 +15,7 @@ import {
     Clock,
     Star
 } from "lucide-react";
-import { Header, Footer, PromptCard } from "@/components";
+import { Header, Footer, PromptCard, ItemListSchema, BreadcrumbSchema } from "@/components";
 import { Button } from "@/components/ui";
 import { getCategoryBySlug, getPromptsByCategory, mockCategories } from "@/lib/mock-data";
 
@@ -43,12 +43,37 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         return { title: "Category Not Found" };
     }
 
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ailibraryprompts.com";
+    const canonicalUrl = `${baseUrl}/categories/${slug}`;
+
     return {
-        title: `${category.name} AI Prompts - AI Library Prompts`,
-        description: `${category.description} Browse ${category.promptCount} curated prompts for ${category.name.toLowerCase()}.`,
+        title: `Best ${category.name} AI Prompts for ChatGPT, Claude & Gemini | AI Library Prompts`,
+        description: `${category.description} Browse ${category.promptCount} curated ${category.name.toLowerCase()} prompts with examples, ratings, and user reviews. Free AI prompt templates for ${category.name.toLowerCase()}.`,
+        keywords: [
+            `${category.name.toLowerCase()} prompts`,
+            `${category.name.toLowerCase()} AI prompts`,
+            `ChatGPT ${category.name.toLowerCase()}`,
+            `Claude ${category.name.toLowerCase()} prompts`,
+            `best ${category.name.toLowerCase()} prompts`,
+            "AI prompt library",
+            "prompt engineering",
+            "AI assistant prompts",
+        ],
         openGraph: {
+            title: `${category.name} AI Prompts - ${category.promptCount} Curated Templates`,
+            description: category.description,
+            type: "website",
+            url: canonicalUrl,
+            siteName: "AI Library Prompts",
+        },
+        twitter: {
+            card: "summary_large_image",
             title: `${category.name} AI Prompts`,
             description: category.description,
+            site: "@ailibraryprompts",
+        },
+        alternates: {
+            canonical: `/categories/${slug}`,
         },
     };
 }
@@ -87,9 +112,30 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
             });
     }
 
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ailibraryprompts.com";
+
     return (
         <>
             <Header />
+
+            {/* Structured Data */}
+            <ItemListSchema
+                name={`${category.name} AI Prompts`}
+                description={category.description}
+                items={prompts.slice(0, 10).map((prompt, index) => ({
+                    name: prompt.title,
+                    url: `${baseUrl}/prompts/${prompt.slug}`,
+                    position: index + 1,
+                    description: prompt.description || prompt.content.slice(0, 100),
+                }))}
+            />
+            <BreadcrumbSchema
+                items={[
+                    { name: "Home", url: baseUrl },
+                    { name: "Categories", url: `${baseUrl}/categories` },
+                    { name: category.name, url: `${baseUrl}/categories/${slug}` },
+                ]}
+            />
 
             <main className="flex-1">
                 <div className="container-main py-8">

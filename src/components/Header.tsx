@@ -54,9 +54,9 @@ export function Header() {
                         <Image
                             src="/logo.png"
                             alt="AI Library Prompts"
-                            width={240}
-                            height={56}
-                            className="h-12 w-auto"
+                            width={1200}
+                            height={300}
+                            className="h-10 w-auto md:h-12"
                             priority
                         />
                     </Link>

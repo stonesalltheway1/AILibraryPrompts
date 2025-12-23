@@ -15,8 +15,33 @@ import { Header, Footer } from "@/components";
 import { mockCategories } from "@/lib/mock-data";
 
 export const metadata: Metadata = {
-    title: "Browse Categories - AI Library Prompts",
-    description: "Explore AI prompts by category. Find the perfect prompts for coding, writing, business, research, creative projects, productivity, education, and marketing.",
+    title: "Browse AI Prompt Categories - ChatGPT, Claude & Gemini Prompts | AI Library Prompts",
+    description: "Explore 100+ AI prompts organized by category: coding, writing, business, research, creative, productivity, education, and marketing. Find the perfect AI prompt template for your use case.",
+    keywords: [
+        "AI prompt categories",
+        "ChatGPT prompts by category",
+        "coding prompts",
+        "writing AI prompts",
+        "business prompts",
+        "research prompts",
+        "creative AI prompts",
+        "productivity prompts",
+    ],
+    openGraph: {
+        title: "Browse AI Prompt Categories",
+        description: "Explore curated AI prompts organized by use case",
+        type: "website",
+        siteName: "AI Library Prompts",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Browse AI Prompt Categories",
+        description: "Explore curated AI prompts organized by use case",
+        site: "@ailibraryprompts",
+    },
+    alternates: {
+        canonical: "/categories",
+    },
 };
 
 const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {

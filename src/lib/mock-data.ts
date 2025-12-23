@@ -2,7 +2,7 @@ import { Category, AIModel, Prompt, User, Tag } from "./types";
 import { getExtendedPrompts } from "./prompt-library";
 
 // ============================================================================
-// USERS
+// USERS (with realistic profiles)
 // ============================================================================
 export const mockUsers: User[] = [
     {
@@ -11,6 +11,11 @@ export const mockUsers: User[] = [
         reputation: 890,
         createdAt: new Date("2025-11-15"),
         image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+        bio: "Senior prompt engineer with 5+ years in NLP. I specialize in crafting prompts that get results on the first try. Former AI researcher at Stanford.",
+        website: "https://promptmaster.dev",
+        twitter: "promptmaster_ai",
+        github: "promptmaster",
+        specialty: ["Prompt Engineering", "NLP", "Claude"],
     },
     {
         id: "user-2",
@@ -18,6 +23,9 @@ export const mockUsers: User[] = [
         reputation: 725,
         createdAt: new Date("2025-11-20"),
         image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face",
+        bio: "Creative writer turned AI enthusiast. I help people unlock the storytelling potential of LLMs. Published author and content strategist.",
+        twitter: "aiwhisperer",
+        specialty: ["Creative Writing", "Storytelling", "GPT-5"],
     },
     {
         id: "user-3",
@@ -25,6 +33,9 @@ export const mockUsers: User[] = [
         reputation: 580,
         createdAt: new Date("2025-11-22"),
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+        bio: "Full-stack developer obsessed with using AI to write better code. My prompts focus on clean, maintainable, production-ready output.",
+        github: "codecraftdev",
+        specialty: ["Coding", "TypeScript", "React"],
     },
     {
         id: "user-4",
@@ -32,6 +43,10 @@ export const mockUsers: User[] = [
         reputation: 445,
         createdAt: new Date("2025-12-01"),
         image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+        bio: "Digital artist exploring the intersection of human creativity and AI. I create prompts for stunning Midjourney and DALL-E generations.",
+        website: "https://creativeai.art",
+        twitter: "creativeai_art",
+        specialty: ["Image Generation", "Creative", "Art Direction"],
     },
     {
         id: "user-5",
@@ -39,6 +54,9 @@ export const mockUsers: User[] = [
         reputation: 320,
         createdAt: new Date("2025-12-05"),
         image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+        bio: "Data scientist by day, prompt engineer by passion. I specialize in getting AI to help with complex analysis and research tasks.",
+        github: "datagenius42",
+        specialty: ["Data Analysis", "Research", "Python"],
     },
     {
         id: "user-6",
@@ -46,6 +64,9 @@ export const mockUsers: User[] = [
         reputation: 275,
         createdAt: new Date("2025-12-08"),
         image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&h=100&fit=crop&crop=face",
+        bio: "Technical writer with 10 years experience. My prompts help you write clear documentation, API guides, and user manuals.",
+        website: "https://techwriterpro.com",
+        specialty: ["Documentation", "Technical Writing", "APIs"],
     },
     {
         id: "user-7",
@@ -53,6 +74,9 @@ export const mockUsers: User[] = [
         reputation: 380,
         createdAt: new Date("2025-12-03"),
         image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face",
+        bio: "DevOps engineer automating everything. I create prompts for infrastructure, CI/CD pipelines, and cloud architecture.",
+        github: "devops-ninja",
+        specialty: ["DevOps", "AWS", "Docker"],
     },
     {
         id: "user-8",
@@ -60,6 +84,9 @@ export const mockUsers: User[] = [
         reputation: 295,
         createdAt: new Date("2025-12-10"),
         image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face",
+        bio: "Marketing director who discovered the power of AI for content creation. Sharing prompts that convert browsers into buyers.",
+        twitter: "marketingmaven_",
+        specialty: ["Marketing", "Copywriting", "SEO"],
     },
     {
         id: "user-9",
@@ -67,6 +94,8 @@ export const mockUsers: User[] = [
         reputation: 420,
         createdAt: new Date("2025-11-28"),
         image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&crop=face",
+        bio: "PhD researcher helping academics use AI ethically. My prompts focus on literature reviews, research synthesis, and academic writing.",
+        specialty: ["Academic Writing", "Research", "Education"],
     },
     {
         id: "user-10",
@@ -74,6 +103,10 @@ export const mockUsers: User[] = [
         reputation: 510,
         createdAt: new Date("2025-11-25"),
         image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop&crop=face",
+        bio: "3x founder using AI to build faster. Sharing the exact prompts I use for business plans, pitch decks, and market analysis.",
+        twitter: "startup_ai_guy",
+        website: "https://aiforstartups.io",
+        specialty: ["Business", "Startups", "Strategy"],
     },
     {
         id: "user-11",
@@ -81,6 +114,9 @@ export const mockUsers: User[] = [
         reputation: 340,
         createdAt: new Date("2025-12-05"),
         image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+        bio: "UX designer leveraging AI for faster prototyping. Creating prompts for user research, personas, and design briefs.",
+        website: "https://uxwith.ai",
+        specialty: ["UX Design", "User Research", "Figma"],
     },
     {
         id: "user-12",
@@ -88,6 +124,9 @@ export const mockUsers: User[] = [
         reputation: 465,
         createdAt: new Date("2025-11-30"),
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+        bio: "ML engineer at a Fortune 500. I create prompts for data cleaning, analysis automation, and model documentation.",
+        github: "ds_engineer",
+        specialty: ["Machine Learning", "Data Science", "Python"],
     },
     {
         id: "user-13",
@@ -95,6 +134,9 @@ export const mockUsers: User[] = [
         reputation: 255,
         createdAt: new Date("2025-12-12"),
         image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&fit=crop&crop=face",
+        bio: "YouTube creator with 500K subs. Using AI to scale content production without losing authenticity. Happy to share what works!",
+        twitter: "content_ai_tips",
+        specialty: ["Content Creation", "YouTube", "Social Media"],
     },
     {
         id: "user-14",
@@ -102,6 +144,9 @@ export const mockUsers: User[] = [
         reputation: 395,
         createdAt: new Date("2025-12-01"),
         image: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=100&h=100&fit=crop&crop=face",
+        bio: "Building web apps for 8 years. AI has 10x'd my productivity. Sharing prompts for Next.js, React, and TypeScript development.",
+        github: "fullstackpro",
+        specialty: ["Next.js", "React", "Full Stack"],
     },
     {
         id: "user-15",
@@ -109,8 +154,11 @@ export const mockUsers: User[] = [
         reputation: 310,
         createdAt: new Date("2025-12-07"),
         image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&h=100&fit=crop&crop=face",
+        bio: "PM at a Series B startup. I use AI to speed up PRDs, user stories, and competitive analysis. Less docs, more shipping.",
+        specialty: ["Product Management", "PRDs", "User Stories"],
     },
 ];
+
 
 // ============================================================================
 // CATEGORIES

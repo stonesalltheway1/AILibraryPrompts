@@ -22,6 +22,7 @@ interface ItemListSchemaProps {
         name: string;
         url: string;
         position: number;
+        description?: string;
     }>;
 }
 
@@ -29,6 +30,46 @@ interface HowToSchemaProps {
     name: string;
     description: string;
     step: string;
+}
+
+interface ArticleSchemaProps {
+    headline: string;
+    description: string;
+    author: {
+        name: string;
+        url?: string;
+        image?: string;
+    };
+    datePublished: string;
+    dateModified: string;
+    image?: string;
+    aggregateRating?: {
+        ratingValue: number;
+        reviewCount: number;
+        bestRating?: number;
+        worstRating?: number;
+    };
+    interactionStatistic?: Array<{
+        interactionType: string;
+        userInteractionCount: number;
+    }>;
+    url: string;
+    keywords?: string[];
+}
+
+interface SoftwareApplicationSchemaProps {
+    name: string;
+    description: string;
+    applicationCategory: string;
+    operatingSystem: string;
+    offers?: {
+        price: string;
+        priceCurrency: string;
+    };
+    aggregateRating?: {
+        ratingValue: number;
+        reviewCount: number;
+    };
 }
 
 // Organization Schema - for brand identity in search
@@ -109,6 +150,7 @@ export function ItemListSchema({ name, description, items }: ItemListSchemaProps
             position: item.position,
             name: item.name,
             url: item.url,
+            ...(item.description && { description: item.description }),
         })),
     };
 
@@ -207,6 +249,116 @@ export function FAQSchema({
     return (
         <Script
             id="faq-schema"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+    );
+}
+
+// Enhanced Article Schema with E-E-A-T signals - for prompt pages
+export function ArticleSchema({
+    headline,
+    description,
+    author,
+    datePublished,
+    dateModified,
+    image,
+    aggregateRating,
+    interactionStatistic,
+    url,
+    keywords,
+}: ArticleSchemaProps) {
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline,
+        description,
+        author: {
+            "@type": "Person",
+            name: author.name,
+            ...(author.url && { url: author.url }),
+            ...(author.image && { image: author.image }),
+        },
+        datePublished,
+        dateModified,
+        ...(image && { image }),
+        publisher: {
+            "@type": "Organization",
+            name: "AI Library Prompts",
+            logo: {
+                "@type": "ImageObject",
+                url: "https://ailibraryprompts.com/logo.png",
+            },
+        },
+        mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": url,
+        },
+        ...(aggregateRating && {
+            aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: aggregateRating.ratingValue,
+                reviewCount: aggregateRating.reviewCount,
+                bestRating: aggregateRating.bestRating || 100,
+                worstRating: aggregateRating.worstRating || 0,
+            },
+        }),
+        ...(interactionStatistic && {
+            interactionStatistic: interactionStatistic.map((stat) => ({
+                "@type": "InteractionCounter",
+                interactionType: stat.interactionType,
+                userInteractionCount: stat.userInteractionCount,
+            })),
+        }),
+        ...(keywords && keywords.length > 0 && { keywords: keywords.join(", ") }),
+    };
+
+    return (
+        <Script
+            id="article-schema"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+    );
+}
+
+// SoftwareApplication Schema - for AI prompt tools
+export function SoftwareApplicationSchema({
+    name,
+    description,
+    applicationCategory,
+    operatingSystem,
+    offers,
+    aggregateRating,
+}: SoftwareApplicationSchemaProps) {
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name,
+        description,
+        applicationCategory,
+        operatingSystem,
+        ...(offers && {
+            offers: {
+                "@type": "Offer",
+                price: offers.price,
+                priceCurrency: offers.priceCurrency,
+            },
+        }),
+        ...(aggregateRating && {
+            aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: aggregateRating.ratingValue,
+                reviewCount: aggregateRating.reviewCount,
+                bestRating: 100,
+                worstRating: 0,
+            },
+        }),
+    };
+
+    return (
+        <Script
+            id="software-schema"
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />

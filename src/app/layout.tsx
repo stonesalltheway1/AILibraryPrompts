@@ -6,11 +6,11 @@ import "./globals.css";
 export const metadata: Metadata = {
     metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
     title: {
-        default: "AI Library Prompts - Discover AI Prompts That Actually Work",
+        default: "AI Library Prompts - 100+ Best ChatGPT, Claude & Gemini Prompts That Actually Work",
         template: "%s | AI Library Prompts",
     },
     description:
-        "The largest community-driven collection of AI prompts for ChatGPT, Claude, Gemini, and more. Find, share, and vote on the best prompts for coding, writing, business, and creativity.",
+        "Discover 100+ free AI prompts for ChatGPT, Claude Sonnet, Gemini, and GPT-4. Community-curated prompt library for coding, writing, business, research, and creative tasks. Copy, vote, and share the best AI prompt templates.",
     keywords: [
         "AI prompts",
         "ChatGPT prompts",
@@ -18,11 +18,17 @@ export const metadata: Metadata = {
         "Gemini prompts",
         "prompt engineering",
         "AI prompt library",
-        "GPT-5 prompts",
-        "Claude 4 prompts",
+        "GPT-4 prompts",
+        "Claude Sonnet prompts",
         "best AI prompts",
+        "free AI prompts",
+        "prompt templates",
+        "AI assistant prompts",
+        "coding prompts",
+        "writing prompts AI",
+        "business AI prompts",
     ],
-    authors: [{ name: "AI Library Prompts" }],
+    authors: [{ name: "AI Library Prompts Team" }],
     creator: "AI Library Prompts",
     publisher: "AI Library Prompts",
     robots: {
@@ -41,24 +47,25 @@ export const metadata: Metadata = {
         locale: "en_US",
         url: "/",
         siteName: "AI Library Prompts",
-        title: "AI Library Prompts - Discover AI Prompts That Actually Work",
+        title: "100+ Best AI Prompts for ChatGPT, Claude & Gemini That Actually Work",
         description:
-            "The largest community-driven collection of AI prompts for ChatGPT, Claude, Gemini, and more.",
+            "Free community-driven AI prompt library. Browse, copy, and vote on 100+ tested prompts for coding, writing, business, and creativity.",
         images: [
             {
                 url: "/og-image.png",
                 width: 1200,
                 height: 630,
-                alt: "AI Library Prompts",
+                alt: "AI Library Prompts - Community AI Prompt Library",
             },
         ],
     },
     twitter: {
         card: "summary_large_image",
-        title: "AI Library Prompts - Discover AI Prompts That Actually Work",
+        title: "100+ Best AI Prompts for ChatGPT, Claude & Gemini",
         description:
-            "The largest community-driven collection of AI prompts for ChatGPT, Claude, Gemini, and more.",
+            "Free community-driven AI prompt library with tested prompts for coding, writing, business, and more.",
         images: ["/og-image.png"],
+        site: "@ailibraryprompts",
     },
     icons: {
         icon: "/favicon.ico",
@@ -66,6 +73,9 @@ export const metadata: Metadata = {
         apple: "/apple-touch-icon.png",
     },
     manifest: "/site.webmanifest",
+    alternates: {
+        canonical: "/",
+    },
 };
 
 export const viewport: Viewport = {
@@ -90,13 +100,39 @@ export default function RootLayout({
             colorBackground: "#0f172a",
             colorInputBackground: "#1e293b",
             colorInputText: "#f8fafc",
+            colorText: "#f8fafc",
+            colorTextSecondary: "#94a3b8",
+            colorTextOnPrimaryBackground: "#ffffff",
+            colorDanger: "#ef4444",
+            colorSuccess: "#22c55e",
+            colorWarning: "#f59e0b",
+            colorNeutral: "#f8fafc",
         },
         elements: {
-            card: "bg-slate-900 border border-slate-700",
+            // Card/modal styling
+            card: "bg-slate-900 border border-slate-700 shadow-xl",
             headerTitle: "text-white",
             headerSubtitle: "text-slate-400",
-            formButtonPrimary: "bg-purple-600 hover:bg-purple-700",
+            // Form elements
+            formButtonPrimary: "bg-purple-600 hover:bg-purple-700 text-white",
+            formFieldInput: "bg-slate-800 border-slate-600 text-white placeholder-slate-400",
+            formFieldLabel: "text-slate-300",
             footerActionLink: "text-purple-400 hover:text-purple-300",
+            // User button (profile dropdown)
+            userButtonPopoverCard: "bg-slate-900 border border-slate-700",
+            userButtonPopoverActionButton: "text-slate-200 hover:bg-slate-800",
+            userButtonPopoverActionButtonText: "text-slate-200",
+            userButtonPopoverActionButtonIcon: "text-slate-400",
+            userButtonPopoverFooter: "border-slate-700",
+            // User preview (name/email in dropdown)
+            userPreviewMainIdentifier: "text-white font-medium",
+            userPreviewSecondaryIdentifier: "text-slate-400",
+            // Development mode banner
+            badge: "bg-orange-500 text-white",
+            dividerLine: "bg-slate-700",
+            // Menu items
+            menuButton: "text-slate-200 hover:bg-slate-800",
+            menuItem: "text-slate-200 hover:bg-slate-800",
         }
     };
 
