@@ -35,7 +35,7 @@ export default function AboutPage() {
                                     <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-amber-500/20 rounded-full blur-xl" />
                                     <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-dark-700/50 shadow-2xl">
                                         <Image
-                                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+                                            src="/images/headshot.jpg"
                                             alt="Eric Keller - AI Communication Strategist"
                                             fill
                                             className="object-cover"
@@ -85,7 +85,7 @@ export default function AboutPage() {
                             {/* Stats */}
                             <div className="grid grid-cols-3 gap-4 mb-8">
                                 <div className="text-center p-4 rounded-xl bg-dark-800/40 border border-dark-700/50">
-                                    <div className="text-2xl font-bold text-primary-400 mb-1">315</div>
+                                    <div className="text-2xl font-bold text-primary-400 mb-1">215</div>
                                     <div className="text-sm text-dark-400">Pages in Book</div>
                                 </div>
                                 <div className="text-center p-4 rounded-xl bg-dark-800/40 border border-dark-700/50">

@@ -16,7 +16,7 @@ const BOOK_DATA = {
     amazonUrl: "https://www.amazon.com/dp/B0FPK6Y2ZB",
     coverImage: "/images/bookcover.jpg",
     rating: 5.0,
-    pages: 315,
+    pages: 215,
     kindlePrice: "$17.99",
     isKindleUnlimited: true,
 };

@@ -24,7 +24,7 @@ export function BookSchema({ className }: BookSchemaProps) {
         },
         "datePublished": "2025-09-02",
         "isbn": "B0FPK6Y2ZB",
-        "numberOfPages": 315,
+        "numberOfPages": 215,
         "bookFormat": "https://schema.org/EBook",
         "inLanguage": "en",
         "description": "Stop Getting Generic Answers. Start Building Your Professional Future. The gap between a casual user and a top-tier professional isn't knowing more AI tricks; it's having a system. The Prompt Architect is a systematic, no-fluff guide that transforms you from a simple AI user into a designer of sophisticated, AI-augmented workflows.",
