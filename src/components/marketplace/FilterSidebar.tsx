@@ -16,7 +16,6 @@ export interface FilterState {
     models: string[];
     priceRange: [number, number];
     minRating: number;
-    rating?: number;
     sortBy: "popular" | "newest" | "price-low" | "price-high" | "rating";
 }
 

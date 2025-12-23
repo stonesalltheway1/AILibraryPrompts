@@ -26,7 +26,7 @@ export default function MarketplacePage() {
         categories: [],
         models: [],
         priceRange: [0, 100],
-        rating: 0,
+        minRating: 0,
         sortBy: "popular",
     });
     const [page, setPage] = useState(1);
@@ -64,7 +64,7 @@ export default function MarketplacePage() {
             if (filters.models.length === 1) params.append("model", filters.models[0]);
             if (filters.priceRange[0] > 0) params.append("minPrice", filters.priceRange[0].toString());
             if (filters.priceRange[1] < 100) params.append("maxPrice", filters.priceRange[1].toString());
-            if (filters.rating > 0) params.append("minRating", filters.rating.toString());
+            if (filters.minRating > 0) params.append("minRating", filters.minRating.toString());
             params.append("sortBy", filters.sortBy);
             params.append("page", page.toString());
             params.append("limit", "12");
@@ -221,7 +221,7 @@ export default function MarketplacePage() {
                                                     categories: [],
                                                     models: [],
                                                     priceRange: [0, 100],
-                                                    rating: 0,
+                                                    minRating: 0,
                                                     sortBy: "popular",
                                                 });
                                             }}>

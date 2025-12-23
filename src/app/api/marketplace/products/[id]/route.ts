@@ -2,6 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@clerk/nextjs/server';
 
+// Type for review with buyer relation
+interface ProductReviewWithBuyer {
+    id: string;
+    rating: number;
+    title: string | null;
+    content: string | null;
+    isVerified: boolean;
+    createdAt: Date;
+    buyer: {
+        displayName: string | null;
+        avatarUrl: string | null;
+    };
+}
+
 // GET /api/marketplace/products/[id] - Get product details
 export async function GET(
     request: NextRequest,
@@ -102,7 +116,7 @@ export async function GET(
                 isFeatured: product.isFeatured,
                 createdAt: product.createdAt,
                 seller: product.seller,
-                reviews: product.reviews.map((review) => ({
+                reviews: product.reviews.map((review: ProductReviewWithBuyer) => ({
                     id: review.id,
                     rating: review.rating,
                     title: review.title,
