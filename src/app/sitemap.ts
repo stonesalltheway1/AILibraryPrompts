@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { mockPrompts, mockCategories, mockModels } from "@/lib/mock-data";
+import { getAllCombinedPrompts, mockCategories, mockModels } from "@/lib/mock-data";
 
 /**
  * Generate sitemap for SEO
@@ -65,8 +65,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.7,
     }));
 
-    // Prompt pages
-    const promptPages: MetadataRoute.Sitemap = mockPrompts.map((prompt) => ({
+    // Prompt pages - includes all 100 prompts
+    const promptPages: MetadataRoute.Sitemap = getAllCombinedPrompts().map((prompt) => ({
         url: `${baseUrl}/prompts/${prompt.slug}`,
         lastModified: prompt.updatedAt,
         changeFrequency: "weekly" as const,

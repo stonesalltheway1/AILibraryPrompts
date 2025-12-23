@@ -1,4 +1,5 @@
 import { Category, AIModel, Prompt, User, Tag } from "./types";
+import { getExtendedPrompts } from "./prompt-library";
 
 // ============================================================================
 // USERS
@@ -121,7 +122,7 @@ export const mockCategories: Category[] = [
         slug: "coding",
         description: "Prompts for debugging, code generation, refactoring, and software development",
         icon: "Code2",
-        promptCount: 12,
+        promptCount: 20,
     },
     {
         id: "cat-2",
@@ -129,7 +130,7 @@ export const mockCategories: Category[] = [
         slug: "writing",
         description: "Blog posts, emails, creative fiction, copywriting, and content creation",
         icon: "Pencil",
-        promptCount: 9,
+        promptCount: 12,
     },
     {
         id: "cat-3",
@@ -137,7 +138,7 @@ export const mockCategories: Category[] = [
         slug: "business",
         description: "Proposals, analysis, strategy, presentations, and professional documents",
         icon: "Briefcase",
-        promptCount: 8,
+        promptCount: 15,
     },
     {
         id: "cat-4",
@@ -145,7 +146,7 @@ export const mockCategories: Category[] = [
         slug: "research",
         description: "Summarization, data analysis, literature reviews, and academic work",
         icon: "BookOpen",
-        promptCount: 7,
+        promptCount: 10,
     },
     {
         id: "cat-5",
@@ -161,7 +162,7 @@ export const mockCategories: Category[] = [
         slug: "productivity",
         description: "Task management, planning, organization, and workflow optimization",
         icon: "Target",
-        promptCount: 6,
+        promptCount: 10,
     },
     {
         id: "cat-7",
@@ -177,7 +178,7 @@ export const mockCategories: Category[] = [
         slug: "marketing",
         description: "Ad copy, SEO, social media, campaigns, and brand strategy",
         icon: "Megaphone",
-        promptCount: 7,
+        promptCount: 13,
     },
 ];
 
@@ -737,21 +738,32 @@ Follow clean code principles and modern best practices.`,
 // HELPER FUNCTIONS
 // ============================================================================
 
+// Cached combined prompts for performance
+let _allPrompts: Prompt[] | null = null;
+
+// Get all prompts from both sources (original + extended)
+export function getAllCombinedPrompts(): Prompt[] {
+    if (!_allPrompts) {
+        _allPrompts = [...mockPrompts, ...getExtendedPrompts()];
+    }
+    return _allPrompts;
+}
+
 export function getPromptBySlug(slug: string): Prompt | undefined {
-    return mockPrompts.find((p) => p.slug === slug);
+    return getAllCombinedPrompts().find((p) => p.slug === slug);
 }
 
 export function getPromptsByCategory(categorySlug: string): Prompt[] {
-    return mockPrompts.filter((p) => p.category.slug === categorySlug);
+    return getAllCombinedPrompts().filter((p) => p.category.slug === categorySlug);
 }
 
 export function getPromptsByModel(modelSlug: string): Prompt[] {
-    return mockPrompts.filter((p) => p.model.slug === modelSlug);
+    return getAllCombinedPrompts().filter((p) => p.model.slug === modelSlug);
 }
 
 export function getTrendingPrompts(limit = 6): Prompt[] {
     // Simple trending algorithm: votes / age
-    return [...mockPrompts]
+    return [...getAllCombinedPrompts()]
         .sort((a, b) => {
             const ageA = (Date.now() - a.createdAt.getTime()) / (1000 * 60 * 60);
             const ageB = (Date.now() - b.createdAt.getTime()) / (1000 * 60 * 60);
@@ -763,17 +775,17 @@ export function getTrendingPrompts(limit = 6): Prompt[] {
 }
 
 export function getFeaturedPrompts(limit = 3): Prompt[] {
-    return mockPrompts.filter((p) => p.featured).slice(0, limit);
+    return getAllCombinedPrompts().filter((p) => p.featured).slice(0, limit);
 }
 
 export function getRecentPrompts(limit = 6): Prompt[] {
-    return [...mockPrompts]
+    return [...getAllCombinedPrompts()]
         .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
         .slice(0, limit);
 }
 
 export function getTopPrompts(limit = 10): Prompt[] {
-    return [...mockPrompts]
+    return [...getAllCombinedPrompts()]
         .sort((a, b) => b.votes - a.votes)
         .slice(0, limit);
 }
@@ -794,7 +806,7 @@ export function getTopContributors(limit = 10): User[] {
 
 export function searchPrompts(query: string): Prompt[] {
     const lowerQuery = query.toLowerCase();
-    return mockPrompts.filter(
+    return getAllCombinedPrompts().filter(
         (p) =>
             p.title.toLowerCase().includes(lowerQuery) ||
             p.description?.toLowerCase().includes(lowerQuery) ||

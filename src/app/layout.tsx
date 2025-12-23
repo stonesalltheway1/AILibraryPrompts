@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import { OrganizationSchema, WebSiteSchema } from "@/components";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -102,6 +103,9 @@ export default function RootLayout({
     const content = (
         <html lang="en" suppressHydrationWarning>
             <body className="min-h-screen bg-dark-950 text-dark-50 antialiased">
+                {/* Global SEO Structured Data */}
+                <OrganizationSchema />
+                <WebSiteSchema />
                 <div className="relative flex min-h-screen flex-col">
                     {children}
                 </div>

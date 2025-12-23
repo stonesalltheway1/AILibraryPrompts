@@ -1,0 +1,335 @@
+{
+  "categories": [
+    {
+      "name": "Coding",
+      "description": "Prompts for debugging, code generation, refactoring, and software development",
+      "promptCount": 12,
+      "prompts": [
+        "Identify the bug in the following code snippet: [insert code here]. Explain why it fails and provide a fix.",
+        "I'm getting an error [error message] in [language/framework]. What likely causes it and how can I fix it?",
+        "Refactor the following [language] code to improve readability and performance: [insert code].",
+        "Implement [algorithm or function] in [language] that [does X requirement].",
+        "Convert this code from [Language A] to [Language B]: [insert code].",
+        "Write unit tests for the following function using [testing framework]: [insert function code].",
+        "Explain what this code snippet does line by line: [insert code].",
+        "Optimize the following code for speed and memory usage: [insert code].",
+        "Design a basic software component for [purpose] and explain your design decisions.",
+        "Outline a high-level system architecture for a [type of application], including its key components and interactions.",
+        "Review the following code and suggest improvements or potential bugs: [insert code].",
+        "Document the function [function name] in [language], explaining its purpose, parameters, and return values."
+      ]
+    },
+    {
+      "name": "Writing",
+      "description": "Blog posts, emails, creative fiction, copywriting, and content creation",
+      "promptCount": 9,
+      "prompts": [
+        "Write a blog post outline about [topic] targeted at [audience].",
+        "Draft a friendly yet professional email to [recipient] about [subject].",
+        "Write a short story in the [genre] genre about [brief scenario].",
+        "Rewrite the following text in a more engaging tone: [insert text].",
+        "Compose a persuasive product description for [product], highlighting its key benefits.",
+        "Generate a catchy headline for an article about [topic].",
+        "Produce an engaging introduction paragraph for an article about [topic].",
+        "Write a strong conclusion for an essay about [topic] that reinforces the main points.",
+        "Provide five creative content ideas for a blog or video on [theme]."
+      ]
+    },
+    {
+      "name": "Business",
+      "description": "Proposals, analysis, strategy, presentations, and professional documents",
+      "promptCount": 8,
+      "prompts": [
+        "Write a mission statement for a [type of business] that highlights its core values and goals.",
+        "Outline a basic business plan for a [industry] startup idea, covering target market, revenue model, and operations.",
+        "Generate a SWOT analysis for [company or product], including strengths, weaknesses, opportunities, and threats.",
+        "Draft a professional project proposal to convince stakeholders to support [initiative or project].",
+        "Provide five strategies to improve [aspect, e.g. employee satisfaction or customer retention] in a small business.",
+        "Summarize the key differences between [Strategy A] and [Strategy B] for business growth.",
+        "Create an executive summary for a report on [business topic].",
+        "List the essential steps to manage a successful project rollout in [domain]."
+      ]
+    },
+    {
+      "name": "Research",
+      "description": "Summarization, data analysis, literature reviews, and academic work",
+      "promptCount": 7,
+      "prompts": [
+        "Summarize the main findings of a research article about [topic] in plain language.",
+        "Perform a brief literature review on [topic] and list five key sources with their insights.",
+        "Given the following data or results [provide data summary], what patterns or insights can you identify?",
+        "Generate three research questions related to [topic] that could be explored further.",
+        "Suggest an appropriate methodology to study the research question: [research question].",
+        "Assess the credibility of [source or claim] and explain your reasoning.",
+        "Format the following reference information into APA style: [details of source]."
+      ]
+    },
+    {
+      "name": "Creative",
+      "description": "Image generation prompts, story ideas, artistic concepts, and brainstorming",
+      "promptCount": 10,
+      "prompts": [
+        "Come up with a captivating story idea about [scenario or theme].",
+        "Write a vivid description of a [place or scene] to set the stage in a story.",
+        "Brainstorm five unusual creative uses for [everyday object].",
+        "Design a fictional world where [some condition holds], describing its key features and rules.",
+        "Create a detailed character profile for a [character role] including background, personality, and goals.",
+        "Brainstorm a creative concept for an art project that combines [concept1] and [concept2].",
+        "A majestic castle floating in the clouds at sunrise, digital art, by Hayao Miyazaki and Salvador Dalí, highly detailed.",
+        "A bustling futuristic city street at night, illuminated by neon signs and flying vehicles, cinematic high-contrast scene.",
+        "Propose an unusual plot twist for a mystery story involving [element].",
+        "List five imaginative themes for a fantasy art series."
+      ]
+    },
+    {
+      "name": "Productivity",
+      "description": "Task management, planning, organization, and workflow optimization",
+      "promptCount": 6,
+      "prompts": [
+        "Organize my to-do list [list of tasks] into a prioritized schedule for the week.",
+        "Help me break down a large project [describe project] into smaller, manageable tasks.",
+        "Suggest tips to eliminate distractions while working from home.",
+        "Design a morning routine to boost productivity for someone who [description of situation or role].",
+        "Prioritize the following tasks using the Eisenhower matrix: [list of tasks].",
+        "Create a simple system to track habits and progress toward personal goals."
+      ]
+    },
+    {
+      "name": "Education",
+      "description": "Lesson plans, explanations, tutoring, and learning assistance",
+      "promptCount": 8,
+      "prompts": [
+        "Create a lesson plan for teaching [topic] to [grade level or audience], including objectives and activities.",
+        "Explain [complex concept] in simple terms so that a [target age or level] student can understand.",
+        "Generate five practice questions (with answers) to test understanding of [topic].",
+        "Provide an example to illustrate how [concept] works in real life.",
+        "Suggest a strategy to help a student struggling with [subject or concept].",
+        "Outline a four-week study plan to learn [topic] from basics to advanced.",
+        "Devise a fun interactive activity or experiment to demonstrate [concept].",
+        "Summarize the key points of [historical event or scientific theory] for a quick review."
+      ]
+    },
+    {
+      "name": "Marketing",
+      "description": "Ad copy, SEO, social media, campaigns, and brand strategy",
+      "promptCount": 7,
+      "prompts": [
+        "Write a compelling Facebook ad copy for [product/service] targeting [audience].",
+        "Generate three catchy taglines for a brand of [product] that emphasize its unique value.",
+        "Outline a basic social media campaign strategy for launching [new product or service].",
+        "Suggest five SEO keyword phrases related to [business/topic] and how to incorporate them into a blog post.",
+        "Draft a friendly email newsletter introduction promoting [a special offer or event].",
+        "Describe a unique selling proposition (USP) for [business or product] that sets it apart from competitors.",
+        "Propose a creative influencer marketing idea to boost brand awareness for [brand or product]."
+      ]
+    }
+  ],
+  "models": [
+    {
+      "name": "OpenAI GPT-5 series and reasoning models",
+      "promptCount": 27,
+      "models": [
+        {
+          "name": "GPT-5",
+          "promptCount": 8,
+          "prompts": [
+            "Analyze the pros and cons of implementing a universal basic income policy, considering economic and social perspectives.",
+            "Draft a short science fiction story about the first human born on Mars and the challenges they face.",
+            "Solve this math word problem step by step: [problem description].",
+            "Explain the concept of quantum computing and its potential impact in simple terms.",
+            "Design a comprehensive plan to reduce carbon emissions for a mid-sized city.",
+            "Given a long paragraph of text [insert text], extract the key points and present them as bullet items.",
+            "Write a piece of code in [language] that demonstrates how to use [specific feature or library], including comments explaining each step.",
+            "Take the role of a career counselor and provide advice for someone transitioning from [Field A] to [Field B]."
+          ]
+        },
+        {
+          "name": "GPT-5.1",
+          "promptCount": 5,
+          "prompts": [
+            "Solve this complex riddle or puzzle: [puzzle description].",
+            "Perform an in-depth literary analysis of the themes and symbols in [literary work].",
+            "Optimize the following Python code for speed and clarity: [insert code snippet].",
+            "Translate a technical document from English to Spanish, ensuring accurate use of technical terminology.",
+            "Provide a step-by-step explanation for deriving the formula for [scientific or mathematical concept]."
+          ]
+        },
+        {
+          "name": "GPT-5.2",
+          "promptCount": 7,
+          "prompts": [
+            "Review the logic of this argument [insert argument text] and identify any fallacies or flaws.",
+            "Brainstorm innovative use cases for AI in the healthcare industry and discuss potential challenges for each.",
+            "Summarize the plot of [classic literature title] and explain its main moral or lesson.",
+            "Write a formal proof or thorough explanation for the statement: [insert mathematical or logical statement].",
+            "Compose a heartfelt letter of recommendation for an employee who excelled in [skill or project].",
+            "Critique a proposed software architecture for [system description], noting strengths and potential issues.",
+            "Emulate the style of Shakespeare to write a sonnet about modern technology."
+          ]
+        },
+        {
+          "name": "o3",
+          "promptCount": 4,
+          "prompts": [
+            "Break down the steps to solve the equation: [mathematical equation or problem].",
+            "If X > Y and Y > Z, what can we deduce about the relationship between X and Z? Explain your reasoning.",
+            "Outline a decision tree to help determine whether a person should rent or buy a house, based on financial and personal factors.",
+            "Explain why the sky is blue in a way a 10-year-old could understand."
+          ]
+        },
+        {
+          "name": "o4-mini",
+          "promptCount": 3,
+          "prompts": [
+            "What is the capital of [Country] and one interesting fact about it?",
+            "Translate the phrase \"Good morning, how are you?\" into French.",
+            "Calculate the total of 5 + 7 * 2 - 3, explaining the order of operations."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Anthropic Claude 4 series models",
+      "promptCount": 22,
+      "models": [
+        {
+          "name": "Claude Opus 4",
+          "promptCount": 6,
+          "prompts": [
+            "Summarize a 10-page document about [topic] into a few paragraphs highlighting the key points.",
+            "Draft a diplomatic letter responding to a customer complaint about [issue], maintaining a polite and understanding tone.",
+            "Explain the philosophical differences between the theories of [Philosopher A] and [Philosopher B].",
+            "Outline a comprehensive training program for new employees at a [industry] company.",
+            "Imagine and describe a day in the life of an AI assistant in the year 2035.",
+            "Discuss the ethical considerations of using AI in [specific domain], providing balanced arguments."
+          ]
+        },
+        {
+          "name": "Claude Sonnet 4.5",
+          "promptCount": 12,
+          "prompts": [
+            "Write a sonnet about the value of lifelong learning.",
+            "Provide a friendly explanation of how to cook [dish] for someone new to cooking.",
+            "Brainstorm five ideas for a community project to improve [aspect of local area].",
+            "Give advice to someone who feels nervous about public speaking.",
+            "Convert the following passage into a brief bullet-point summary: [insert text].",
+            "Role-play as a personal fitness coach and give tips and encouragement for staying motivated.",
+            "Compare and contrast solar energy and wind energy as sustainable power sources.",
+            "Tell a short children's story that teaches a lesson about honesty.",
+            "Come up with a catchy slogan for a charity event focused on [cause].",
+            "Explain the concept of [basic science concept] using a fun analogy.",
+            "Draft a short thank-you note to a mentor, expressing sincere appreciation.",
+            "List strategies to improve concentration while studying for exams."
+          ]
+        },
+        {
+          "name": "Claude Haiku 4.5",
+          "promptCount": 4,
+          "prompts": [
+            "Compose a haiku about the changing seasons.",
+            "List three quick tips for maintaining good mental health.",
+            "Give a one-sentence definition of [obscure term].",
+            "Translate 'Good evening' into Japanese and Chinese."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Google Gemini 3 series models",
+      "promptCount": 12,
+      "models": [
+        {
+          "name": "Gemini 3 Pro",
+          "promptCount": 5,
+          "prompts": [
+            "Generate a marketing plan for launching a new mobile app in the finance sector.",
+            "Outline the steps needed to train an AI model on a custom dataset.",
+            "Write a news article summary covering who, what, when, where, and why for [recent event].",
+            "Create a dialogue in Spanish where a tourist asks for directions to a famous landmark and a local provides help.",
+            "Explain how to balance a chemical equation, providing an example in the explanation."
+          ]
+        },
+        {
+          "name": "Gemini 3 Flash",
+          "promptCount": 4,
+          "prompts": [
+            "Define [technical term] in one sentence.",
+            "List five synonyms for the word \"[word]\".",
+            "What's 72 divided by 8? Provide just the result.",
+            "Give a quick tip for improving battery life on a smartphone."
+          ]
+        },
+        {
+          "name": "Gemini 3 Deep Think",
+          "promptCount": 3,
+          "prompts": [
+            "Solve this logic puzzle step by step: [describe puzzle].",
+            "Analyze the impact of social media on teenagers' mental health, mentioning key factors and considerations.",
+            "Evaluate the feasibility of establishing a colony on the Moon by 2040, considering technological and economic aspects."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "xAI Grok series models",
+      "promptCount": 8,
+      "models": [
+        {
+          "name": "Grok 3",
+          "promptCount": 2,
+          "prompts": [
+            "Who wrote the novel \"1984\" and in which year was it published?",
+            "Solve 5 + 7 * 2 / 2 - 3, showing each step of your calculation."
+          ]
+        },
+        {
+          "name": "Grok 4",
+          "promptCount": 4,
+          "prompts": [
+            "Explain the significance of Einstein's theory of relativity in modern physics.",
+            "Write a brief dialogue between two characters debating the merits and risks of AI in society.",
+            "Given a chessboard state in FEN format [insert FEN], determine which side has an advantage and explain why.",
+            "Provide a critical review of a movie of your choice, focusing on its themes and cinematography."
+          ]
+        },
+        {
+          "name": "Grok 4 Heavy",
+          "promptCount": 2,
+          "prompts": [
+            "Translate the following French text into English while preserving its tone: [insert French text].",
+            "Given two datasets with different formats, suggest a method to integrate and analyze them together."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Meta Llama series models",
+      "promptCount": 3,
+      "models": [
+        {
+          "name": "Llama 4",
+          "promptCount": 3,
+          "prompts": [
+            "Summarize the advantages of using open-source AI models in commercial projects.",
+            "Write a short story about a llama who becomes a software developer, blending humor and insight.",
+            "Explain the steps for a beginner to contribute to an open-source project on GitHub."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mistral series models",
+      "promptCount": 2,
+      "models": [
+        {
+          "name": "Mistral Large 3",
+          "promptCount": 2,
+          "prompts": [
+            "Provide a brief explanation of [concept] in French, then translate it to English.",
+            "List five key considerations when designing a mobile app's user interface."
+          ]
+        }
+      ]
+    }
+  ]
+}
