@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 
 export const metadata = {
-    title: "Admin Dashboard - AI Library Prompts",
+    title: "Admin Dashboard - Godly Prompts",
 };
 
 export default function AdminDashboard() {
@@ -79,7 +79,7 @@ export default function AdminDashboard() {
             <div>
                 <h1 className="text-3xl font-bold text-dark-50 mb-2">Dashboard</h1>
                 <p className="text-dark-400">
-                    Overview of your AI Library Prompts platform
+                    Overview of your Godly Prompts platform
                 </p>
             </div>
 

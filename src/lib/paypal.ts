@@ -97,7 +97,7 @@ export async function createPayPalOrder(
             },
         ],
         application_context: {
-            brand_name: 'AI Library Prompts',
+            brand_name: 'Godly Prompts',
             landing_page: 'NO_PREFERENCE',
             user_action: 'PAY_NOW',
             return_url: `${process.env.NEXT_PUBLIC_APP_URL}/marketplace/success`,

@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
 
     return {
-        title: `${model.name} Prompts - AI Library Prompts`,
+        title: `${model.name} Prompts - Godly Prompts`,
         description: `Browse ${model.promptCount} curated prompts optimized for ${model.name}. Find the best prompts for your AI assistant.`,
         openGraph: {
             title: `${model.name} Prompts`,

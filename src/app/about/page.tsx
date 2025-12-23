@@ -6,12 +6,12 @@ import { Header, Footer, BookPromoCard } from "@/components";
 import { Card, CardContent, Button } from "@/components/ui";
 
 export const metadata: Metadata = {
-    title: "About Eric Keller - AI Communication Strategist & Author | AI Library Prompts",
-    description: "Meet Eric Keller, founder of Keller Concepts and author of 'The Art of the Prompt'. Learn about the expert behind AI Library Prompts and his mission to help professionals master AI communication.",
+    title: "About Eric Keller - AI Communication Strategist & Author | Godly Prompts",
+    description: "Meet Eric Keller, founder of Keller Concepts and author of 'The Art of the Prompt'. Learn about the expert behind Godly Prompts and his mission to help professionals master AI communication.",
     keywords: ["Eric Keller", "AI prompt expert", "The Art of the Prompt", "prompt engineering", "AI communication", "Keller Concepts"],
     openGraph: {
         title: "About Eric Keller - AI Communication Strategist & Author",
-        description: "Meet the expert behind AI Library Prompts and author of 'The Art of the Prompt'.",
+        description: "Meet the expert behind Godly Prompts and author of 'The Art of the Prompt'.",
         type: "profile",
     },
 };
@@ -57,7 +57,7 @@ export default function AboutPage() {
                                         Eric Keller
                                     </h1>
                                     <p className="text-lg text-dark-300 mb-4">
-                                        Founder of <span className="text-primary-400">Keller Concepts</span> and creator of AI Library Prompts
+                                        Founder of <span className="text-primary-400">Keller Concepts</span> and creator of Godly Prompts
                                     </p>
                                     <div className="flex items-center justify-center md:justify-start gap-4">
                                         <a
@@ -173,10 +173,10 @@ export default function AboutPage() {
                     <div className="container-main">
                         <div className="max-w-2xl mx-auto text-center">
                             <h2 className="text-2xl font-bold text-dark-100 mb-4">
-                                The Mission Behind AI Library Prompts
+                                The Mission Behind Godly Prompts
                             </h2>
                             <p className="text-dark-300 leading-relaxed mb-6">
-                                The gap between a casual AI user and a top-tier professional isn&apos;t knowing more tricks—it&apos;s having a system. AI Library Prompts exists to democratize access to proven prompt templates that actually work, helping everyone from students to executives get better results from AI.
+                                The gap between a casual AI user and a top-tier professional isn&apos;t knowing more tricks—it&apos;s having a system. Godly Prompts exists to democratize access to proven prompt templates that actually work, helping everyone from students to executives get better results from AI.
                             </p>
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                 <Link href="/prompts">

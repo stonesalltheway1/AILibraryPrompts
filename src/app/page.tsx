@@ -47,12 +47,12 @@ export default function HomePage() {
             answer: "AI prompts are instructions or questions you give to AI assistants like ChatGPT, Claude, or Gemini to get specific outputs. Well-crafted prompts help you get better, more accurate responses from AI models, saving time and improving results for tasks like coding, writing, research, and creative work."
         },
         {
-            question: "How do I use the prompts from AI Library Prompts?",
+            question: "How do I use the prompts from Godly Prompts?",
             answer: "Simply browse our collection of 100+ prompts, find one that matches your need, click to view the full prompt, and copy it. Then paste it into your AI assistant (ChatGPT, Claude, Gemini, etc.) and replace any placeholders with your specific information. Vote on prompts that work well to help the community!"
         },
         {
             question: "Are these AI prompts free to use?",
-            answer: "Yes! All prompts in the AI Library Prompts are completely free to use. Our community-driven library is designed to help everyone get better results from AI assistants. You can copy, use, and share any prompt without restrictions."
+            answer: "Yes! All prompts in the Godly Prompts are completely free to use. Our community-driven library is designed to help everyone get better results from AI assistants. You can copy, use, and share any prompt without restrictions."
         },
         {
             question: "What AI models work with these prompts?",
@@ -392,7 +392,7 @@ export default function HomePage() {
                                     Frequently Asked Questions
                                 </h2>
                                 <p className="text-dark-400">
-                                    Everything you need to know about using AI Library Prompts
+                                    Everything you need to know about using Godly Prompts
                                 </p>
                             </div>
 

@@ -5,7 +5,7 @@ import type { MetadataRoute } from "next";
  * Next.js automatically serves this at /robots.txt
  */
 export default function robots(): MetadataRoute.Robots {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ailibraryprompts.com";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://godlyprompts.com";
 
     return {
         rules: [

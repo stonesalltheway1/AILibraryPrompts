@@ -74,9 +74,9 @@ interface SoftwareApplicationSchemaProps {
 
 // Organization Schema - for brand identity in search
 export function OrganizationSchema({
-    name = "AI Library Prompts",
-    url = "https://ailibraryprompts.com",
-    logo = "https://ailibraryprompts.com/logo.png",
+    name = "Godly Prompts",
+    url = "https://godlyprompts.com",
+    logo = "https://godlyprompts.com/logo.png",
     description = "The largest community-driven collection of AI prompts for ChatGPT, Claude, Gemini, and more.",
 }: OrganizationSchemaProps) {
     const schema = {
@@ -93,7 +93,7 @@ export function OrganizationSchema({
         contactPoint: {
             "@type": "ContactPoint",
             contactType: "customer support",
-            email: "support@ailibraryprompts.com",
+            email: "support@godlyprompts.com",
         },
     };
 
@@ -108,8 +108,8 @@ export function OrganizationSchema({
 
 // WebSite Schema with SearchAction - enables site search in Google
 export function WebSiteSchema({
-    name = "AI Library Prompts",
-    url = "https://ailibraryprompts.com",
+    name = "Godly Prompts",
+    url = "https://godlyprompts.com",
     description = "Discover AI prompts that actually work. Browse prompts for ChatGPT, Claude, Gemini, and more.",
 }: WebSiteSchemaProps) {
     const schema = {
@@ -284,10 +284,10 @@ export function ArticleSchema({
         ...(image && { image }),
         publisher: {
             "@type": "Organization",
-            name: "AI Library Prompts",
+            name: "Godly Prompts",
             logo: {
                 "@type": "ImageObject",
-                url: "https://ailibraryprompts.com/logo.png",
+                url: "https://godlyprompts.com/logo.png",
             },
         },
         mainEntityOfPage: {

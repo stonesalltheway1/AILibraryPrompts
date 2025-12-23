@@ -1,7 +1,7 @@
 "use server";
 
 /**
- * Server Actions for AI Library Prompts
+ * Server Actions for Godly Prompts
  * 
  * These server actions handle all data mutations including voting, bookmarking,
  * commenting, and prompt submission. In production, these would interact with

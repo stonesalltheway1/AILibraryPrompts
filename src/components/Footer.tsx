@@ -47,7 +47,7 @@ export function Footer() {
                                 <Sparkles className="h-5 w-5 text-white" />
                             </div>
                             <span className="text-lg font-bold bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
-                                AI Library Prompts
+                                Godly Prompts
                             </span>
                         </Link>
                         <p className="text-sm text-dark-400 mb-4 max-w-xs">
@@ -73,7 +73,7 @@ export function Footer() {
                                 <Github className="h-5 w-5" />
                             </a>
                             <a
-                                href="mailto:hello@ailibraryprompts.com"
+                                href="mailto:hello@godlyprompts.com"
                                 className="p-2 text-dark-400 hover:text-dark-100 hover:bg-dark-800 rounded-lg transition-colors"
                                 aria-label="Email"
                             >
@@ -200,7 +200,7 @@ export function Footer() {
                 {/* Bottom Bar */}
                 <div className="border-t border-dark-700/50 mt-10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <p className="text-sm text-dark-500">
-                        © {currentYear} AI Library Prompts. All rights reserved.
+                        © {currentYear} Godly Prompts. All rights reserved.
                     </p>
                     <p className="text-sm text-dark-500">
                         Made with passion for the AI community

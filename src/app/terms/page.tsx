@@ -4,8 +4,8 @@ import { Scale, FileCheck, AlertTriangle, BookOpen, Shield, Users, Gavel, Mail }
 import { Header, Footer } from "@/components";
 
 export const metadata: Metadata = {
-    title: "Terms of Service | AI Library Prompts",
-    description: "Read the Terms of Service for AI Library Prompts. Understand your rights and responsibilities when using our platform.",
+    title: "Terms of Service | Godly Prompts",
+    description: "Read the Terms of Service for Godly Prompts. Understand your rights and responsibilities when using our platform.",
 };
 
 export default function TermsPage() {
@@ -43,7 +43,7 @@ export default function TermsPage() {
                                 {/* Introduction */}
                                 <div className="p-6 rounded-2xl bg-dark-800/40 border border-dark-700/50 mb-8">
                                     <p className="text-dark-300 leading-relaxed m-0">
-                                        Welcome to AI Library Prompts. By accessing or using our website at ailibraryprompts.com,
+                                        Welcome to Godly Prompts. By accessing or using our website at godlyprompts.com,
                                         you agree to be bound by these Terms of Service. Please read them carefully before using our services.
                                     </p>
                                 </div>
@@ -60,7 +60,7 @@ export default function TermsPage() {
                                         <div>
                                             <h2 className="text-xl font-bold text-dark-100 mb-4 mt-0">1. Acceptance of Terms</h2>
                                             <p className="text-dark-300 m-0">
-                                                By accessing and using AI Library Prompts, you accept and agree to be bound by these Terms of Service
+                                                By accessing and using Godly Prompts, you accept and agree to be bound by these Terms of Service
                                                 and our Privacy Policy. If you do not agree to these terms, you must not use our services.
                                                 We reserve the right to modify these terms at any time, and your continued use constitutes acceptance
                                                 of any changes.
@@ -78,7 +78,7 @@ export default function TermsPage() {
                                         <div>
                                             <h2 className="text-xl font-bold text-dark-100 mb-4 mt-0">2. Description of Service</h2>
                                             <p className="text-dark-300 m-0">
-                                                AI Library Prompts provides a community-driven platform for sharing, discovering, and voting on
+                                                Godly Prompts provides a community-driven platform for sharing, discovering, and voting on
                                                 AI prompts for various language models including ChatGPT, Claude, Gemini, and others. Our service
                                                 includes prompt browsing, user accounts, voting systems, comments, and prompt submission features.
                                             </p>
@@ -183,7 +183,7 @@ export default function TermsPage() {
                                         <div>
                                             <h2 className="text-xl font-bold text-dark-100 mb-4 mt-0">7. Limitation of Liability</h2>
                                             <p className="text-dark-300 m-0">
-                                                To the maximum extent permitted by law, AI Library Prompts and its owners, operators, and affiliates
+                                                To the maximum extent permitted by law, Godly Prompts and its owners, operators, and affiliates
                                                 shall not be liable for any indirect, incidental, special, consequential, or punitive damages,
                                                 including but not limited to loss of profits, data, or other intangible losses resulting from
                                                 your use of our services.
@@ -217,7 +217,7 @@ export default function TermsPage() {
 
                                 {/* Agreement Notice */}
                                 <div className="mt-12 p-6 rounded-2xl bg-gradient-to-br from-primary-500/10 to-secondary-500/10 border border-primary-500/20">
-                                    <h3 className="text-lg font-bold text-dark-100 mb-2 mt-0">By Using AI Library Prompts</h3>
+                                    <h3 className="text-lg font-bold text-dark-100 mb-2 mt-0">By Using Godly Prompts</h3>
                                     <p className="text-dark-300 m-0">
                                         You acknowledge that you have read, understood, and agree to be bound by these Terms of Service.
                                         If you do not agree to these terms, you should not use our services.

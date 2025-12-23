@@ -59,11 +59,11 @@ export function Header() {
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 shrink-0">
                         <Image
-                            src="/logo.png"
-                            alt="AI Library Prompts"
-                            width={1200}
-                            height={300}
-                            className="h-10 w-auto md:h-12"
+                            src="/images/newlogo.png"
+                            alt="Godly Prompts"
+                            width={400}
+                            height={80}
+                            className="h-10 w-auto sm:h-11 md:h-12"
                             priority
                         />
                     </Link>

@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "AI Library Prompts - Discover AI Prompts That Actually Work";
+export const alt = "Godly Prompts - Discover AI Prompts That Actually Work";
 export const size = {
     width: 1200,
     height: 630,
@@ -78,7 +78,7 @@ export default async function Image() {
                                 color: "#f8fafc",
                             }}
                         >
-                            AI Library Prompts
+                            Godly Prompts
                         </span>
                     </div>
 
@@ -163,7 +163,7 @@ export default async function Image() {
                         color: "#64748b",
                     }}
                 >
-                    ailibraryprompts.com
+                    godlyprompts.com
                 </div>
             </div>
         ),

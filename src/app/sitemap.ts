@@ -6,7 +6,7 @@ import { getAllCombinedPrompts, mockCategories, mockModels } from "@/lib/mock-da
  * Next.js automatically serves this at /sitemap.xml
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ailibraryprompts.com";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://godlyprompts.com";
     const currentDate = new Date();
 
     // Static pages
@@ -40,6 +40,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
             lastModified: currentDate,
             changeFrequency: "daily",
             priority: 0.7,
+        },
+        {
+            url: `${baseUrl}/marketplace`,
+            lastModified: currentDate,
+            changeFrequency: "daily",
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/sell`,
+            lastModified: currentDate,
+            changeFrequency: "weekly",
+            priority: 0.7,
+        },
+        {
+            url: `${baseUrl}/sell/become-seller`,
+            lastModified: currentDate,
+            changeFrequency: "monthly",
+            priority: 0.6,
+        },
+        {
+            url: `${baseUrl}/purchases`,
+            lastModified: currentDate,
+            changeFrequency: "daily",
+            priority: 0.5,
         },
         {
             url: `${baseUrl}/search`,

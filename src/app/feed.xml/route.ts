@@ -1,11 +1,11 @@
 import { mockPrompts } from "@/lib/mock-data";
 
 /**
- * RSS Feed for AI Library Prompts
+ * RSS Feed for Godly Prompts
  * Accessible at /feed.xml
  */
 export async function GET() {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ailibraryprompts.com";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://godlyprompts.com";
 
     // Get latest prompts sorted by date
     const latestPrompts = [...mockPrompts]
@@ -37,7 +37,7 @@ export async function GET() {
     const rssFeed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>AI Library Prompts</title>
+    <title>Godly Prompts</title>
     <link>${baseUrl}</link>
     <description>Discover AI prompts that actually work. The largest community-driven collection of prompts for ChatGPT, Claude, Gemini, and more.</description>
     <language>en-US</language>
@@ -45,7 +45,7 @@ export async function GET() {
     <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>${baseUrl}/og-image.png</url>
-      <title>AI Library Prompts</title>
+      <title>Godly Prompts</title>
       <link>${baseUrl}</link>
     </image>
     ${rssItems}

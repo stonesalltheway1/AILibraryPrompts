@@ -31,12 +31,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         return { title: "Prompt Not Found" };
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ailibraryprompts.com";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://godlyprompts.com";
     const canonicalUrl = `${baseUrl}/prompts/${prompt.slug}`;
     const description = prompt.description || prompt.content.slice(0, 155);
 
     return {
-        title: `${prompt.title} - ${prompt.model.name} Prompt for ${prompt.category.name} | AI Library Prompts`,
+        title: `${prompt.title} - ${prompt.model.name} Prompt for ${prompt.category.name} | Godly Prompts`,
         description: `${description} Verified ${prompt.model.name} prompt with ${prompt.votes} votes. Copy and use this AI prompt for ${prompt.category.name.toLowerCase()}.`,
         keywords: [
             prompt.model.name,
@@ -66,14 +66,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             ],
             section: prompt.category.name,
             url: canonicalUrl,
-            siteName: "AI Library Prompts",
+            siteName: "Godly Prompts",
         },
         twitter: {
             card: "summary_large_image",
             title: `${prompt.title} - ${prompt.model.name} Prompt`,
             description: description,
             creator: `@${prompt.user.username}`,
-            site: "@ailibraryprompts",
+            site: "@godlyprompts",
         },
         alternates: {
             canonical: `/prompts/${prompt.slug}`,

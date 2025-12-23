@@ -15,7 +15,7 @@ import { Header, Footer } from "@/components";
 import { mockCategories } from "@/lib/mock-data";
 
 export const metadata: Metadata = {
-    title: "Browse AI Prompt Categories - ChatGPT, Claude & Gemini Prompts | AI Library Prompts",
+    title: "Browse AI Prompt Categories - ChatGPT, Claude & Gemini Prompts | Godly Prompts",
     description: "Explore 100+ AI prompts organized by category: coding, writing, business, research, creative, productivity, education, and marketing. Find the perfect AI prompt template for your use case.",
     keywords: [
         "AI prompt categories",
@@ -31,13 +31,13 @@ export const metadata: Metadata = {
         title: "Browse AI Prompt Categories",
         description: "Explore curated AI prompts organized by use case",
         type: "website",
-        siteName: "AI Library Prompts",
+        siteName: "Godly Prompts",
     },
     twitter: {
         card: "summary_large_image",
         title: "Browse AI Prompt Categories",
         description: "Explore curated AI prompts organized by use case",
-        site: "@ailibraryprompts",
+        site: "@godlyprompts",
     },
     alternates: {
         canonical: "/categories",

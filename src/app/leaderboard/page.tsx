@@ -8,8 +8,8 @@ import { getTopContributors, mockPrompts } from "@/lib/mock-data";
 import { formatNumber } from "@/lib/utils";
 
 export const metadata: Metadata = {
-    title: "Leaderboard - AI Library Prompts",
-    description: "See the top contributors to AI Library Prompts. Our community members share the best AI prompts for everyone.",
+    title: "Leaderboard - Godly Prompts",
+    description: "See the top contributors to Godly Prompts. Our community members share the best AI prompts for everyone.",
 };
 
 export default function LeaderboardPage() {

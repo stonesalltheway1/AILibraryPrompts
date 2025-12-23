@@ -43,11 +43,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         return { title: "Category Not Found" };
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ailibraryprompts.com";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://godlyprompts.com";
     const canonicalUrl = `${baseUrl}/categories/${slug}`;
 
     return {
-        title: `Best ${category.name} AI Prompts for ChatGPT, Claude & Gemini | AI Library Prompts`,
+        title: `Best ${category.name} AI Prompts for ChatGPT, Claude & Gemini | Godly Prompts`,
         description: `${category.description} Browse ${category.promptCount} curated ${category.name.toLowerCase()} prompts with examples, ratings, and user reviews. Free AI prompt templates for ${category.name.toLowerCase()}.`,
         keywords: [
             `${category.name.toLowerCase()} prompts`,
@@ -64,13 +64,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             description: category.description,
             type: "website",
             url: canonicalUrl,
-            siteName: "AI Library Prompts",
+            siteName: "Godly Prompts",
         },
         twitter: {
             card: "summary_large_image",
             title: `${category.name} AI Prompts`,
             description: category.description,
-            site: "@ailibraryprompts",
+            site: "@godlyprompts",
         },
         alternates: {
             canonical: `/categories/${slug}`,

@@ -19,7 +19,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
     const { q } = await searchParams;
 
     return {
-        title: q ? `Search: ${q} - AI Library Prompts` : "Search Prompts - AI Library Prompts",
+        title: q ? `Search: ${q} - Godly Prompts` : "Search Prompts - Godly Prompts",
         description: "Search through thousands of AI prompts for ChatGPT, Claude, Gemini, and more.",
     };
 }

@@ -6,8 +6,8 @@ import "./globals.css";
 export const metadata: Metadata = {
     metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
     title: {
-        default: "AI Library Prompts - 100+ Best ChatGPT, Claude & Gemini Prompts That Actually Work",
-        template: "%s | AI Library Prompts",
+        default: "Godly Prompts - 100+ Best ChatGPT, Claude & Gemini Prompts That Actually Work",
+        template: "%s | Godly Prompts",
     },
     description:
         "Discover 100+ free AI prompts for ChatGPT, Claude Sonnet, Gemini, and GPT-4. Community-curated prompt library for coding, writing, business, research, and creative tasks. Copy, vote, and share the best AI prompt templates.",
@@ -28,9 +28,9 @@ export const metadata: Metadata = {
         "writing prompts AI",
         "business AI prompts",
     ],
-    authors: [{ name: "AI Library Prompts Team" }],
-    creator: "AI Library Prompts",
-    publisher: "AI Library Prompts",
+    authors: [{ name: "Godly Prompts Team" }],
+    creator: "Godly Prompts",
+    publisher: "Godly Prompts",
     robots: {
         index: true,
         follow: true,
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
         type: "website",
         locale: "en_US",
         url: "/",
-        siteName: "AI Library Prompts",
+        siteName: "Godly Prompts",
         title: "100+ Best AI Prompts for ChatGPT, Claude & Gemini That Actually Work",
         description:
             "Free community-driven AI prompt library. Browse, copy, and vote on 100+ tested prompts for coding, writing, business, and creativity.",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
                 url: "/og-image.png",
                 width: 1200,
                 height: 630,
-                alt: "AI Library Prompts - Community AI Prompt Library",
+                alt: "Godly Prompts - Community AI Prompt Library",
             },
         ],
     },
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
         description:
             "Free community-driven AI prompt library with tested prompts for coding, writing, business, and more.",
         images: ["/og-image.png"],
-        site: "@ailibraryprompts",
+        site: "@godlyprompts",
     },
     icons: {
         icon: "/favicon.ico",

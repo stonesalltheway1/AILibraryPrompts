@@ -37,7 +37,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         <Shield className="w-8 h-8 text-primary-500" />
                         <div>
                             <h1 className="font-bold text-dark-50">Admin Panel</h1>
-                            <p className="text-xs text-dark-400">AI Library Prompts</p>
+                            <p className="text-xs text-dark-400">Godly Prompts</p>
                         </div>
                     </div>
                 </div>

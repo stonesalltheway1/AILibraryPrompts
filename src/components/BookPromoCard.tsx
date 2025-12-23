@@ -71,7 +71,7 @@ export function BookPromoCard({ variant = "default", className = "" }: BookPromo
                         <div className="flex-1 text-center md:text-left">
                             <p className="text-amber-400 font-medium text-sm mb-2 flex items-center justify-center md:justify-start gap-2">
                                 <BookOpen className="w-4 h-4" />
-                                From the Creator of AI Library Prompts
+                                From the Creator of Godly Prompts
                             </p>
                             <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
                                 {BOOK_DATA.title}

@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     return {
         title: `@${user.username} - AI Prompt Creator`,
-        description: user.bio || `View ${user.username}'s AI prompts and contributions on AI Library Prompts.`,
+        description: user.bio || `View ${user.username}'s AI prompts and contributions on Godly Prompts.`,
         openGraph: {
             title: `@${user.username} - AI Prompt Creator`,
             description: user.bio || `View ${user.username}'s AI prompts and contributions.`,

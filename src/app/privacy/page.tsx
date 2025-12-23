@@ -4,8 +4,8 @@ import { Shield, Lock, Eye, Database, Cookie, Users, Mail, FileText } from "luci
 import { Header, Footer } from "@/components";
 
 export const metadata: Metadata = {
-    title: "Privacy Policy | AI Library Prompts",
-    description: "Learn how AI Library Prompts collects, uses, and protects your personal information. We are committed to protecting your privacy.",
+    title: "Privacy Policy | Godly Prompts",
+    description: "Learn how Godly Prompts collects, uses, and protects your personal information. We are committed to protecting your privacy.",
 };
 
 export default function PrivacyPage() {
@@ -43,9 +43,9 @@ export default function PrivacyPage() {
                                 {/* Introduction */}
                                 <div className="p-6 rounded-2xl bg-dark-800/40 border border-dark-700/50 mb-8">
                                     <p className="text-dark-300 leading-relaxed m-0">
-                                        AI Library Prompts (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your privacy.
+                                        Godly Prompts (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your privacy.
                                         This Privacy Policy explains how we collect, use, disclose, and safeguard your information
-                                        when you visit our website ailibraryprompts.com.
+                                        when you visit our website godlyprompts.com.
                                     </p>
                                 </div>
 
