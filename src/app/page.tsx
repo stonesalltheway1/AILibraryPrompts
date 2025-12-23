@@ -309,22 +309,35 @@ export default function HomePage() {
                         </div>
 
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                            {mockModels.slice(0, 6).map((model) => (
-                                <Link
-                                    key={model.id}
-                                    href={`/models/${model.slug}`}
-                                    className="group p-4 rounded-xl bg-dark-800/40 border border-dark-700/50 hover:border-primary-500/30 hover:bg-dark-800/60 transition-all duration-300 text-center"
-                                    aria-label={`View ${model.name} prompts`}
-                                >
-                                    <div className="text-2xl mb-2">{model.icon}</div>
-                                    <h3 className="font-semibold text-sm text-dark-100 group-hover:text-primary-400 transition-colors mb-1">
-                                        {model.name}
-                                    </h3>
-                                    <p className="text-xs text-dark-500">
-                                        {model.promptCount} prompts
-                                    </p>
-                                </Link>
-                            ))}
+                            {mockModels.slice(0, 6).map((model) => {
+                                // Icon mapping based on vendor
+                                const vendorIcons: Record<string, string> = {
+                                    openai: "🤖",
+                                    anthropic: "🔮",
+                                    google: "✨",
+                                    xai: "⚡",
+                                    meta: "🦙",
+                                    mistral: "🌪️"
+                                };
+                                const icon = vendorIcons[model.vendor] || "🤖";
+
+                                return (
+                                    <Link
+                                        key={model.id}
+                                        href={`/models/${model.slug}`}
+                                        className="group p-4 rounded-xl bg-dark-800/40 border border-dark-700/50 hover:border-primary-500/30 hover:bg-dark-800/60 transition-all duration-300 text-center"
+                                        aria-label={`View ${model.name} prompts`}
+                                    >
+                                        <div className="text-2xl mb-2">{icon}</div>
+                                        <h3 className="font-semibold text-sm text-dark-100 group-hover:text-primary-400 transition-colors mb-1">
+                                            {model.name}
+                                        </h3>
+                                        <p className="text-xs text-dark-500">
+                                            {model.promptCount} prompts
+                                        </p>
+                                    </Link>
+                                );
+                            })}
                         </div>
 
                         <div className="text-center mt-8">
