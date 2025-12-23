@@ -151,6 +151,17 @@ export function Header() {
                         >
                             Leaderboard
                         </Link>
+                        <Link
+                            href="/marketplace"
+                            className={cn(
+                                "px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+                                pathname.startsWith("/marketplace")
+                                    ? "text-primary-400 bg-primary-500/10"
+                                    : "text-dark-300 hover:text-dark-100 hover:bg-dark-800/50"
+                            )}
+                        >
+                            🛒 Marketplace
+                        </Link>
                     </nav>
 
                     {/* Search Bar - Desktop */}

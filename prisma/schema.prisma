@@ -26,6 +26,11 @@ model User {
   votes        Vote[]
   comments     Comment[]
   bookmarks    Bookmark[]
+  
+  // Marketplace relations
+  sellerProfile   SellerProfile?
+  purchases       Purchase[]
+  productReviews  ProductReview[]
 }
 
 model Category {
@@ -92,6 +97,9 @@ model Prompt {
   comments    Comment[]
   bookmarks   Bookmark[]
   
+  // Marketplace relation (optional - if prompt is also sold)
+  marketplaceProducts MarketplaceProduct[]
+  
   @@index([authorId])
   @@index([categoryId])
   @@index([modelId])
@@ -146,4 +154,159 @@ model Bookmark {
   
   @@unique([userId, promptId])
   @@index([userId])
+}
+
+// ============================================
+// MARKETPLACE MODELS
+// ============================================
+
+model SellerProfile {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  displayName     String
+  bio             String?
+  avatarUrl       String?
+  paypalEmail     String    // For payouts
+  
+  totalEarnings   Float     @default(0)
+  totalSales      Int       @default(0)
+  rating          Float     @default(0)
+  reviewCount     Int       @default(0)
+  isVerified      Boolean   @default(false)
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  products        MarketplaceProduct[]
+  payouts         Payout[]
+}
+
+model MarketplaceProduct {
+  id              String    @id @default(cuid())
+  
+  sellerId        String
+  seller          SellerProfile @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  
+  promptId        String?   // Optional link to free prompt
+  prompt          Prompt?   @relation(fields: [promptId], references: [id], onDelete: SetNull)
+  
+  title           String
+  slug            String    @unique
+  description     String
+  content         String    // The actual prompt content (hidden until purchase)
+  previewContent  String?   // Truncated preview
+  usageInstructions String?
+  
+  price           Float
+  currency        String    @default("USD")
+  
+  category        String
+  modelType       String
+  tags            String[]
+  
+  thumbnailUrl    String?
+  
+  salesCount      Int       @default(0)
+  viewCount       Int       @default(0)
+  rating          Float     @default(0)
+  reviewCount     Int       @default(0)
+  
+  isFeatured      Boolean   @default(false)
+  isActive        Boolean   @default(true)
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  purchases       Purchase[]
+  reviews         ProductReview[]
+  
+  @@index([sellerId])
+  @@index([category])
+  @@index([price])
+  @@index([isActive, isFeatured])
+  @@index([createdAt])
+}
+
+model Purchase {
+  id              String    @id @default(cuid())
+  
+  buyerId         String
+  buyer           User      @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  
+  productId       String
+  product         MarketplaceProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  paypalOrderId   String    @unique
+  paypalPayerId   String?
+  
+  amount          Float
+  platformFee     Float     // 20% platform cut
+  sellerAmount    Float     // 80% to seller
+  currency        String    @default("USD")
+  
+  status          PurchaseStatus @default(PENDING)
+  
+  createdAt       DateTime  @default(now())
+  completedAt     DateTime?
+  
+  @@index([buyerId])
+  @@index([productId])
+  @@index([status])
+}
+
+enum PurchaseStatus {
+  PENDING
+  COMPLETED
+  REFUNDED
+  FAILED
+}
+
+model ProductReview {
+  id              String    @id @default(cuid())
+  
+  productId       String
+  product         MarketplaceProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  buyerId         String
+  buyer           User      @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  
+  rating          Int       // 1-5
+  title           String?
+  content         String?
+  
+  isVerified      Boolean   @default(true) // Verified purchase
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@unique([productId, buyerId])
+  @@index([productId])
+}
+
+model Payout {
+  id              String    @id @default(cuid())
+  
+  sellerId        String
+  seller          SellerProfile @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  
+  amount          Float
+  currency        String    @default("USD")
+  paypalBatchId   String?
+  
+  status          PayoutStatus @default(PENDING)
+  
+  createdAt       DateTime  @default(now())
+  processedAt     DateTime?
+  
+  @@index([sellerId])
+  @@index([status])
+}
+
+enum PayoutStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
 }
