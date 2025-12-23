@@ -93,7 +93,7 @@ export default function HomePage() {
                             {/* Quick stats */}
                             <div className="flex items-center justify-center gap-8 text-sm text-dark-400">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-2xl font-bold text-dark-100">67</span>
+                                    <span className="text-2xl font-bold text-dark-100">100</span>
                                     <span>Prompts</span>
                                 </div>
                                 <div className="w-px h-8 bg-dark-700" />
@@ -103,7 +103,7 @@ export default function HomePage() {
                                 </div>
                                 <div className="w-px h-8 bg-dark-700" />
                                 <div className="flex items-center gap-2">
-                                    <span className="text-2xl font-bold text-dark-100">483</span>
+                                    <span className="text-2xl font-bold text-dark-100">527</span>
                                     <span>Users</span>
                                 </div>
                             </div>

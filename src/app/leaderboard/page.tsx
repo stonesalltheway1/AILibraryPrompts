@@ -81,28 +81,28 @@ export default function LeaderboardPage() {
                         <Card variant="glass" hover={false}>
                             <CardContent className="p-4 text-center">
                                 <Users className="w-6 h-6 text-primary-400 mx-auto mb-2" />
-                                <p className="text-2xl font-bold text-dark-50">483</p>
+                                <div className="text-2xl font-bold text-dark-100">527</div>
                                 <p className="text-sm text-dark-400">Contributors</p>
                             </CardContent>
                         </Card>
                         <Card variant="glass" hover={false}>
                             <CardContent className="p-4 text-center">
                                 <TrendingUp className="w-6 h-6 text-green-400 mx-auto mb-2" />
-                                <p className="text-2xl font-bold text-dark-50">67</p>
+                                <div className="text-2xl font-bold text-dark-100">100</div>
                                 <p className="text-sm text-dark-400">Total Prompts</p>
                             </CardContent>
                         </Card>
                         <Card variant="glass" hover={false}>
                             <CardContent className="p-4 text-center">
                                 <Trophy className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-                                <p className="text-2xl font-bold text-dark-50">42</p>
+                                <div className="text-2xl font-bold text-dark-100">78</div>
                                 <p className="text-sm text-dark-400">Verified Prompts</p>
                             </CardContent>
                         </Card>
                         <Card variant="glass" hover={false}>
                             <CardContent className="p-4 text-center">
                                 <Award className="w-6 h-6 text-amber-400 mx-auto mb-2" />
-                                <p className="text-2xl font-bold text-dark-50">2.8K</p>
+                                <div className="text-2xl font-bold text-dark-100">4.2K</div>
                                 <p className="text-sm text-dark-400">Total Votes</p>
                             </CardContent>
                         </Card>

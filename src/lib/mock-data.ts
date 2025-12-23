@@ -39,6 +39,76 @@ export const mockUsers: User[] = [
         createdAt: new Date("2025-12-05"),
         image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
     },
+    {
+        id: "user-6",
+        username: "techwriter_pro",
+        reputation: 275,
+        createdAt: new Date("2025-12-08"),
+        image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+        id: "user-7",
+        username: "devops_ninja",
+        reputation: 380,
+        createdAt: new Date("2025-12-03"),
+        image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+        id: "user-8",
+        username: "marketingmaven",
+        reputation: 295,
+        createdAt: new Date("2025-12-10"),
+        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+        id: "user-9",
+        username: "academic_writer",
+        reputation: 420,
+        createdAt: new Date("2025-11-28"),
+        image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+        id: "user-10",
+        username: "startup_founder",
+        reputation: 510,
+        createdAt: new Date("2025-11-25"),
+        image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+        id: "user-11",
+        username: "ux_designer",
+        reputation: 340,
+        createdAt: new Date("2025-12-05"),
+        image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+        id: "user-12",
+        username: "data_scientist",
+        reputation: 465,
+        createdAt: new Date("2025-11-30"),
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+        id: "user-13",
+        username: "content_creator",
+        reputation: 255,
+        createdAt: new Date("2025-12-12"),
+        image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+        id: "user-14",
+        username: "fullstack_dev",
+        reputation: 395,
+        createdAt: new Date("2025-12-01"),
+        image: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+        id: "user-15",
+        username: "product_manager",
+        reputation: 310,
+        createdAt: new Date("2025-12-07"),
+        image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&h=100&fit=crop&crop=face",
+    },
 ];
 
 // ============================================================================
@@ -732,4 +802,7 @@ export function searchPrompts(query: string): Prompt[] {
             p.tags.some((t) => t.name.toLowerCase().includes(lowerQuery))
     );
 }
+
+// Re-export extended prompts for combined use
+export { extendedPrompts } from "./prompt-library";
 
