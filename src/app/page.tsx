@@ -93,17 +93,17 @@ export default function HomePage() {
                             {/* Quick stats */}
                             <div className="flex items-center justify-center gap-8 text-sm text-dark-400">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-2xl font-bold text-dark-100">3,847</span>
+                                    <span className="text-2xl font-bold text-dark-100">67</span>
                                     <span>Prompts</span>
                                 </div>
                                 <div className="w-px h-8 bg-dark-700" />
                                 <div className="flex items-center gap-2">
-                                    <span className="text-2xl font-bold text-dark-100">15+</span>
+                                    <span className="text-2xl font-bold text-dark-100">16</span>
                                     <span>AI Models</span>
                                 </div>
                                 <div className="w-px h-8 bg-dark-700" />
                                 <div className="flex items-center gap-2">
-                                    <span className="text-2xl font-bold text-dark-100">12.5K</span>
+                                    <span className="text-2xl font-bold text-dark-100">483</span>
                                     <span>Users</span>
                                 </div>
                             </div>
